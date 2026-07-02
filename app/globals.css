@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --noir: #141210;
+  --noir-surface: #1e1b17;
+  --marble: #f3ede1;
+  --marble-surface: #ffffff;
+  --gold: #c6a15b;
+  --gold-bright: #e8c878;
+  --cream: #f3ede1;
+  --ink: #221f1b;
+  --stone: #a89c8a;
+  --stone-soft: #7a7268;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  @apply bg-noir font-sans text-cream antialiased;
+}
+
+::selection {
+  background: rgba(198, 161, 91, 0.35);
+  color: #f3ede1;
+}
+
+/* Unified warm film grade applied to every mock photo (see WarmImage) —
+   pulls the mixed Unsplash set into one consistent art direction */
+.warm-photo {
+  filter: sepia(0.16) saturate(1.08) contrast(1.05) brightness(0.97);
+}
+
+/* Hide horizontal scrollbars on the /menu category tab rail */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}

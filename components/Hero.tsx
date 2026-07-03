@@ -7,9 +7,10 @@ import {
   useScroll,
   useTransform,
 } from 'framer-motion';
-import { ArrowRight, MapPin } from 'lucide-react';
+import { ArrowRight, MapPin, TrainFront } from 'lucide-react';
 import AnimatedNVLogo from './AnimatedNVLogo';
 import CoffeeSteam from './CoffeeSteam';
+import Magnetic from './Magnetic';
 import MaskedText from './MaskedText';
 import GrainOverlay from './GrainOverlay';
 import { BUSINESS } from '@/config/business';
@@ -76,7 +77,8 @@ export default function Hero() {
       >
         <motion.p variants={item}>
           <span className="inline-flex min-h-10 items-center gap-2 rounded-full border border-gold/40 px-4 py-2 text-[11px] font-semibold uppercase tracking-widest text-gold">
-            <span aria-hidden="true">★</span> Bostancı Marmaray Girişi Yanı
+            <TrainFront className="h-3.5 w-3.5" aria-hidden="true" />
+            Bostancı Marmaray Girişi Yanı
           </span>
         </motion.p>
 
@@ -108,21 +110,23 @@ export default function Hero() {
           className="mt-10 flex flex-col items-start gap-4 sm:flex-row sm:items-center"
         >
           {/* Primary conversion action of the whole site → /menu */}
-          <motion.div
-            whileHover={prefersReducedMotion ? undefined : { scale: 1.03 }}
-            transition={{ type: 'spring', stiffness: 400, damping: 20 }}
-          >
-            <Link
-              href="/menu"
-              className="group inline-flex min-h-12 items-center gap-2 rounded-full bg-gold px-8 py-4 text-sm font-semibold uppercase tracking-widest text-noir shadow-glow transition-all hover:bg-gold-bright hover:shadow-glow-strong"
+          <Magnetic>
+            <motion.div
+              whileHover={prefersReducedMotion ? undefined : { scale: 1.03 }}
+              transition={{ type: 'spring', stiffness: 400, damping: 20 }}
             >
-              Menüyü Keşfet
-              <ArrowRight
-                className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1"
-                aria-hidden="true"
-              />
-            </Link>
-          </motion.div>
+              <Link
+                href="/menu"
+                className="group inline-flex min-h-12 items-center gap-2 rounded-full bg-gold px-8 py-4 text-sm font-semibold uppercase tracking-widest text-noir shadow-glow transition-all hover:bg-gold-bright hover:shadow-glow-strong"
+              >
+                Menüyü Keşfet
+                <ArrowRight
+                  className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1"
+                  aria-hidden="true"
+                />
+              </Link>
+            </motion.div>
+          </Magnetic>
 
           <motion.div
             whileHover={prefersReducedMotion ? undefined : { scale: 1.03 }}

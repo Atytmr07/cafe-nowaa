@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { motion, useReducedMotion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
+import Magnetic from './Magnetic';
 import Reveal from './Reveal';
 import MaskedText from './MaskedText';
 import WarmImage from './WarmImage';
@@ -20,6 +21,12 @@ export default function MenuTeaser() {
   return (
     <section className="relative overflow-hidden bg-noir py-20 md:py-28">
       <GrainOverlay />
+
+      {/* Sconce-style light cone washing down from above */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 top-0 h-64 bg-[radial-gradient(ellipse_50%_100%_at_50%_0%,rgba(198,161,91,0.12),transparent_70%)]"
+      />
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center">
@@ -73,22 +80,24 @@ export default function MenuTeaser() {
 
         {/* The doorway to the dedicated /menu experience */}
         <Reveal className="mt-14 text-center">
-          <motion.div
-            className="inline-block"
-            whileHover={prefersReducedMotion ? undefined : { scale: 1.03 }}
-            transition={{ type: 'spring', stiffness: 400, damping: 20 }}
-          >
+          <Magnetic>
+            <motion.div
+              className="inline-block"
+              whileHover={prefersReducedMotion ? undefined : { scale: 1.03 }}
+              transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+            >
             <Link
               href="/menu"
               className="group inline-flex min-h-12 items-center gap-3 rounded-full bg-gold px-10 py-5 text-sm font-semibold uppercase tracking-widest text-noir shadow-glow transition-all hover:bg-gold-bright hover:shadow-glow-strong"
             >
               Tüm Menüyü Gör
-              <ArrowRight
-                className="h-5 w-5 transition-transform duration-200 group-hover:translate-x-1"
-                aria-hidden="true"
-              />
-            </Link>
-          </motion.div>
+                <ArrowRight
+                  className="h-5 w-5 transition-transform duration-200 group-hover:translate-x-1"
+                  aria-hidden="true"
+                />
+              </Link>
+            </motion.div>
+          </Magnetic>
         </Reveal>
       </div>
     </section>

@@ -1,7 +1,11 @@
+'use client';
+
+import { motion, useReducedMotion } from 'framer-motion';
+
 /**
  * Fluted marble-column motif — thin vertical lines abstracted from the
- * real storefront column. Used as a quiet section-break ornament where
- * dark and light sections meet.
+ * real storefront column, drawing themselves in as they enter the
+ * viewport. Used as a quiet section-break ornament.
  */
 type ColumnDividerProps = {
   /** 'light' renders on marble sections, 'dark' on noir sections */
@@ -15,8 +19,8 @@ export default function ColumnDivider({
   tone = 'light',
   className = '',
 }: ColumnDividerProps) {
-  const stroke = tone === 'light' ? '#C6A15B' : '#C6A15B';
-  const opacity = tone === 'light' ? 0.45 : 0.35;
+  const prefersReducedMotion = useReducedMotion();
+  const maxOpacity = tone === 'light' ? 0.45 : 0.35;
 
   return (
     <div aria-hidden="true" className={`flex justify-center ${className}`}>
@@ -26,15 +30,22 @@ export default function ColumnDivider({
           const isCenter = i === Math.floor(FLUTES.length / 2);
           const inset = isEdge ? 12 : isCenter ? 2 : 7;
           return (
-            <line
+            <motion.line
               key={x}
               x1={x}
               y1={inset}
               x2={x}
               y2={40 - inset}
-              stroke={stroke}
+              stroke="#C6A15B"
               strokeWidth="1"
-              opacity={opacity}
+              initial={
+                prefersReducedMotion
+                  ? { opacity: 0 }
+                  : { pathLength: 0, opacity: 0 }
+              }
+              whileInView={{ pathLength: 1, opacity: maxOpacity }}
+              viewport={{ once: true, margin: '-60px' }}
+              transition={{ duration: 0.7, ease: 'easeOut', delay: i * 0.05 }}
             />
           );
         })}

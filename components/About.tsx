@@ -7,15 +7,16 @@ import {
   useScroll,
   useTransform,
 } from 'framer-motion';
+import { Coffee, Croissant, Pizza } from 'lucide-react';
 import Reveal from './Reveal';
 import MaskedText from './MaskedText';
 import WarmImage from './WarmImage';
 import ColumnDivider from './ColumnDivider';
 
 const STATS = [
-  { icon: '☕', label: 'Günlük Taze Kavrulmuş Kahve' },
-  { icon: '🍕', label: 'Fırından Taze Pizza' },
-  { icon: '🥐', label: 'Zengin Kahvaltı Sofrası' },
+  { icon: Coffee, label: 'Günlük Taze Kavrulmuş Kahve' },
+  { icon: Pizza, label: 'Taş Fırından Taze Pizza' },
+  { icon: Croissant, label: 'Zengin Kahvaltı Sofrası' },
 ];
 
 export default function About() {
@@ -93,16 +94,16 @@ export default function About() {
               </div>
 
               <ul className="mt-10 grid gap-4 sm:grid-cols-3">
-                {STATS.map((stat) => (
+                {STATS.map(({ icon: Icon, label }) => (
                   <li
-                    key={stat.label}
+                    key={label}
                     className="rounded-2xl bg-marble-surface p-4 text-center shadow-soft"
                   >
-                    <span className="text-2xl" aria-hidden="true">
-                      {stat.icon}
+                    <span className="mx-auto flex h-11 w-11 items-center justify-center rounded-full bg-gold/15 text-gold">
+                      <Icon className="h-5 w-5" aria-hidden="true" />
                     </span>
-                    <p className="mt-2 text-sm font-medium leading-snug text-ink">
-                      {stat.label}
+                    <p className="mt-3 text-sm font-medium leading-snug text-ink">
+                      {label}
                     </p>
                   </li>
                 ))}

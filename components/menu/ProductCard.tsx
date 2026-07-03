@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, Star } from 'lucide-react';
 import WarmImage from '@/components/WarmImage';
 import { formatPrice, type Product } from '@/data/menu';
 
@@ -32,8 +32,9 @@ export default function ProductCard({ product }: { product: Product }) {
           sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
         />
         {product.isFeatured && (
-          <span className="absolute left-3 top-3 rounded-full bg-gold px-3 py-1.5 text-[11px] font-semibold uppercase tracking-widest text-noir shadow-glow">
-            ★ Şefin Önerisi
+          <span className="absolute left-3 top-3 flex items-center gap-1.5 rounded-full bg-gold px-3 py-1.5 text-[11px] font-semibold uppercase tracking-widest text-noir shadow-glow">
+            <Star className="h-3 w-3 fill-current" aria-hidden="true" />
+            Şefin Önerisi
           </span>
         )}
       </div>

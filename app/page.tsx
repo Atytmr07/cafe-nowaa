@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Navbar from '@/components/Navbar';
 import ScrollProgress from '@/components/ScrollProgress';
 import Hero from '@/components/Hero';
+import Marquee from '@/components/Marquee';
 import About from '@/components/About';
 import MenuTeaser from '@/components/MenuTeaser';
 import Gallery from '@/components/Gallery';
@@ -85,6 +86,7 @@ export default function HomePage() {
       <Navbar />
       <main>
         <Hero />
+        <Marquee />
         <About />
         <MenuTeaser />
         <Gallery />

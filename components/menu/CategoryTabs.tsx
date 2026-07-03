@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useRef } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import type { Category } from '@/data/menu';
 
@@ -10,22 +11,38 @@ type CategoryTabsProps = {
 };
 
 /**
- * Sticky horizontal category rail — the primary navigation of the
- * QR-menu experience. The gold pill physically slides between tabs
- * (shared layout animation) and the tapped tab centers itself in view.
+ * Sticky category rail over the single-page menu. Acts as scrollspy
+ * navigation: the gold pill slides to whichever category is on screen,
+ * and tapping a label scrolls to its section. The rail keeps the active
+ * label centered as the page scrolls.
  */
 export default function CategoryTabs({
   categories,
   activeSlug,
   onSelect,
 }: CategoryTabsProps) {
+  const railRef = useRef<HTMLDivElement>(null);
   const prefersReducedMotion = useReducedMotion();
 
+  useEffect(() => {
+    const rail = railRef.current;
+    const button = rail?.querySelector<HTMLButtonElement>(
+      `[data-slug="${activeSlug}"]`
+    );
+    if (!rail || !button) return;
+    rail.scrollTo({
+      left: button.offsetLeft - (rail.clientWidth - button.clientWidth) / 2,
+      behavior: prefersReducedMotion ? 'auto' : 'smooth',
+    });
+  }, [activeSlug, prefersReducedMotion]);
+
   return (
-    <div className="sticky top-0 z-30 border-b border-gold/10 bg-noir/95 backdrop-blur-md">
+    <nav
+      aria-label="Menü kategorileri"
+      className="sticky top-0 z-30 border-b border-gold/10 bg-noir/95 backdrop-blur-md"
+    >
       <div
-        role="tablist"
-        aria-label="Menü kategorileri"
+        ref={railRef}
         className="scrollbar-hide mx-auto flex max-w-5xl gap-2 overflow-x-auto px-4 py-3 sm:px-6"
       >
         {categories.map((category) => {
@@ -34,18 +51,9 @@ export default function CategoryTabs({
             <button
               key={category.slug}
               type="button"
-              role="tab"
-              id={`tab-${category.slug}`}
-              aria-selected={active}
-              aria-controls={`panel-${category.slug}`}
-              onClick={(event) => {
-                onSelect(category.slug);
-                event.currentTarget.scrollIntoView({
-                  behavior: prefersReducedMotion ? 'auto' : 'smooth',
-                  inline: 'center',
-                  block: 'nearest',
-                });
-              }}
+              data-slug={category.slug}
+              aria-current={active ? 'true' : undefined}
+              onClick={() => onSelect(category.slug)}
               className={`relative min-h-12 whitespace-nowrap rounded-full px-5 text-xs font-semibold uppercase tracking-widest transition-colors duration-200 ${
                 active ? 'text-noir' : 'text-stone hover:text-cream'
               }`}
@@ -67,6 +75,6 @@ export default function CategoryTabs({
           );
         })}
       </div>
-    </div>
+    </nav>
   );
 }

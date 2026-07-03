@@ -3,8 +3,9 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
-import { Menu, X } from 'lucide-react';
+import { Instagram, Menu, Phone, X } from 'lucide-react';
 import NVLogo from './NVLogo';
+import { BUSINESS } from '@/config/business';
 
 const NAV_LINKS = [
   { href: '#hakkimizda', label: 'Hakkımızda' },
@@ -45,64 +46,66 @@ export default function Navbar() {
   }, [open]);
 
   return (
-    <nav
-      aria-label="Ana navigasyon"
-      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
-        scrolled
-          ? 'bg-noir/90 shadow-warm backdrop-blur-md'
-          : 'bg-transparent'
-      }`}
-    >
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 md:h-20 lg:px-8">
-        <Link
-          href="/"
-          className="flex min-h-12 items-center gap-3"
-          aria-label="Cafe Nowaa ana sayfa"
-        >
-          <NVLogo className="h-9 w-9 text-gold md:h-10 md:w-10" />
-          <span className="font-display text-lg font-semibold tracking-tight text-cream md:text-xl">
-            Cafe Nowaa
-          </span>
-        </Link>
-
-        {/* Desktop links */}
-        <div className="hidden items-center gap-8 md:flex">
-          {NAV_LINKS.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="text-xs font-semibold uppercase tracking-widest text-stone transition-colors hover:text-gold-bright"
-            >
-              {link.label}
-            </a>
-          ))}
-          {/* Menü is a separate destination, not an anchor — gold pill */}
-          <motion.div
-            whileHover={prefersReducedMotion ? undefined : { scale: 1.03 }}
-            transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+    <nav aria-label="Ana navigasyon" className="fixed inset-x-0 top-0 z-50">
+      {/* The blur lives on this inner bar, NOT on <nav>: backdrop-filter
+          turns its element into the containing block for fixed descendants,
+          which would trap the full-screen overlay inside the 64px bar. */}
+      <div
+        className={`transition-colors duration-300 ${
+          scrolled ? 'bg-noir/90 shadow-warm backdrop-blur-md' : 'bg-transparent'
+        }`}
+      >
+        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 md:h-20 lg:px-8">
+          <Link
+            href="/"
+            className="flex min-h-12 items-center gap-3"
+            aria-label="Cafe Nowaa ana sayfa"
           >
-            <Link
-              href="/menu"
-              className="inline-flex min-h-12 items-center rounded-full bg-gold px-6 text-xs font-semibold uppercase tracking-widest text-noir shadow-glow transition-colors hover:bg-gold-bright hover:shadow-glow-strong"
-            >
-              Menü
-            </Link>
-          </motion.div>
-        </div>
+            <NVLogo className="h-9 w-9 text-gold md:h-10 md:w-10" />
+            <span className="font-display text-lg font-semibold tracking-tight text-cream md:text-xl">
+              Cafe Nowaa
+            </span>
+          </Link>
 
-        {/* Mobile hamburger */}
-        <button
-          type="button"
-          onClick={() => setOpen(true)}
-          className="flex min-h-12 min-w-12 items-center justify-center text-cream md:hidden"
-          aria-label="Menüyü aç"
-          aria-expanded={open}
-        >
-          <Menu className="h-6 w-6" />
-        </button>
+          {/* Desktop links */}
+          <div className="hidden items-center gap-8 md:flex">
+            {NAV_LINKS.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                className="text-xs font-semibold uppercase tracking-widest text-stone transition-colors hover:text-gold-bright"
+              >
+                {link.label}
+              </a>
+            ))}
+            {/* Menü is a separate destination, not an anchor — gold pill */}
+            <motion.div
+              whileHover={prefersReducedMotion ? undefined : { scale: 1.03 }}
+              transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+            >
+              <Link
+                href="/menu"
+                className="inline-flex min-h-12 items-center rounded-full bg-gold px-6 text-xs font-semibold uppercase tracking-widest text-noir shadow-glow transition-colors hover:bg-gold-bright hover:shadow-glow-strong"
+              >
+                Menü
+              </Link>
+            </motion.div>
+          </div>
+
+          {/* Mobile hamburger */}
+          <button
+            type="button"
+            onClick={() => setOpen(true)}
+            className="flex min-h-12 min-w-12 items-center justify-center text-cream md:hidden"
+            aria-label="Menüyü aç"
+            aria-expanded={open}
+          >
+            <Menu className="h-6 w-6" />
+          </button>
+        </div>
       </div>
 
-      {/* Full-screen mobile overlay */}
+      {/* Full-screen mobile overlay — solid noir, above everything (incl. progress bar) */}
       <AnimatePresence>
         {open && (
           <motion.div
@@ -110,7 +113,7 @@ export default function Navbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
-            className="fixed inset-0 z-50 flex flex-col bg-noir px-6 py-5 md:hidden"
+            className="fixed inset-0 z-[70] flex flex-col bg-noir bg-slats px-6 py-5 md:hidden"
           >
             <div className="flex items-center justify-between">
               <Link
@@ -164,7 +167,27 @@ export default function Navbar() {
               ))}
             </motion.div>
 
-            <div className="mt-auto h-px w-full bg-gold/20" aria-hidden="true" />
+            <div className="mt-auto">
+              <div className="h-px w-full bg-gold/20" aria-hidden="true" />
+              <div className="flex items-center justify-between py-5">
+                <a
+                  href={BUSINESS.phoneHref}
+                  className="flex min-h-12 items-center gap-2 text-sm text-stone transition-colors hover:text-gold-bright"
+                >
+                  <Phone className="h-4 w-4 text-gold" aria-hidden="true" />
+                  {BUSINESS.phone}
+                </a>
+                <a
+                  href={BUSINESS.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex min-h-12 items-center gap-2 text-sm text-stone transition-colors hover:text-gold-bright"
+                >
+                  <Instagram className="h-4 w-4 text-gold" aria-hidden="true" />
+                  {BUSINESS.instagramHandle}
+                </a>
+              </div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

@@ -1,3 +1,5 @@
+import { NVMonogram } from '@/components/NVLogo';
+
 /**
  * Route-transition state: the NV monogram inside a slowly rotating
  * dashed ring — the roundel as a loader.
@@ -26,23 +28,7 @@ export default function Loading() {
             strokeDasharray="70 220"
           />
         </svg>
-        <svg
-          viewBox="0 0 100 100"
-          fill="none"
-          aria-hidden="true"
-          className="h-12 w-12 text-pearl"
-        >
-          <g
-            stroke="currentColor"
-            strokeWidth="5"
-            strokeLinecap="square"
-          >
-            <path d="M31 32 V68" />
-            <path d="M31 32 L51 68" />
-            <path d="M51 32 V68" />
-            <path d="M45 32 L57 68 L69 32" />
-          </g>
-        </svg>
+        <NVMonogram className="h-11 w-11 text-pearl" weight={6} />
       </div>
       <span className="sr-only">Yükleniyor…</span>
     </div>

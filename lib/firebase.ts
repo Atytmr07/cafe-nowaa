@@ -7,14 +7,18 @@ import {
 } from 'firebase/analytics';
 
 /**
- * Firebase web configuration.
+ * Firebase core + Analytics only.
  *
- * These values are client-side identifiers, not secrets — Firebase web
- * config ships in the browser bundle by design, and access is controlled
- * by Security Rules and API-key restrictions in the console, not secrecy.
- * Env vars are still read first so staging/prod can point elsewhere.
+ * Firestore, Auth and Storage live in lib/firebase-services.ts on
+ * purpose: `trackEvent` is called from the Hero and layout, so anything
+ * imported here lands in the initial bundle of every page. Pulling the
+ * Firestore SDK in through this door cost the homepage ~175 kB.
+ *
+ * The config values are client-side identifiers, not secrets — Firebase
+ * web config ships in the browser bundle by design, and access is
+ * controlled by Security Rules and API-key restrictions, not secrecy.
  */
-const firebaseConfig = {
+export const firebaseConfig = {
   apiKey:
     process.env.NEXT_PUBLIC_FIREBASE_API_KEY ??
     'AIzaSyAbv07N4oDIDcfmFdgBblJFZx4dmTLdkTo',

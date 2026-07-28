@@ -80,7 +80,7 @@ export default function Hero() {
             />
           </svg>
           <AnimatedNVLogo
-            delay={0.35}
+            delay={0.1}
             weight={4.2}
             className="relative h-24 w-24 text-pearl drop-shadow-[0_0_28px_rgba(246,245,242,0.22)] sm:h-32 sm:w-32"
           />
@@ -90,9 +90,11 @@ export default function Hero() {
           style={{ y: prefersReducedMotion ? 0 : contentY }}
           className="mt-10 flex flex-col items-center"
         >
-          {/* Eyebrow between two hairlines */}
+          {/* Eyebrow between two hairlines. Copy leads rather than waiting
+              for the logo to finish drawing — the mark keeps inking in
+              behind it, but the headline must not cost seconds of LCP. */}
           <motion.p
-            {...rise(1.5)}
+            {...rise(0.15)}
             className="flex items-center gap-4 text-[10px] font-medium uppercase tracking-luxe text-silver sm:text-[11px]"
           >
             <span aria-hidden="true" className="h-px w-8 bg-platinum/40 sm:w-14" />
@@ -102,14 +104,14 @@ export default function Hero() {
 
           <h1 className="mt-7 max-w-5xl font-display font-normal leading-[1.02] tracking-tight">
             <motion.span
-              {...rise(1.62)}
+              {...rise(0.25)}
               className="shimmer-text block"
               style={{ fontSize: 'clamp(2.75rem, 9vw, 6.5rem)' }}
             >
               İstanbul&apos;un Kalbinde
             </motion.span>
             <motion.span
-              {...rise(1.76)}
+              {...rise(0.37)}
               className="mt-1 block italic text-pearl/90"
               style={{ fontSize: 'clamp(2.25rem, 7.2vw, 5.25rem)' }}
             >
@@ -118,7 +120,7 @@ export default function Hero() {
           </h1>
 
           <motion.p
-            {...rise(1.9)}
+            {...rise(0.5)}
             className="mt-8 max-w-xl text-balance text-sm font-light leading-relaxed text-silver sm:text-base"
           >
             Kahve, kahvaltı, taş fırın pizza, burger ve daha fazlası —
@@ -126,7 +128,7 @@ export default function Hero() {
           </motion.p>
 
           <motion.div
-            {...rise(2.04)}
+            {...rise(0.62)}
             className="mt-11 flex flex-col items-center gap-4 sm:flex-row"
           >
             <Magnetic>
@@ -164,7 +166,7 @@ export default function Hero() {
         aria-hidden="true"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 2.4 }}
+        transition={{ duration: 1, delay: 1 }}
         className="relative z-10 flex justify-center pb-10"
       >
         <span className="relative block h-14 w-px overflow-hidden bg-pearl/15">

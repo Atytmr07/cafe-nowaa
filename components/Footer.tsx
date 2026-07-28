@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { Instagram, MapPin, Phone } from 'lucide-react';
 import NVLogo from './NVLogo';
 import FooterWordmark from './FooterWordmark';
+import OpenStatus from './OpenStatus';
 import { BUSINESS } from '@/config/business';
 
 const PAGE_LINKS = [
@@ -118,6 +119,7 @@ export default function Footer() {
               07:00 — 00:00
             </p>
             <p className="mt-2 text-sm font-light text-silver">Her gün açığız</p>
+            <OpenStatus className="mt-3" />
             <p className="mt-4 text-xs font-light leading-relaxed text-steel">
               Bayram ve özel günlerde çalışma saatleri değişebilir.
             </p>

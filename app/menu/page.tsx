@@ -1,14 +1,18 @@
 import type { Metadata } from 'next';
 import MenuHeader from '@/components/menu/MenuHeader';
 import MenuExperience from '@/components/menu/MenuExperience';
-import { CATEGORIES, PRODUCTS, groupedProducts } from '@/data/menu';
+import { SEED_CATEGORIES, SEED_PRODUCTS } from '@/data/seed';
+import { groupProducts } from '@/lib/menu-types';
 import { BUSINESS } from '@/config/business';
 import { SITE_URL } from '@/config/site';
 
 /**
- * The standalone digital menu — architected as its own micro-site and
- * the destination for table QR codes: full-bleed obsidian, mobile-first,
- * with its own masthead rather than the homepage navigation.
+ * The standalone digital menu — its own micro-site and the destination
+ * for table QR codes: full-bleed obsidian, mobile-first, with its own
+ * masthead rather than the homepage navigation.
+ *
+ * The seed card renders server-side so the page stays static and
+ * indexable; live Firestore data takes over on the client when present.
  */
 export const metadata: Metadata = {
   title: { absolute: 'Cafe Nowaa — Menü' },
@@ -42,27 +46,37 @@ const menuJsonLd = {
   name: `${BUSINESS.name} Menü`,
   url: `${SITE_URL}/menu`,
   inLanguage: 'tr-TR',
-  hasMenuSection: CATEGORIES.map((category) => ({
+  hasMenuSection: SEED_CATEGORIES.map((category) => ({
     '@type': 'MenuSection',
     name: category.label,
-    hasMenuSection: groupedProducts(category).map(({ group, items }) => ({
-      '@type': 'MenuSection',
-      name: group,
-      hasMenuItem: items.map((item) => ({
-        '@type': 'MenuItem',
-        name: item.name,
-        ...(item.description ? { description: item.description } : {}),
-        ...(item.price !== null
-          ? {
-              offers: {
-                '@type': 'Offer',
-                price: item.price,
-                priceCurrency: 'TRY',
-              },
-            }
-          : {}),
-      })),
-    })),
+    hasMenuSection: groupProducts(category, SEED_PRODUCTS).map(
+      ({ subcategory, items }) => ({
+        '@type': 'MenuSection',
+        name: subcategory || category.label,
+        hasMenuItem: items.map((item) => ({
+          '@type': 'MenuItem',
+          name: item.name,
+          ...(item.description ? { description: item.description } : {}),
+          ...(item.kcal
+            ? {
+                nutrition: {
+                  '@type': 'NutritionInformation',
+                  calories: `${item.kcal} kcal`,
+                },
+              }
+            : {}),
+          ...(item.price !== null
+            ? {
+                offers: {
+                  '@type': 'Offer',
+                  price: item.price,
+                  priceCurrency: 'TRY',
+                },
+              }
+            : {}),
+        })),
+      })
+    ),
   })),
 };
 
@@ -76,9 +90,6 @@ export default function MenuPage() {
       <main className="min-h-[100svh] bg-obsidian">
         <MenuHeader />
         <MenuExperience />
-        <p className="sr-only">
-          Menümüzde toplam {PRODUCTS.length} ürün bulunmaktadır.
-        </p>
       </main>
     </>
   );

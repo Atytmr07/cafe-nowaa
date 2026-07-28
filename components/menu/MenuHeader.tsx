@@ -1,11 +1,13 @@
 import Link from 'next/link';
 import { ArrowLeft, Phone } from 'lucide-react';
 import NVLogo from '@/components/NVLogo';
+import OpenStatus from '@/components/OpenStatus';
 import { BUSINESS } from '@/config/business';
 
 /**
  * Compact masthead for the standalone /menu experience — deliberately
- * not the homepage Navbar. The mark, a way back, and tap-to-call.
+ * not the homepage Navbar. The mark, a way back, tap-to-call, and
+ * whether the kitchen is open right now.
  */
 export default function MenuHeader() {
   return (
@@ -30,6 +32,7 @@ export default function MenuHeader() {
           <span className="font-display text-sm tracking-[0.18em] text-pearl">
             CAFE NOWAA
           </span>
+          <OpenStatus />
         </div>
 
         <a

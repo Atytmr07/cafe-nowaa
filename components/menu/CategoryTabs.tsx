@@ -2,18 +2,18 @@
 
 import { useEffect, useRef } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
-import type { Category } from '@/data/menu';
+import type { MenuCategory } from '@/lib/menu-types';
 
 type CategoryTabsProps = {
-  categories: Category[];
+  categories: MenuCategory[];
   activeSlug: string;
-  onSelect: (slug: string) => void;
+  onSelect: (id: string) => void;
 };
 
 /**
  * Sticky category rail over the single-page menu, doubling as scrollspy:
  * the pearl pill slides to whichever category is on screen, and tapping a
- * label scrolls to its section. The rail keeps the active label centered.
+ * label scrolls to its section. The rail keeps the active label centred.
  */
 export default function CategoryTabs({
   categories,
@@ -45,14 +45,14 @@ export default function CategoryTabs({
         className="scrollbar-hide mx-auto flex max-w-5xl gap-1.5 overflow-x-auto px-4 py-3 sm:px-6"
       >
         {categories.map((category) => {
-          const active = category.slug === activeSlug;
+          const active = category.id === activeSlug;
           return (
             <button
-              key={category.slug}
+              key={category.id}
               type="button"
-              data-slug={category.slug}
+              data-slug={category.id}
               aria-current={active ? 'true' : undefined}
-              onClick={() => onSelect(category.slug)}
+              onClick={() => onSelect(category.id)}
               className={`relative min-h-11 whitespace-nowrap rounded-full px-5 text-[10px] font-semibold uppercase tracking-[0.18em] transition-colors duration-300 ${
                 active ? 'text-obsidian' : 'text-silver hover:text-pearl'
               }`}

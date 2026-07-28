@@ -11,10 +11,9 @@ type CategoryTabsProps = {
 };
 
 /**
- * Sticky category rail over the single-page menu. Acts as scrollspy
- * navigation: the gold pill slides to whichever category is on screen,
- * and tapping a label scrolls to its section. The rail keeps the active
- * label centered as the page scrolls.
+ * Sticky category rail over the single-page menu, doubling as scrollspy:
+ * the pearl pill slides to whichever category is on screen, and tapping a
+ * label scrolls to its section. The rail keeps the active label centered.
  */
 export default function CategoryTabs({
   categories,
@@ -39,11 +38,11 @@ export default function CategoryTabs({
   return (
     <nav
       aria-label="Menü kategorileri"
-      className="sticky top-0 z-30 border-b border-gold/10 bg-noir/95 backdrop-blur-md"
+      className="sticky top-0 z-30 border-b border-pearl/10 bg-obsidian/92 backdrop-blur-xl"
     >
       <div
         ref={railRef}
-        className="scrollbar-hide mx-auto flex max-w-5xl gap-2 overflow-x-auto px-4 py-3 sm:px-6"
+        className="scrollbar-hide mx-auto flex max-w-5xl gap-1.5 overflow-x-auto px-4 py-3 sm:px-6"
       >
         {categories.map((category) => {
           const active = category.slug === activeSlug;
@@ -54,19 +53,19 @@ export default function CategoryTabs({
               data-slug={category.slug}
               aria-current={active ? 'true' : undefined}
               onClick={() => onSelect(category.slug)}
-              className={`relative min-h-12 whitespace-nowrap rounded-full px-5 text-xs font-semibold uppercase tracking-widest transition-colors duration-200 ${
-                active ? 'text-noir' : 'text-stone hover:text-cream'
+              className={`relative min-h-11 whitespace-nowrap rounded-full px-5 text-[10px] font-semibold uppercase tracking-[0.18em] transition-colors duration-300 ${
+                active ? 'text-obsidian' : 'text-silver hover:text-pearl'
               }`}
             >
               {active && (
                 <motion.span
                   layoutId="active-category-pill"
                   aria-hidden="true"
-                  className="absolute inset-0 rounded-full bg-gold shadow-glow"
+                  className="absolute inset-0 rounded-full bg-pearl"
                   transition={
                     prefersReducedMotion
                       ? { duration: 0 }
-                      : { type: 'spring', stiffness: 400, damping: 32 }
+                      : { type: 'spring', stiffness: 420, damping: 34 }
                   }
                 />
               )}

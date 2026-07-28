@@ -16,48 +16,47 @@ export default function Footer() {
   return (
     <footer
       id="iletisim"
-      className="relative overflow-hidden bg-noir pt-20 md:pt-28"
+      className="relative overflow-hidden bg-obsidian pt-24 md:pt-32"
     >
-      {/* Oversized typographic backdrop with scroll-linked drift */}
       <FooterWordmark />
 
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
+      <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
+        <div className="grid gap-14 md:grid-cols-2 lg:grid-cols-4">
           <div>
             <Link
               href="/"
               className="flex min-h-12 items-center gap-3"
               aria-label="Cafe Nowaa ana sayfa"
             >
-              <NVLogo className="h-10 w-10 text-gold" />
-              <span className="font-display text-xl font-semibold tracking-tight text-cream">
-                Cafe Nowaa
+              <NVLogo className="h-10 w-10 text-pearl" />
+              <span className="font-display text-lg tracking-wide text-pearl">
+                CAFE NOWAA
               </span>
             </Link>
-            <p className="mt-5 max-w-xs text-sm leading-relaxed text-stone">
-              {BUSINESS.tagline}. Kahve, pizza, burger ve kahvaltı —
+            <p className="mt-6 max-w-xs text-sm font-light leading-relaxed text-silver">
+              {BUSINESS.tagline}. Kahve, kahvaltı, pizza ve burger —
               Marmaray&apos;ın hemen yanı başında.
             </p>
           </div>
 
           <nav aria-label="Sayfa bağlantıları">
-            <h3 className="text-xs font-semibold uppercase tracking-widest text-gold">
+            <h3 className="text-[10px] font-medium uppercase tracking-luxe text-steel">
               Sayfalar
             </h3>
-            <ul className="mt-5 space-y-1">
+            <ul className="mt-6 space-y-1">
               {PAGE_LINKS.map((link) => (
                 <li key={link.href}>
                   {link.href.startsWith('#') ? (
                     <a
                       href={link.href}
-                      className="inline-flex min-h-10 items-center text-sm text-stone transition-colors hover:text-gold-bright"
+                      className="inline-flex min-h-10 items-center text-sm font-light text-silver transition-colors hover:text-pearl"
                     >
                       {link.label}
                     </a>
                   ) : (
                     <Link
                       href={link.href}
-                      className="inline-flex min-h-10 items-center text-sm text-stone transition-colors hover:text-gold-bright"
+                      className="inline-flex min-h-10 items-center text-sm font-light text-silver transition-colors hover:text-pearl"
                     >
                       {link.label}
                     </Link>
@@ -68,30 +67,42 @@ export default function Footer() {
           </nav>
 
           <div>
-            <h3 className="text-xs font-semibold uppercase tracking-widest text-gold">
+            <h3 className="text-[10px] font-medium uppercase tracking-luxe text-steel">
               İletişim
             </h3>
-            <ul className="mt-5 space-y-3 text-sm text-stone">
+            <ul className="mt-6 space-y-4 text-sm font-light text-silver">
               <li className="flex items-start gap-3">
-                <Phone className="mt-0.5 h-4 w-4 flex-none text-gold" aria-hidden="true" />
+                <Phone
+                  className="mt-0.5 h-4 w-4 flex-none text-platinum"
+                  strokeWidth={1.2}
+                  aria-hidden="true"
+                />
                 <a
                   href={BUSINESS.phoneHref}
-                  className="transition-colors hover:text-gold-bright"
+                  className="transition-colors hover:text-pearl"
                 >
                   {BUSINESS.phone}
                 </a>
               </li>
               <li className="flex items-start gap-3">
-                <MapPin className="mt-0.5 h-4 w-4 flex-none text-gold" aria-hidden="true" />
-                <span>{BUSINESS.address}</span>
+                <MapPin
+                  className="mt-0.5 h-4 w-4 flex-none text-platinum"
+                  strokeWidth={1.2}
+                  aria-hidden="true"
+                />
+                <span className="leading-relaxed">{BUSINESS.address}</span>
               </li>
               <li className="flex items-start gap-3">
-                <Instagram className="mt-0.5 h-4 w-4 flex-none text-gold" aria-hidden="true" />
+                <Instagram
+                  className="mt-0.5 h-4 w-4 flex-none text-platinum"
+                  strokeWidth={1.2}
+                  aria-hidden="true"
+                />
                 <a
                   href={BUSINESS.instagram}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="transition-colors hover:text-gold-bright"
+                  className="transition-colors hover:text-pearl"
                 >
                   {BUSINESS.instagramHandle}
                 </a>
@@ -100,26 +111,26 @@ export default function Footer() {
           </div>
 
           <div>
-            <h3 className="text-xs font-semibold uppercase tracking-widest text-gold">
+            <h3 className="text-[10px] font-medium uppercase tracking-luxe text-steel">
               Çalışma Saatleri
             </h3>
-            <p className="mt-5 text-sm leading-relaxed text-stone">
-              {BUSINESS.hours}
+            <p className="mt-6 font-display text-2xl text-pearl">
+              07:00 — 00:00
             </p>
-            <p className="mt-2 text-xs text-stone/70">
+            <p className="mt-2 text-sm font-light text-silver">Her gün açığız</p>
+            <p className="mt-4 text-xs font-light leading-relaxed text-steel">
               Bayram ve özel günlerde çalışma saatleri değişebilir.
             </p>
           </div>
         </div>
 
-        {/* Gold hairline above the bottom bar */}
-        <div className="mt-16 h-px w-full bg-gold/25" aria-hidden="true" />
+        <div className="mt-20 h-px w-full bg-pearl/12" aria-hidden="true" />
 
-        <div className="flex flex-col items-center justify-between gap-3 py-7 sm:flex-row">
-          <p className="text-xs text-stone">
+        <div className="flex flex-col items-center justify-between gap-3 py-8 sm:flex-row">
+          <p className="text-[11px] font-light tracking-wide text-steel">
             © {new Date().getFullYear()} Cafe Nowaa. Tüm hakları saklıdır.
           </p>
-          <p className="text-xs text-stone/70">
+          <p className="text-[11px] font-light tracking-wide text-steel">
             Bostancı Marmaray Girişi Yanı, İstanbul
           </p>
         </div>

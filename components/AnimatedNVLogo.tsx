@@ -4,27 +4,38 @@ import { motion, useReducedMotion } from 'framer-motion';
 import NVLogo from './NVLogo';
 
 /**
- * Stroke-draw version of the NV roundel: the rings draw themselves in
- * (pathLength 0→1), then the monogram fades up — echoing the backlit
- * sign flickering on. Falls back to the static logo under reduced motion.
+ * The roundel drawing itself: the ring sweeps closed, then the N and V
+ * strokes ink in one after another — the sign switching on. Falls back
+ * to the static mark under reduced motion.
  */
 type AnimatedNVLogoProps = {
   className?: string;
   decorative?: boolean;
   delay?: number;
+  weight?: number;
 };
 
-const DRAW_EASE = [0.65, 0, 0.35, 1] as const;
+const EASE = [0.65, 0, 0.35, 1] as const;
+
+const STROKES = [
+  'M31 32 V68',
+  'M31 32 L51 68',
+  'M51 32 V68',
+  'M45 32 L57 68 L69 32',
+];
 
 export default function AnimatedNVLogo({
   className = 'h-10 w-10',
   decorative = false,
   delay = 0,
+  weight = 4.6,
 }: AnimatedNVLogoProps) {
   const prefersReducedMotion = useReducedMotion();
 
   if (prefersReducedMotion) {
-    return <NVLogo className={className} decorative={decorative} />;
+    return (
+      <NVLogo className={className} decorative={decorative} weight={weight} />
+    );
   }
 
   return (
@@ -39,40 +50,34 @@ export default function AnimatedNVLogo({
       <motion.circle
         cx="50"
         cy="50"
-        r="46"
+        r="42"
         stroke="currentColor"
-        strokeWidth="2.5"
-        initial={{ pathLength: 0 }}
+        strokeWidth="5.5"
+        initial={{ pathLength: 0, rotate: -90 }}
         animate={{ pathLength: 1 }}
-        transition={{ duration: 1.6, ease: DRAW_EASE, delay }}
+        style={{ transformOrigin: '50% 50%', rotate: -90 }}
+        transition={{ duration: 1.7, ease: EASE, delay }}
       />
-      <motion.circle
-        cx="50"
-        cy="50"
-        r="38.5"
+      <g
         stroke="currentColor"
-        strokeWidth="0.75"
-        opacity="0.55"
-        initial={{ pathLength: 0 }}
-        animate={{ pathLength: 1 }}
-        transition={{ duration: 1.4, ease: DRAW_EASE, delay: delay + 0.2 }}
-      />
-      <motion.text
-        x="50"
-        y="50"
-        textAnchor="middle"
-        dominantBaseline="central"
-        fontFamily="var(--font-fraunces), Georgia, serif"
-        fontSize="32"
-        fontWeight="600"
-        letterSpacing="2"
-        fill="currentColor"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.9, ease: 'easeOut', delay: delay + 1 }}
+        strokeWidth={weight}
+        strokeLinecap="square"
+        strokeLinejoin="miter"
       >
-        NV
-      </motion.text>
+        {STROKES.map((d, i) => (
+          <motion.path
+            key={d}
+            d={d}
+            initial={{ pathLength: 0 }}
+            animate={{ pathLength: 1 }}
+            transition={{
+              duration: 0.55,
+              ease: EASE,
+              delay: delay + 0.75 + i * 0.14,
+            }}
+          />
+        ))}
+      </g>
     </svg>
   );
 }

@@ -9,7 +9,7 @@ import { REVIEWS } from '@/data/reviews';
 function StarRow({ rating, name }: { rating: number; name: string }) {
   return (
     <div
-      className="flex gap-1"
+      className="flex gap-1.5"
       role="img"
       aria-label={`${name}: 5 üzerinden ${rating} yıldız`}
     >
@@ -17,8 +17,9 @@ function StarRow({ rating, name }: { rating: number; name: string }) {
         <Star
           key={i}
           aria-hidden="true"
-          className={`h-4 w-4 ${
-            i < rating ? 'fill-gold text-gold' : 'fill-none text-stone/40'
+          strokeWidth={1}
+          className={`h-3.5 w-3.5 ${
+            i < rating ? 'fill-platinum text-platinum' : 'fill-none text-silver/30'
           }`}
         />
       ))}
@@ -30,55 +31,66 @@ export default function Reviews() {
   return (
     <section
       id="yorumlar"
-      className="relative overflow-hidden bg-noir py-20 md:py-28"
+      className="relative overflow-hidden bg-obsidian py-24 md:py-32"
     >
       <GrainOverlay />
-
-      {/* Ambient gold glow accent — recalls the sconce lighting */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -top-32 left-1/2 h-64 w-[36rem] -translate-x-1/2 rounded-full bg-gold/10 blur-3xl"
+        className="pointer-events-none absolute -top-40 left-1/2 h-80 w-[44rem] -translate-x-1/2 rounded-full bg-pearl/[0.05] blur-3xl"
       />
 
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
         <div className="text-center">
           <Reveal>
-            <p className="text-xs font-semibold uppercase tracking-widest text-gold">
+            <p className="text-[10px] font-medium uppercase tracking-luxe text-silver">
               Yorumlar
             </p>
           </Reveal>
 
           <MaskedText
             as="h2"
-            lines={['Misafirlerimiz Ne Diyor?']}
-            className="mt-4 font-display text-4xl font-semibold tracking-tight text-cream sm:text-5xl"
+            lines={[
+              <>
+                Misafirlerimiz <em className="italic text-platinum">Ne Diyor?</em>
+              </>,
+            ]}
+            className="mt-5 font-display text-4xl leading-[1.08] tracking-tight text-pearl sm:text-6xl"
           />
         </div>
 
         {/* Horizontal scroll-snap carousel — swipeable on mobile */}
-        <Reveal className="mt-14">
+        <Reveal className="mt-16">
           <ul
-            className="scrollbar-hide -mx-4 flex snap-x snap-mandatory gap-5 overflow-x-auto px-4 pb-4 sm:-mx-6 sm:px-6"
+            className="scrollbar-hide -mx-5 flex snap-x snap-mandatory gap-6 overflow-x-auto px-5 pb-4 sm:-mx-8 sm:px-8"
             aria-label="Misafir yorumları"
           >
             {REVIEWS.map((review) => (
               <li
                 key={review.id}
-                className="w-[85%] flex-none snap-center rounded-2xl bg-noir-surface p-7 shadow-warm sm:w-[420px] sm:p-8"
+                className="w-[86%] flex-none snap-center border border-pearl/10 bg-onyx p-8 transition-colors duration-500 hover:border-pearl/25 sm:w-[420px] sm:p-10"
               >
-                <StarRow rating={review.rating} name={review.name} />
-                <blockquote className="mt-5">
-                  <p className="text-base italic leading-relaxed text-cream/90">
-                    &ldquo;{review.quote}&rdquo;
+                <span
+                  aria-hidden="true"
+                  className="block font-display text-5xl leading-none text-pearl/20"
+                >
+                  &ldquo;
+                </span>
+                <blockquote className="mt-4">
+                  <p className="font-display text-lg font-light italic leading-relaxed text-pearl/90">
+                    {review.quote}
                   </p>
                 </blockquote>
-                <footer className="mt-6 flex items-center justify-between">
-                  <p className="text-sm font-semibold text-cream">
-                    {review.name}
-                  </p>
-                  <p className="text-xs uppercase tracking-widest text-stone">
-                    {review.source}
-                  </p>
+                <div className="mt-8 h-px w-full bg-pearl/10" aria-hidden="true" />
+                <footer className="mt-5 flex items-center justify-between gap-4">
+                  <div>
+                    <p className="text-sm tracking-wide text-pearl">
+                      {review.name}
+                    </p>
+                    <p className="mt-1 text-[10px] uppercase tracking-[0.2em] text-steel">
+                      {review.source}
+                    </p>
+                  </div>
+                  <StarRow rating={review.rating} name={review.name} />
                 </footer>
               </li>
             ))}

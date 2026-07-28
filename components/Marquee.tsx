@@ -1,32 +1,48 @@
 /**
- * Scrolling gold band between sections — the kitchen's repertoire drifting
- * past like signage. Pure CSS animation (see .animate-marquee in globals.css),
- * disabled automatically under prefers-reduced-motion.
+ * Scrolling band of the kitchen's repertoire, set in the display face —
+ * signage drifting past the window. Pure CSS loop, paused for reduced motion.
  */
-const ITEMS = ['Kahve', 'Pizza', 'Burger', 'Kahvaltı', 'Makarna', 'Soslu Tavuk'];
+const ITEMS = [
+  'Kahve',
+  'Kahvaltı',
+  'Pizza',
+  'Burger',
+  'Makarna',
+  'Ana Yemekler',
+  'Tatlı',
+];
 
-// Two identical halves make the -50% translate loop seamless
-const HALF = [...ITEMS, ...ITEMS, ...ITEMS];
+const RUN = [...ITEMS, ...ITEMS, ...ITEMS];
 
 export default function Marquee() {
   return (
     <section
       aria-label="Mutfağımızdan"
-      className="relative overflow-hidden border-y border-gold/15 bg-noir py-4"
+      className="relative overflow-hidden border-y border-pearl/10 bg-onyx py-5"
     >
+      {/* Edges dissolve into the surface */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-onyx to-transparent"
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-onyx to-transparent"
+      />
+
       <div className="animate-marquee flex w-max items-center" aria-hidden="true">
-        {[...HALF, ...HALF].map((label, i) => (
-          <span
-            key={i}
-            className="flex items-center gap-6 pr-6 text-[11px] font-semibold uppercase tracking-[0.3em] text-gold/70"
-          >
-            {label}
-            <span className="h-1.5 w-1.5 rotate-45 border border-gold/50" />
+        {[...RUN, ...RUN].map((label, i) => (
+          <span key={i} className="flex items-center gap-8 pr-8">
+            <span className="font-display text-xl italic text-pearl/70 sm:text-2xl">
+              {label}
+            </span>
+            <span className="h-1 w-1 rotate-45 bg-platinum/50" />
           </span>
         ))}
       </div>
+
       <span className="sr-only">
-        Kahve, pizza, burger, kahvaltı, makarna ve soslu tavuk
+        Kahve, kahvaltı, pizza, burger, makarna, ana yemekler ve tatlı
       </span>
     </section>
   );

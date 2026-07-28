@@ -1,6 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <rect width="100" height="100" rx="50" fill="#141210"/>
-  <circle cx="50" cy="50" r="42" stroke="#C6A15B" stroke-width="3" fill="none"/>
-  <circle cx="50" cy="50" r="35" stroke="#C6A15B" stroke-width="1" fill="none" opacity="0.55"/>
-  <text x="50" y="51" text-anchor="middle" dominant-baseline="central" font-family="Georgia, 'Times New Roman', serif" font-size="28" font-weight="600" letter-spacing="2" fill="#C6A15B">NV</text>
+  <rect width="100" height="100" rx="22" fill="#0B0B0C"/>
+  <circle cx="50" cy="50" r="38" stroke="#F6F5F2" stroke-width="5" fill="none"/>
+  <g stroke="#F6F5F2" stroke-width="4.6" stroke-linecap="square" fill="none">
+    <path d="M33 34 V66"/>
+    <path d="M33 34 L51 66"/>
+    <path d="M51 34 V66"/>
+    <path d="M46 34 L57 66 L68 34"/>
+  </g>
 </svg>

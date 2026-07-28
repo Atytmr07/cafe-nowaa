@@ -10,23 +10,33 @@ import Reviews from '@/components/Reviews';
 import Location from '@/components/Location';
 import Footer from '@/components/Footer';
 import { BUSINESS } from '@/config/business';
+import { SITE_URL } from '@/config/site';
 
 export const metadata: Metadata = {
   title: { absolute: 'Cafe Nowaa — Bostancı Marmaray' },
   description:
-    'Bostancı Marmaray girişinin hemen yanında kahve, pizza, burger, kahvaltı, makarna ve soslu tavuk. İstanbul’un kalbinde şık bir mola: Cafe Nowaa.',
+    'Bostancı Marmaray girişinin hemen yanında kahve, kahvaltı, taş fırın pizza, burger, makarna ve ana yemekler. İstanbul’un kalbinde şık bir mola: Cafe Nowaa.',
+  keywords: [
+    'Cafe Nowaa',
+    'Bostancı kahvaltı',
+    'Bostancı cafe',
+    'Marmaray kahve',
+    'Bostancı pizza',
+    'Bostancı burger',
+    'Kadıköy brunch',
+  ],
   alternates: { canonical: '/' },
   openGraph: {
     title: 'Cafe Nowaa — Bostancı Marmaray',
     description:
-      'Kahve, pizza, burger ve kahvaltı — Marmaray’ın hemen yanı başında, şık bir mola.',
+      'Kahve, kahvaltı, taş fırın pizza ve burger — Marmaray’ın hemen yanı başında, şık bir mola.',
     url: '/',
     siteName: 'Cafe Nowaa',
     locale: 'tr_TR',
     type: 'website',
     images: [
       {
-        // Placeholder OG image — replace with a real storefront/hero shot.
+        // Placeholder OG image — replace with a real storefront/interior shot
         url: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?q=80&w=1200&auto=format&fit=crop',
         width: 1200,
         height: 630,
@@ -34,16 +44,23 @@ export const metadata: Metadata = {
       },
     ],
   },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Cafe Nowaa — Bostancı Marmaray',
+    description:
+      'Kahve, kahvaltı, taş fırın pizza ve burger — Marmaray’ın hemen yanı başında.',
+  },
 };
 
 // LocalBusiness structured data with the real address and hours.
-// Geo coordinates are approximate (Bostancı Marmaray) — confirm with client.
+// Geo coordinates approximate Bostancı Marmaray — confirm with the client.
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'CafeOrCoffeeShop',
   name: BUSINESS.name,
-  url: 'https://cafenowaa.com',
+  url: SITE_URL,
   telephone: '+905513101010',
+  image: `${SITE_URL}/icon.svg`,
   address: {
     '@type': 'PostalAddress',
     streetAddress: 'Bostancı Mah. Bostan Tariki Sk. No: A1',
@@ -70,7 +87,16 @@ const jsonLd = {
     opens: '07:00',
     closes: '00:00',
   },
-  servesCuisine: ['Kahve', 'Pizza', 'Burger', 'Kahvaltı', 'Makarna', 'Tavuk'],
+  hasMenu: `${SITE_URL}/menu`,
+  servesCuisine: [
+    'Kahve',
+    'Kahvaltı',
+    'Pizza',
+    'Burger',
+    'Makarna',
+    'Ana Yemekler',
+    'Tatlı',
+  ],
   priceRange: '₺₺',
   sameAs: [BUSINESS.instagram],
 };

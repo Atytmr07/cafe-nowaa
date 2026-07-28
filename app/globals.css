@@ -3,16 +3,15 @@
 @tailwind utilities;
 
 :root {
-  --noir: #141210;
-  --noir-surface: #1e1b17;
-  --marble: #f3ede1;
-  --marble-surface: #ffffff;
-  --gold: #c6a15b;
-  --gold-bright: #e8c878;
-  --cream: #f3ede1;
-  --ink: #221f1b;
-  --stone: #a89c8a;
-  --stone-soft: #7a7268;
+  --obsidian: #0b0b0c;
+  --onyx: #131315;
+  --graphite: #1d1d20;
+  --pearl: #f6f5f2;
+  --ivory: #ffffff;
+  --platinum: #d8d9dc;
+  --silver: #a9abb0;
+  --steel: #6c6e74;
+  --ink: #101012;
 }
 
 html {
@@ -26,21 +25,73 @@ html {
 }
 
 body {
-  @apply bg-noir font-sans text-cream antialiased;
+  @apply bg-obsidian font-sans text-pearl antialiased;
 }
 
 ::selection {
-  background: rgba(198, 161, 91, 0.35);
-  color: #f3ede1;
+  background: rgba(246, 245, 242, 0.22);
+  color: #ffffff;
 }
 
-/* Unified warm film grade applied to every mock photo (see WarmImage) —
-   pulls the mixed Unsplash set into one consistent art direction */
-.warm-photo {
-  filter: sepia(0.16) saturate(1.08) contrast(1.05) brightness(0.97);
+/* Hairline platinum focus ring on every interactive element */
+:where(a, button, [tabindex]):focus-visible {
+  outline: 1px solid var(--platinum);
+  outline-offset: 3px;
 }
 
-/* Scrolling gold marquee band (see components/Marquee.tsx) */
+/* Slim monochrome scrollbar (desktop) */
+@media (pointer: fine) {
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--obsidian);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #2a2a2e;
+    border: 3px solid var(--obsidian);
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #3d3d43;
+  }
+}
+
+/*
+ * Photography grade: a restrained, slightly cooled contrast pass that
+ * unifies the mixed placeholder set without draining appetite from food.
+ */
+.luxe-photo {
+  filter: saturate(0.88) contrast(1.08) brightness(0.97);
+}
+
+/* Metallic sweep across text — light travelling over a polished surface */
+.shimmer-text {
+  background: linear-gradient(
+    100deg,
+    var(--platinum) 20%,
+    var(--ivory) 42%,
+    var(--ivory) 50%,
+    var(--platinum) 72%
+  );
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shimmer 7s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0%,
+  100% {
+    background-position: 160% 0;
+  }
+  50% {
+    background-position: -60% 0;
+  }
+}
+
+/* Scrolling band of the kitchen's repertoire */
 @keyframes marquee {
   from {
     transform: translateX(0);
@@ -51,16 +102,35 @@ body {
 }
 
 .animate-marquee {
-  animation: marquee 36s linear infinite;
+  animation: marquee 42s linear infinite;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .animate-marquee {
-    animation: none;
+/* Slow rotation for the dashed ring orbiting the hero mark */
+@keyframes orbit {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
   }
 }
 
-/* Hide horizontal scrollbars on the /menu category tab rail */
+.animate-orbit {
+  animation: orbit 48s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee,
+  .animate-orbit,
+  .shimmer-text {
+    animation: none;
+  }
+  .shimmer-text {
+    color: var(--pearl);
+  }
+}
+
+/* Hide horizontal scrollbars on the /menu category rail */
 .scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;

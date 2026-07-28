@@ -4,14 +4,15 @@ import { useEffect, useRef, useState } from 'react';
 import { useReducedMotion } from 'framer-motion';
 import CategoryTabs from './CategoryTabs';
 import CategorySection from './CategorySection';
-import { CATEGORIES, productsByCategory } from '@/data/menu';
+import { CATEGORIES } from '@/data/menu';
+import { trackEvent } from '@/lib/firebase';
 
-/** Sticky rail height + breathing room — the scrollspy trigger line */
-const SPY_OFFSET = 110;
+/** Sticky rail height plus breathing room — the scrollspy trigger line */
+const SPY_OFFSET = 100;
 
 /**
- * The single-page menu: every category rendered in sequence, with a
- * scrollspy keeping the sticky rail in sync. Tapping a category label
+ * The single-page menu: every category rendered in sequence with the
+ * sticky rail kept in sync by a scrollspy. Tapping a category label
  * smooth-scrolls to its section.
  */
 export default function MenuExperience() {
@@ -19,7 +20,7 @@ export default function MenuExperience() {
   const lockUntil = useRef(0);
   const prefersReducedMotion = useReducedMotion();
 
-  // Scrollspy: the last section whose top has passed the rail is active
+  // Scrollspy: the last section whose top has passed the rail wins
   useEffect(() => {
     const onScroll = () => {
       if (Date.now() < lockUntil.current) return;
@@ -42,6 +43,7 @@ export default function MenuExperience() {
     // instead of hopping through every category passed mid-scroll
     lockUntil.current = Date.now() + 1000;
     setActiveSlug(slug);
+    trackEvent('menu_category_select', { category: slug });
     document.getElementById(`kategori-${slug}`)?.scrollIntoView({
       behavior: prefersReducedMotion ? 'auto' : 'smooth',
       block: 'start',
@@ -56,14 +58,14 @@ export default function MenuExperience() {
         onSelect={handleSelect}
       />
 
-      <div className="mx-auto max-w-5xl px-4 pb-20 sm:px-6">
+      <div className="mx-auto max-w-3xl px-5 pb-24 sm:px-8">
         {CATEGORIES.map((category) => (
-          <CategorySection
-            key={category.slug}
-            category={category}
-            products={productsByCategory(category.slug)}
-          />
+          <CategorySection key={category.slug} category={category} />
         ))}
+
+        <p className="mt-20 border-t border-pearl/10 pt-8 text-center text-[10px] uppercase tracking-[0.2em] text-steel">
+          Fiyatlarımıza KDV dahildir
+        </p>
       </div>
     </>
   );

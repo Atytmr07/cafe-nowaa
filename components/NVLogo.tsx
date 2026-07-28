@@ -1,17 +1,21 @@
 /**
- * Inline SVG recreation of the real backlit "NV" roundel sign —
- * circular ring + NV monogram in gold stroke. Swap for the client's
- * vector logo file when it becomes available.
+ * Inline SVG recreation of the real Cafe Nowaa roundel: an outer ring
+ * enclosing the interlocking "NV" monogram, where the V's left arm
+ * crosses the N's right stem. Drawn in currentColor so it inherits
+ * pearl / platinum / ink depending on the surface.
  */
 type NVLogoProps = {
   className?: string;
-  /** Decorative instances (e.g. hero backdrop) should pass true */
+  /** Decorative instances (backdrops) are hidden from assistive tech */
   decorative?: boolean;
+  /** Stroke weight of the monogram itself */
+  weight?: number;
 };
 
 export default function NVLogo({
   className = 'h-10 w-10',
   decorative = false,
+  weight = 4.6,
 }: NVLogoProps) {
   return (
     <svg
@@ -22,28 +26,20 @@ export default function NVLogo({
       aria-label={decorative ? undefined : 'Cafe Nowaa NV logosu'}
       aria-hidden={decorative || undefined}
     >
-      <circle cx="50" cy="50" r="46" stroke="currentColor" strokeWidth="2.5" />
-      <circle
-        cx="50"
-        cy="50"
-        r="38.5"
+      <circle cx="50" cy="50" r="42" stroke="currentColor" strokeWidth="5.5" />
+      <g
         stroke="currentColor"
-        strokeWidth="0.75"
-        opacity="0.55"
-      />
-      <text
-        x="50"
-        y="50"
-        textAnchor="middle"
-        dominantBaseline="central"
-        fontFamily="var(--font-fraunces), Georgia, serif"
-        fontSize="32"
-        fontWeight="600"
-        letterSpacing="2"
-        fill="currentColor"
+        strokeWidth={weight}
+        strokeLinecap="square"
+        strokeLinejoin="miter"
       >
-        NV
-      </text>
+        {/* N — left stem, diagonal, right stem */}
+        <path d="M31 32 V68" />
+        <path d="M31 32 L51 68" />
+        <path d="M51 32 V68" />
+        {/* V — left arm crosses the N's right stem, as on the real sign */}
+        <path d="M45 32 L57 68 L69 32" />
+      </g>
     </svg>
   );
 }

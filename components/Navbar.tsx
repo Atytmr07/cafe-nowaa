@@ -17,7 +17,7 @@ const NAV_LINKS = [
 
 const overlayList = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.06, delayChildren: 0.1 } },
+  visible: { transition: { staggerChildren: 0.06, delayChildren: 0.12 } },
 };
 
 export default function Navbar() {
@@ -26,8 +26,8 @@ export default function Navbar() {
   const prefersReducedMotion = useReducedMotion();
 
   const overlayItem = {
-    hidden: prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 16 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: 'easeOut' } },
+    hidden: prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 18 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.45, ease: 'easeOut' } },
   };
 
   useEffect(() => {
@@ -47,93 +47,98 @@ export default function Navbar() {
 
   return (
     <nav aria-label="Ana navigasyon" className="fixed inset-x-0 top-0 z-50">
-      {/* The blur lives on this inner bar, NOT on <nav>: backdrop-filter
-          turns its element into the containing block for fixed descendants,
-          which would trap the full-screen overlay inside the 64px bar. */}
+      {/* The blur sits on this inner bar, never on <nav>: backdrop-filter
+          makes its element the containing block for fixed descendants,
+          which would trap the full-screen overlay inside the bar. */}
       <div
-        className={`transition-colors duration-300 ${
-          scrolled ? 'bg-noir/90 shadow-warm backdrop-blur-md' : 'bg-transparent'
+        className={`transition-all duration-500 ${
+          scrolled
+            ? 'border-b border-pearl/10 bg-obsidian/85 backdrop-blur-xl'
+            : 'border-b border-transparent bg-transparent'
         }`}
       >
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 md:h-20 lg:px-8">
+        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 sm:px-8 md:h-20">
           <Link
             href="/"
-            className="flex min-h-12 items-center gap-3"
+            className="group flex min-h-12 items-center gap-3"
             aria-label="Cafe Nowaa ana sayfa"
           >
-            <NVLogo className="h-9 w-9 text-gold md:h-10 md:w-10" />
-            <span className="font-display text-lg font-semibold tracking-tight text-cream md:text-xl">
-              Cafe Nowaa
+            <NVLogo className="h-8 w-8 text-pearl transition-opacity duration-300 group-hover:opacity-80 md:h-9 md:w-9" />
+            <span className="font-display text-base tracking-wide text-pearl md:text-lg">
+              CAFE NOWAA
             </span>
           </Link>
 
-          {/* Desktop links */}
-          <div className="hidden items-center gap-8 md:flex">
+          <div className="hidden items-center gap-9 md:flex">
             {NAV_LINKS.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
-                className="text-xs font-semibold uppercase tracking-widest text-stone transition-colors hover:text-gold-bright"
+                className="relative text-[10px] font-medium uppercase tracking-[0.24em] text-silver transition-colors duration-300 after:absolute after:-bottom-1.5 after:left-0 after:h-px after:w-0 after:bg-pearl after:transition-all after:duration-300 hover:text-pearl hover:after:w-full"
               >
                 {link.label}
               </a>
             ))}
-            {/* Menü is a separate destination, not an anchor — gold pill */}
+            {/* Menü is a destination, not an anchor — pearl pill */}
             <motion.div
-              whileHover={prefersReducedMotion ? undefined : { scale: 1.03 }}
+              whileHover={prefersReducedMotion ? undefined : { scale: 1.04 }}
               transition={{ type: 'spring', stiffness: 400, damping: 20 }}
             >
               <Link
                 href="/menu"
-                className="inline-flex min-h-12 items-center rounded-full bg-gold px-6 text-xs font-semibold uppercase tracking-widest text-noir shadow-glow transition-colors hover:bg-gold-bright hover:shadow-glow-strong"
+                className="inline-flex min-h-11 items-center rounded-full bg-pearl px-6 text-[10px] font-semibold uppercase tracking-[0.22em] text-obsidian transition-colors duration-300 hover:bg-ivory"
               >
                 Menü
               </Link>
             </motion.div>
           </div>
 
-          {/* Mobile hamburger */}
           <button
             type="button"
             onClick={() => setOpen(true)}
-            className="flex min-h-12 min-w-12 items-center justify-center text-cream md:hidden"
+            className="flex min-h-12 min-w-12 items-center justify-center text-pearl md:hidden"
             aria-label="Menüyü aç"
             aria-expanded={open}
           >
-            <Menu className="h-6 w-6" />
+            <Menu className="h-6 w-6" strokeWidth={1.4} />
           </button>
         </div>
       </div>
 
-      {/* Full-screen mobile overlay — solid noir, above everything (incl. progress bar) */}
+      {/* Full-screen mobile overlay — solid obsidian, above everything */}
       <AnimatePresence>
         {open && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
-            className="fixed inset-0 z-[70] flex flex-col bg-noir bg-slats px-6 py-5 md:hidden"
+            transition={{ duration: 0.28 }}
+            className="fixed inset-0 z-[70] flex flex-col bg-obsidian bg-slats px-6 py-5 md:hidden"
           >
-            <div className="flex items-center justify-between">
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_40%_at_50%_0%,rgba(246,245,242,0.08),transparent_70%)]"
+            />
+
+            <div className="relative flex items-center justify-between">
               <Link
                 href="/"
                 onClick={() => setOpen(false)}
                 className="flex min-h-12 items-center gap-3"
                 aria-label="Cafe Nowaa ana sayfa"
               >
-                <NVLogo className="h-9 w-9 text-gold" />
-                <span className="font-display text-lg font-semibold text-cream">
-                  Cafe Nowaa
+                <NVLogo className="h-8 w-8 text-pearl" />
+                <span className="font-display text-base tracking-wide text-pearl">
+                  CAFE NOWAA
                 </span>
               </Link>
               <button
                 type="button"
                 onClick={() => setOpen(false)}
-                className="flex min-h-12 min-w-12 items-center justify-center text-cream"
+                className="flex min-h-12 min-w-12 items-center justify-center text-pearl"
                 aria-label="Menüyü kapat"
               >
-                <X className="h-6 w-6" />
+                <X className="h-6 w-6" strokeWidth={1.4} />
               </button>
             </div>
 
@@ -141,14 +146,13 @@ export default function Navbar() {
               variants={overlayList}
               initial="hidden"
               animate="visible"
-              className="mt-12 flex flex-col items-start gap-2"
+              className="relative mt-14 flex flex-col items-start gap-1"
             >
-              {/* Gold Menü pill — prominent at the top of the mobile menu */}
-              <motion.div variants={overlayItem} className="mb-6 w-full">
+              <motion.div variants={overlayItem} className="mb-8 w-full">
                 <Link
                   href="/menu"
                   onClick={() => setOpen(false)}
-                  className="inline-flex min-h-12 w-full items-center justify-center rounded-full bg-gold px-8 py-4 text-sm font-semibold uppercase tracking-widest text-noir shadow-glow"
+                  className="inline-flex min-h-12 w-full items-center justify-center rounded-full bg-pearl px-8 py-4 text-[11px] font-semibold uppercase tracking-[0.24em] text-obsidian shadow-halo"
                 >
                   Menü
                 </Link>
@@ -160,30 +164,34 @@ export default function Navbar() {
                   variants={overlayItem}
                   href={link.href}
                   onClick={() => setOpen(false)}
-                  className="flex min-h-12 items-center font-display text-3xl font-semibold tracking-tight text-cream transition-colors hover:text-gold-bright"
+                  className="flex min-h-12 items-center font-display text-3xl text-pearl transition-colors duration-300 hover:text-platinum"
                 >
                   {link.label}
                 </motion.a>
               ))}
             </motion.div>
 
-            <div className="mt-auto">
-              <div className="h-px w-full bg-gold/20" aria-hidden="true" />
+            <div className="relative mt-auto">
+              <div className="h-px w-full bg-pearl/12" aria-hidden="true" />
               <div className="flex items-center justify-between py-5">
                 <a
                   href={BUSINESS.phoneHref}
-                  className="flex min-h-12 items-center gap-2 text-sm text-stone transition-colors hover:text-gold-bright"
+                  className="flex min-h-12 items-center gap-2.5 text-xs tracking-wide text-silver transition-colors hover:text-pearl"
                 >
-                  <Phone className="h-4 w-4 text-gold" aria-hidden="true" />
+                  <Phone className="h-4 w-4" strokeWidth={1.4} aria-hidden="true" />
                   {BUSINESS.phone}
                 </a>
                 <a
                   href={BUSINESS.instagram}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex min-h-12 items-center gap-2 text-sm text-stone transition-colors hover:text-gold-bright"
+                  className="flex min-h-12 items-center gap-2.5 text-xs tracking-wide text-silver transition-colors hover:text-pearl"
                 >
-                  <Instagram className="h-4 w-4 text-gold" aria-hidden="true" />
+                  <Instagram
+                    className="h-4 w-4"
+                    strokeWidth={1.4}
+                    aria-hidden="true"
+                  />
                   {BUSINESS.instagramHandle}
                 </a>
               </div>

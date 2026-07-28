@@ -1,44 +1,56 @@
 import type { Metadata, Viewport } from 'next';
-import { DM_Sans, Fraunces } from 'next/font/google';
+import { Bodoni_Moda, Jost } from 'next/font/google';
+import Analytics from '@/components/Analytics';
 import './globals.css';
 
-const fraunces = Fraunces({
+/** Didone display face — hairline contrast, the couture register */
+const bodoni = Bodoni_Moda({
   subsets: ['latin', 'latin-ext'],
-  // Variable font: full wght range + the large optical-size axis
-  // that gives the tall, confident display cut.
   weight: 'variable',
   style: ['normal', 'italic'],
-  axes: ['opsz'],
-  variable: '--font-fraunces',
+  variable: '--font-display',
   display: 'swap',
+  // Next ships no metric overrides for Bodoni Moda; naming Didone-adjacent
+  // system faces keeps the pre-swap render close instead of defaulting to
+  // Times with mismatched metrics.
+  adjustFontFallback: false,
+  fallback: ['Didot', 'Bodoni MT', 'Playfair Display', 'Georgia', 'serif'],
 });
 
-const dmSans = DM_Sans({
+/** Geometric grotesk — echoes the circular construction of the NV mark */
+const jost = Jost({
   subsets: ['latin', 'latin-ext'],
-  weight: ['400', '500', '600', '700'],
-  variable: '--font-dm-sans',
+  weight: 'variable',
+  variable: '--font-sans',
   display: 'swap',
 });
 
 export const metadata: Metadata = {
-  // Placeholder domain — update when the client's domain is confirmed.
-  metadataBase: new URL('https://cafenowaa.com'),
+  // Update once the client's production domain is live
+  metadataBase: new URL('https://cafe-nowaa.web.app'),
   title: {
     default: 'Cafe Nowaa — Bostancı Marmaray',
     template: '%s | Cafe Nowaa',
   },
+  applicationName: 'Cafe Nowaa',
+  authors: [{ name: 'Cafe Nowaa' }],
+  robots: { index: true, follow: true },
 };
 
 export const viewport: Viewport = {
-  themeColor: '#141210',
+  themeColor: '#0B0B0C',
+  colorScheme: 'dark',
 };
 
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="tr" className={`${fraunces.variable} ${dmSans.variable}`}>
-      <body>{children}</body>
+    <html lang="tr" className={`${bodoni.variable} ${jost.variable}`}>
+      <body>
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }

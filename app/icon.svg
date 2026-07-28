@@ -1,13 +1,19 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <defs>
     <clipPath id="nv-cap">
-      <rect x="0" y="30.2" width="100" height="39.6"/>
+      <rect x="0" y="29.3" width="100" height="41.4"/>
     </clipPath>
+    <mask id="nv-cut" maskUnits="userSpaceOnUse" x="0" y="0" width="100" height="100">
+      <rect x="0" y="0" width="100" height="100" fill="white"/>
+      <path d="M49.28 29.3 L60.665 63.32 L72.05 29.3" stroke="black" stroke-width="8.28"
+            fill="none" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="8"/>
+    </mask>
   </defs>
   <rect width="100" height="100" rx="22" fill="#0B0B0C"/>
-  <circle cx="50" cy="50" r="40" stroke="#F6F5F2" stroke-width="4.5" fill="none"/>
-  <g clip-path="url(#nv-cap)" stroke="#F6F5F2" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter" fill="none">
-    <path d="M26.6 69.8 V30.2 L53.6 69.8 V30.2"/>
-    <path d="M45.5 30.2 L59.45 69.8 L73.4 30.2"/>
+  <circle cx="50" cy="50" r="40" stroke="#F6F5F2" stroke-width="4.6" fill="none"/>
+  <g clip-path="url(#nv-cap)" stroke="#F6F5F2" stroke-width="4.68" fill="none"
+     stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="8">
+    <path d="M27.95 70.7 V29.3 L56.93 70.7 V29.3" mask="url(#nv-cut)"/>
+    <path d="M49.28 29.3 L60.665 63.32 L72.05 29.3"/>
   </g>
 </svg>

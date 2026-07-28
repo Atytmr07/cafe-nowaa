@@ -5,26 +5,32 @@ import { useId } from 'react';
 /**
  * Inline SVG recreation of the real Cafe Nowaa roundel.
  *
- * Geometry measured off the storefront sign: the monogram fills ~68% of
- * the ring's inner width and ~55% of its height, N and V are near-equal
- * widths overlapping by ~9 units, and the V's left arm crosses the N's
- * right stem just below centre.
+ * The mark is a ligature, not the letters N and V set side by side: they
+ * overlap, and the V passes IN FRONT — its left arm interrupts the N's
+ * right stem where they cross. That knockout is what keeps the two
+ * letters readable; drawn on one layer they fuse into a single mass.
  *
- * Two details keep it from reading crooked:
- *  - each letter is ONE polyline, so its corners mitre like a real
- *    letterform instead of leaving open joints;
- *  - the group is clipped to the cap-height band, which trims the mitre
- *    spikes flat. Without it the V's point overshoots the N's baseline by
- *    6 units and the whole mark hangs to one side.
+ * Geometry traced off the storefront sign at a 0.126 scale:
+ *   monogram ≈ 68% of the ring's inner width · cap height 46
+ *   N stems 32.2 apart · V half-width 12.65 · crossing 55% down
  */
-const CAP_TOP = 28;
-const BASELINE = 72;
+const CAP_TOP = 27;
+const BASELINE = 73;
+
+/** Half the dark channel left around the V where it crosses the N. */
+const CUT = 2;
 
 export const NV_PATHS = {
   /** left stem ↑, diagonal ↘, right stem ↑ */
-  n: 'M24 72 V28 L54 72 V28',
-  /** left arm ↘ to the apex, right arm ↗ */
-  v: 'M45 28 L60.5 72 L76 28',
+  n: 'M25.5 73 V27 L57.7 73 V27',
+  /**
+   * left arm ↘ to the mitred point, right arm ↗.
+   * The centreline stops at y=64.8 so the mitre carries the apex to
+   * exactly y=73 and the letter ends in a true point. Running it to the
+   * baseline instead lets the clip shear the tip flat, and that flat
+   * merges with the foot of the N's right stem.
+   */
+  v: 'M49.2 27 L61.85 64.8 L74.5 27',
 } as const;
 
 type MonogramProps = {
@@ -32,12 +38,14 @@ type MonogramProps = {
   weight?: number;
 };
 
-/** The NV letters alone, without the ring. */
+/** The NV ligature alone, without the ring. */
 export function NVMonogram({
   className = 'h-10 w-10',
-  weight = 4.2,
+  weight = 5.2,
 }: MonogramProps) {
-  const clipId = useId();
+  const uid = useId();
+  const clipId = `nv-clip-${uid}`;
+  const maskId = `nv-mask-${uid}`;
 
   return (
     <svg viewBox="0 0 100 100" className={className} fill="none" aria-hidden="true">
@@ -45,15 +53,29 @@ export function NVMonogram({
         <clipPath id={clipId}>
           <rect x="0" y={CAP_TOP} width="100" height={BASELINE - CAP_TOP} />
         </clipPath>
+        <mask id={maskId} maskUnits="userSpaceOnUse" x="0" y="0" width="100" height="100">
+          <rect x="0" y="0" width="100" height="100" fill="white" />
+          <path
+            d={NV_PATHS.v}
+            stroke="black"
+            strokeWidth={weight + CUT * 2}
+            strokeLinecap="butt"
+            strokeLinejoin="miter"
+            strokeMiterlimit={8}
+            fill="none"
+          />
+        </mask>
       </defs>
+
       <g
         clipPath={`url(#${clipId})`}
         stroke="currentColor"
         strokeWidth={weight}
         strokeLinecap="butt"
         strokeLinejoin="miter"
+        strokeMiterlimit={8}
       >
-        <path d={NV_PATHS.n} />
+        <path d={NV_PATHS.n} mask={`url(#${maskId})`} />
         <path d={NV_PATHS.v} />
       </g>
     </svg>
@@ -68,9 +90,11 @@ type NVLogoProps = MonogramProps & {
 export default function NVLogo({
   className = 'h-10 w-10',
   decorative = false,
-  weight = 4.2,
+  weight = 5.2,
 }: NVLogoProps) {
-  const clipId = useId();
+  const uid = useId();
+  const clipId = `nv-clip-${uid}`;
+  const maskId = `nv-mask-${uid}`;
 
   return (
     <svg
@@ -85,16 +109,31 @@ export default function NVLogo({
         <clipPath id={clipId}>
           <rect x="0" y={CAP_TOP} width="100" height={BASELINE - CAP_TOP} />
         </clipPath>
+        <mask id={maskId} maskUnits="userSpaceOnUse" x="0" y="0" width="100" height="100">
+          <rect x="0" y="0" width="100" height="100" fill="white" />
+          <path
+            d={NV_PATHS.v}
+            stroke="black"
+            strokeWidth={weight + CUT * 2}
+            strokeLinecap="butt"
+            strokeLinejoin="miter"
+            strokeMiterlimit={8}
+            fill="none"
+          />
+        </mask>
       </defs>
-      <circle cx="50" cy="50" r="42" stroke="currentColor" strokeWidth="4.5" />
+
+      <circle cx="50" cy="50" r="42" stroke="currentColor" strokeWidth="4.6" />
+
       <g
         clipPath={`url(#${clipId})`}
         stroke="currentColor"
         strokeWidth={weight}
         strokeLinecap="butt"
         strokeLinejoin="miter"
+        strokeMiterlimit={8}
       >
-        <path d={NV_PATHS.n} />
+        <path d={NV_PATHS.n} mask={`url(#${maskId})`} />
         <path d={NV_PATHS.v} />
       </g>
     </svg>

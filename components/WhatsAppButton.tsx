@@ -7,8 +7,8 @@ import { trackEvent } from '@/lib/firebase';
 
 /**
  * Floating WhatsApp action, pinned bottom-right on the public pages.
- * WhatsApp green on purpose: recognisability converts better here than
- * palette purity, and it is the sole colour accent on the site.
+ * Styled in the brand's pearl-on-obsidian language like the primary
+ * CTAs; the glyph itself carries the WhatsApp recognisability.
  */
 export default function WhatsAppButton() {
   const prefersReducedMotion = useReducedMotion();
@@ -26,7 +26,7 @@ export default function WhatsAppButton() {
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 0.5, ease: 'easeOut', delay: 1.2 }}
       whileHover={prefersReducedMotion ? undefined : { scale: 1.07 }}
-      className="fixed bottom-5 right-5 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-depth transition-colors hover:bg-[#1fbd59]"
+      className="fixed bottom-5 right-5 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-pearl text-obsidian shadow-halo transition-all duration-300 hover:bg-ivory hover:shadow-halo-strong"
     >
       <WhatsAppIcon className="h-7 w-7" />
     </motion.a>

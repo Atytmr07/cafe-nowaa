@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import MenuHeader from '@/components/menu/MenuHeader';
 import MenuExperience from '@/components/menu/MenuExperience';
+import WhatsAppButton from '@/components/WhatsAppButton';
 import { SEED_CATEGORIES, SEED_PRODUCTS } from '@/data/seed';
 import { groupProducts } from '@/lib/menu-types';
 import { BUSINESS } from '@/config/business';
@@ -90,6 +91,7 @@ export default function MenuPage() {
       <main className="min-h-[100svh] bg-obsidian">
         <MenuHeader />
         <MenuExperience />
+        <WhatsAppButton />
       </main>
     </>
   );

@@ -9,6 +9,7 @@ import Gallery from '@/components/Gallery';
 import Reviews from '@/components/Reviews';
 import Location from '@/components/Location';
 import Footer from '@/components/Footer';
+import WhatsAppButton from '@/components/WhatsAppButton';
 import { BUSINESS } from '@/config/business';
 import { SITE_URL } from '@/config/site';
 
@@ -120,6 +121,7 @@ export default function HomePage() {
         <Location />
       </main>
       <Footer />
+      <WhatsAppButton />
     </>
   );
 }

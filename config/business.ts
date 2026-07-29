@@ -7,6 +7,9 @@ export const BUSINESS = {
   tagline: "İstanbul'un Kalbinde, Bostancı'nın Yeni Adresi",
   phone: '0551 310 10 10',
   phoneHref: 'tel:05513101010',
+  whatsapp:
+    'https://wa.me/905513101010?text=' +
+    encodeURIComponent('Merhaba, Cafe Nowaa hakkında bilgi almak istiyorum.'),
   address:
     'Bostancı Mah. Bostan Tariki Sk. No: A1, Bostancı Marmaray Girişi Yanı, İstanbul',
   instagram: 'https://www.instagram.com/cafe_nowaa/',

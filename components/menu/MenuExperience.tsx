@@ -178,7 +178,8 @@ export default function MenuExperience() {
               })
             }
             aria-label="Başa dön"
-            className="fixed bottom-6 right-5 z-40 flex h-12 w-12 items-center justify-center rounded-full border border-pearl/20 bg-obsidian/90 text-pearl backdrop-blur-md transition-colors hover:border-pearl/60"
+            // Stacked above the floating WhatsApp button (bottom-5, h-14)
+            className="fixed bottom-[5.75rem] right-5 z-40 flex h-12 w-12 items-center justify-center rounded-full border border-pearl/20 bg-obsidian/90 text-pearl backdrop-blur-md transition-colors hover:border-pearl/60"
           >
             <ArrowUp className="h-5 w-5" strokeWidth={1.5} aria-hidden="true" />
           </motion.button>

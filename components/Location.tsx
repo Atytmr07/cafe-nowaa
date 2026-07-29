@@ -1,6 +1,7 @@
 'use client';
 
 import { Clock, Instagram, MapPin, Phone } from 'lucide-react';
+import WhatsAppIcon from './icons/WhatsAppIcon';
 import Magnetic from './Magnetic';
 import Reveal from './Reveal';
 import MaskedText from './MaskedText';
@@ -68,6 +69,24 @@ export default function Location() {
                     aria-label={`Telefon: ${BUSINESS.phone}`}
                   >
                     {BUSINESS.phone}
+                  </a>
+                </div>
+              </li>
+
+              <li className="flex items-start gap-5 py-6">
+                <WhatsAppIcon className="mt-0.5 h-5 w-5 flex-none text-steel" />
+                <div>
+                  <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-steel">
+                    WhatsApp
+                  </p>
+                  <a
+                    href={BUSINESS.whatsapp}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => trackEvent('cta_click', { cta: 'whatsapp_location' })}
+                    className="mt-1 inline-flex min-h-12 items-center text-[15px] font-light text-ink transition-opacity hover:opacity-60"
+                  >
+                    WhatsApp&apos;tan yazın
                   </a>
                 </div>
               </li>

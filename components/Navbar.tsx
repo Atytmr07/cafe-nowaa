@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { Instagram, Menu, Phone, X } from 'lucide-react';
 import NVLogo from './NVLogo';
+import WhatsAppIcon from './icons/WhatsAppIcon';
 import { BUSINESS } from '@/config/business';
 
 const NAV_LINKS = [
@@ -180,6 +181,15 @@ export default function Navbar() {
                 >
                   <Phone className="h-4 w-4" strokeWidth={1.4} aria-hidden="true" />
                   {BUSINESS.phone}
+                </a>
+                <a
+                  href={BUSINESS.whatsapp}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex min-h-12 items-center gap-2.5 text-xs tracking-wide text-silver transition-colors hover:text-pearl"
+                >
+                  <WhatsAppIcon className="h-4 w-4" />
+                  WhatsApp
                 </a>
                 <a
                   href={BUSINESS.instagram}

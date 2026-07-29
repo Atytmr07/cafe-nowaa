@@ -3,6 +3,7 @@ import { Instagram, MapPin, Phone } from 'lucide-react';
 import NVLogo from './NVLogo';
 import FooterWordmark from './FooterWordmark';
 import OpenStatus from './OpenStatus';
+import WhatsAppIcon from './icons/WhatsAppIcon';
 import { BUSINESS } from '@/config/business';
 
 const PAGE_LINKS = [
@@ -83,6 +84,17 @@ export default function Footer() {
                   className="transition-colors hover:text-pearl"
                 >
                   {BUSINESS.phone}
+                </a>
+              </li>
+              <li className="flex items-start gap-3">
+                <WhatsAppIcon className="mt-0.5 h-4 w-4 flex-none text-platinum" />
+                <a
+                  href={BUSINESS.whatsapp}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="transition-colors hover:text-pearl"
+                >
+                  WhatsApp&apos;tan yazın
                 </a>
               </li>
               <li className="flex items-start gap-3">

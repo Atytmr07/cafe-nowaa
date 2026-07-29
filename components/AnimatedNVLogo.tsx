@@ -2,14 +2,12 @@
 
 import { useId } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
-import NVLogo, { NV_PATHS } from './NVLogo';
+import NVLogo, { NV_PATHS, NV_STROKE } from './NVLogo';
 
 /**
- * The roundel drawing itself: the ring sweeps closed, the N inks in, then
- * the V draws over it — and the knockout that lets the V cut the N is
- * animated on the same pathLength, so the channel opens exactly as the
- * V's arm arrives. Masking it in up front would put a gap in the N
- * before there is anything crossing it.
+ * The roundel drawing itself: the ring sweeps closed, the N's two
+ * strokes ink in, then the V's arms follow — the sign switching on.
+ * Geometry is shared with NVLogo so the marks can never drift apart.
  */
 type AnimatedNVLogoProps = {
   className?: string;
@@ -19,30 +17,21 @@ type AnimatedNVLogoProps = {
 };
 
 const EASE = [0.65, 0, 0.35, 1] as const;
-const CUT = 2;
 
 export default function AnimatedNVLogo({
   className = 'h-10 w-10',
   decorative = false,
   delay = 0,
-  weight = 5.2,
+  weight = NV_STROKE.letters,
 }: AnimatedNVLogoProps) {
   const prefersReducedMotion = useReducedMotion();
-  const uid = useId();
-  const clipId = `nva-clip-${uid}`;
-  const maskId = `nva-mask-${uid}`;
+  const clipId = `nva-clip-${useId()}`;
 
   if (prefersReducedMotion) {
     return (
       <NVLogo className={className} decorative={decorative} weight={weight} />
     );
   }
-
-  const vTransition = {
-    duration: 0.7,
-    ease: EASE,
-    delay: delay + 1.1,
-  };
 
   return (
     <svg
@@ -57,21 +46,6 @@ export default function AnimatedNVLogo({
         <clipPath id={clipId}>
           <rect x="0" y="27" width="100" height="46" />
         </clipPath>
-        <mask id={maskId} maskUnits="userSpaceOnUse" x="0" y="0" width="100" height="100">
-          <rect x="0" y="0" width="100" height="100" fill="white" />
-          <motion.path
-            d={NV_PATHS.v}
-            stroke="black"
-            strokeWidth={weight + CUT * 2}
-            strokeLinecap="butt"
-            strokeLinejoin="miter"
-            strokeMiterlimit={8}
-            fill="none"
-            initial={{ pathLength: 0 }}
-            animate={{ pathLength: 1 }}
-            transition={vTransition}
-          />
-        </mask>
       </defs>
 
       <motion.circle
@@ -79,7 +53,7 @@ export default function AnimatedNVLogo({
         cy="50"
         r="42"
         stroke="currentColor"
-        strokeWidth="4.6"
+        strokeWidth={NV_STROKE.ring}
         initial={{ pathLength: 0 }}
         animate={{ pathLength: 1 }}
         style={{ transformOrigin: '50% 50%', rotate: -90 }}
@@ -96,7 +70,6 @@ export default function AnimatedNVLogo({
       >
         <motion.path
           d={NV_PATHS.n}
-          mask={`url(#${maskId})`}
           initial={{ pathLength: 0 }}
           animate={{ pathLength: 1 }}
           transition={{ duration: 0.8, ease: EASE, delay: delay + 0.5 }}
@@ -105,7 +78,7 @@ export default function AnimatedNVLogo({
           d={NV_PATHS.v}
           initial={{ pathLength: 0 }}
           animate={{ pathLength: 1 }}
-          transition={vTransition}
+          transition={{ duration: 0.7, ease: EASE, delay: delay + 1.05 }}
         />
       </g>
     </svg>

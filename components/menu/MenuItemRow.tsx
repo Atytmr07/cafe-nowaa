@@ -76,7 +76,7 @@ export default function MenuItemRow({
             aria-hidden="true"
             className="mb-1 h-px min-w-5 flex-1 border-b border-dotted border-pearl/25"
           />
-          <span className="flex-none text-sm font-medium tabular-nums tracking-wide text-platinum">
+          <span className="flex-none text-sm font-medium tabular-nums tracking-wide text-gold-bright">
             {product.price === null ? (
               <span className="text-[10px] uppercase tracking-[0.16em] text-silver">
                 Sorunuz
@@ -99,7 +99,7 @@ export default function MenuItemRow({
           allergens.length > 0) && (
           <div className="mt-2.5 flex flex-wrap items-center gap-x-3 gap-y-1.5">
             {product.isFeatured && (
-              <span className="inline-flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-platinum">
+              <span className="inline-flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-gold">
                 <Star className="h-3 w-3 fill-current" aria-hidden="true" />
                 Şefin Önerisi
               </span>

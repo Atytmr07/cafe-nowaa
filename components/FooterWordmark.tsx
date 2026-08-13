@@ -21,7 +21,7 @@ export default function FooterWordmark() {
       ref={ref}
       aria-hidden="true"
       style={{ x: '-50%', y: prefersReducedMotion ? '0%' : y }}
-      className="pointer-events-none absolute -bottom-[3vw] left-1/2 select-none whitespace-nowrap font-display text-[26vw] italic leading-none tracking-tight text-pearl/[0.035]"
+      className="pointer-events-none absolute -bottom-[3vw] left-1/2 select-none whitespace-nowrap font-display text-[26vw] italic leading-none tracking-tight text-gold/[0.05]"
     >
       Nowaa
     </motion.span>

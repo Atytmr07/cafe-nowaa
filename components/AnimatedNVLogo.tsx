@@ -18,6 +18,13 @@ type AnimatedNVLogoProps = {
 
 const EASE = [0.65, 0, 0.35, 1] as const;
 
+/**
+ * Seconds from `delay` to the moment the V's last stroke lands — callers
+ * that stage a payoff (a light burst, a chime) on completion read this
+ * instead of re-deriving the 1.05 + 0.7 schedule by hand.
+ */
+export const NV_DRAW_DURATION = 1.75;
+
 export default function AnimatedNVLogo({
   className = 'h-10 w-10',
   decorative = false,

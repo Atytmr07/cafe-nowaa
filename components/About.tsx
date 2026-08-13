@@ -96,19 +96,21 @@ export default function About() {
 
               <ul className="mt-12 grid gap-px overflow-hidden border border-ink/10 sm:grid-cols-3">
                 {MARKS.map(({ icon: Icon, label }) => (
-                  <li
+                  <motion.li
                     key={label}
-                    className="flex flex-col items-center gap-3 bg-ivory px-4 py-7 text-center"
+                    className="group flex flex-col items-center gap-3 bg-ivory px-4 py-7 text-center transition-colors duration-300 hover:bg-gold/[0.06]"
+                    whileHover={prefersReducedMotion ? undefined : { y: -3 }}
+                    transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                   >
                     <Icon
-                      className="h-5 w-5 text-steel"
+                      className="h-5 w-5 text-steel transition-colors duration-300 group-hover:text-gold"
                       strokeWidth={1.2}
                       aria-hidden="true"
                     />
                     <p className="text-[11px] font-medium uppercase leading-relaxed tracking-[0.16em] text-ink">
                       {label}
                     </p>
-                  </li>
+                  </motion.li>
                 ))}
               </ul>
             </Reveal>

@@ -1,6 +1,8 @@
 'use client';
 
+import { useEffect, useRef } from 'react';
 import { Star } from 'lucide-react';
+import { useReducedMotion } from 'framer-motion';
 import Reveal from './Reveal';
 import MaskedText from './MaskedText';
 import GrainOverlay from './GrainOverlay';
@@ -19,7 +21,7 @@ function StarRow({ rating, name }: { rating: number; name: string }) {
           aria-hidden="true"
           strokeWidth={1}
           className={`h-3.5 w-3.5 ${
-            i < rating ? 'fill-platinum text-platinum' : 'fill-none text-silver/30'
+            i < rating ? 'fill-gold text-gold' : 'fill-none text-silver/30'
           }`}
         />
       ))}
@@ -27,7 +29,60 @@ function StarRow({ rating, name }: { rating: number; name: string }) {
   );
 }
 
+/** Gentle, resumable idle timer — used to un-pause after a manual scroll. */
+function useIdleResume(pausedRef: React.MutableRefObject<boolean>, delay = 2600) {
+  const timerRef = useRef<number>();
+  return () => {
+    pausedRef.current = true;
+    window.clearTimeout(timerRef.current);
+    timerRef.current = window.setTimeout(() => {
+      pausedRef.current = false;
+    }, delay);
+  };
+}
+
 export default function Reviews() {
+  const trackRef = useRef<HTMLUListElement>(null);
+  const pausedRef = useRef(false);
+  const directionRef = useRef<1 | -1>(1);
+  const prefersReducedMotion = useReducedMotion();
+  const pauseThenResume = useIdleResume(pausedRef);
+
+  // A slow ping-pong auto-scroll — sways gently, reverses at each end,
+  // and steps aside the moment a visitor hovers, drags, or swipes.
+  useEffect(() => {
+    if (prefersReducedMotion) return;
+    const track = trackRef.current;
+    if (!track) return;
+
+    let raf: number;
+    let last = performance.now();
+    const pxPerSecond = 26;
+
+    const tick = (now: number) => {
+      const dt = (now - last) / 1000;
+      last = now;
+      if (!pausedRef.current) {
+        const max = track.scrollWidth - track.clientWidth;
+        if (max > 1) {
+          let next = track.scrollLeft + directionRef.current * pxPerSecond * dt;
+          if (next >= max) {
+            next = max;
+            directionRef.current = -1;
+          } else if (next <= 0) {
+            next = 0;
+            directionRef.current = 1;
+          }
+          track.scrollLeft = next;
+        }
+      }
+      raf = requestAnimationFrame(tick);
+    };
+
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [prefersReducedMotion]);
+
   return (
     <section
       id="yorumlar"
@@ -36,7 +91,7 @@ export default function Reviews() {
       <GrainOverlay />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -top-40 left-1/2 h-80 w-[44rem] -translate-x-1/2 rounded-full bg-pearl/[0.05] blur-3xl"
+        className="pointer-events-none absolute -top-40 left-1/2 h-80 w-[44rem] -translate-x-1/2 rounded-full bg-gold/[0.06] blur-3xl"
       />
 
       <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
@@ -51,27 +106,34 @@ export default function Reviews() {
             as="h2"
             lines={[
               <>
-                Misafirlerimiz <em className="italic text-platinum">Ne Diyor?</em>
+                Misafirlerimiz <em className="italic text-gold-bright">Ne Diyor?</em>
               </>,
             ]}
             className="mt-5 font-display text-4xl leading-[1.08] tracking-tight text-pearl sm:text-6xl"
           />
         </div>
 
-        {/* Horizontal scroll-snap carousel — swipeable on mobile */}
+        {/* Auto-swaying, swipeable carousel — pauses the instant a visitor
+            hovers, touches, or scrolls it themselves */}
         <Reveal className="mt-16">
           <ul
+            ref={trackRef}
             className="scrollbar-hide -mx-5 flex snap-x snap-mandatory gap-6 overflow-x-auto px-5 pb-4 sm:-mx-8 sm:px-8"
             aria-label="Misafir yorumları"
+            onPointerEnter={() => (pausedRef.current = true)}
+            onPointerLeave={() => (pausedRef.current = false)}
+            onTouchStart={() => (pausedRef.current = true)}
+            onTouchEnd={pauseThenResume}
+            onWheel={pauseThenResume}
           >
             {REVIEWS.map((review) => (
               <li
                 key={review.id}
-                className="w-[86%] flex-none snap-center border border-pearl/10 bg-onyx p-8 transition-colors duration-500 hover:border-pearl/25 sm:w-[420px] sm:p-10"
+                className="w-[86%] flex-none snap-center border border-pearl/10 bg-onyx p-8 transition-colors duration-500 hover:border-gold/30 sm:w-[420px] sm:p-10"
               >
                 <span
                   aria-hidden="true"
-                  className="block font-display text-5xl leading-none text-pearl/20"
+                  className="block font-display text-5xl leading-none text-gold/25"
                 >
                   &ldquo;
                 </span>

@@ -61,7 +61,7 @@ export default function CategoryTabs({
                 <motion.span
                   layoutId="active-category-pill"
                   aria-hidden="true"
-                  className="absolute inset-0 rounded-full bg-pearl"
+                  className="absolute inset-0 rounded-full bg-gold-bright shadow-glow-gold"
                   transition={
                     prefersReducedMotion
                       ? { duration: 0 }

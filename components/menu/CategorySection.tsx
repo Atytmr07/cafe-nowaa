@@ -50,8 +50,8 @@ export default function CategorySection({
         <div key={subcategory || '_'} className="mt-12">
           {subcategory && subcategory !== category.label && (
             <div className="mb-2 flex items-center gap-4">
-              <span aria-hidden="true" className="h-px w-6 bg-platinum/40" />
-              <h3 className="text-[10px] font-semibold uppercase tracking-[0.24em] text-platinum">
+              <span aria-hidden="true" className="h-px w-6 bg-gold/40" />
+              <h3 className="text-[10px] font-semibold uppercase tracking-[0.24em] text-gold">
                 {subcategory}
               </h3>
               <span aria-hidden="true" className="h-px flex-1 bg-pearl/10" />

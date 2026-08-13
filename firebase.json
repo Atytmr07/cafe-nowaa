@@ -11,6 +11,7 @@
     "rules": "firestore.rules"
   },
   "storage": {
+    "bucket": "cafe-nowaa.firebasestorage.app",
     "rules": "storage.rules"
   }
 }

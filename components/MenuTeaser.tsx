@@ -102,7 +102,7 @@ export default function MenuTeaser() {
             as="h2"
             lines={[
               <>
-                Lezzetlerimizden <em className="italic text-platinum">Bir Kesit</em>
+                Lezzetlerimizden <em className="italic text-gold-bright">Bir Kesit</em>
               </>,
             ]}
             className="mt-5 font-display text-4xl leading-[1.08] tracking-tight text-pearl sm:text-6xl"
@@ -149,7 +149,7 @@ export default function MenuTeaser() {
 
                 <span className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-obsidian via-obsidian/85 to-transparent px-7 pb-7 pt-16 text-left">
                   {hero.isFeatured && (
-                    <span className="inline-flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-platinum">
+                    <span className="inline-flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-gold">
                       <Star className="h-3 w-3 fill-current" aria-hidden="true" />
                       Şefin Önerisi
                     </span>
@@ -159,7 +159,7 @@ export default function MenuTeaser() {
                       {hero.name}
                     </span>
                     <span aria-hidden="true" className="h-px flex-1 bg-pearl/20" />
-                    <span className="text-base font-medium tabular-nums text-platinum">
+                    <span className="text-base font-medium tabular-nums text-gold-bright">
                       {hero.price !== null ? formatPrice(hero.price) : ''}
                     </span>
                   </span>
@@ -246,7 +246,7 @@ export default function MenuTeaser() {
             <Link
               href="/menu"
               onClick={() => trackEvent('cta_click', { cta: 'teaser_full_menu' })}
-              className="group inline-flex min-h-12 items-center gap-3 rounded-full bg-pearl px-11 py-5 text-[11px] font-semibold uppercase tracking-[0.22em] text-obsidian shadow-halo transition-all duration-300 hover:bg-ivory hover:shadow-halo-strong"
+              className="group inline-flex min-h-12 items-center gap-3 rounded-full bg-gold-bright px-11 py-5 text-[11px] font-semibold uppercase tracking-[0.22em] text-obsidian shadow-glow-gold transition-all duration-300 hover:bg-gold hover:shadow-glow-gold-strong"
             >
               Tüm Menüyü Gör
               <ArrowUpRight
@@ -275,7 +275,7 @@ function ExcerptRow({ product }: { product: MenuProduct }) {
           aria-hidden="true"
           className="mb-1 h-px min-w-4 flex-1 border-b border-dotted border-pearl/25"
         />
-        <span className="flex-none text-[13px] font-medium tabular-nums text-platinum">
+        <span className="flex-none text-[13px] font-medium tabular-nums text-gold-bright">
           {formatPrice(product.price as number)}
         </span>
       </span>

@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import {
   motion,
@@ -8,22 +9,45 @@ import {
   useTransform,
 } from 'framer-motion';
 import { ArrowUpRight, MapPin } from 'lucide-react';
-import AnimatedNVLogo from './AnimatedNVLogo';
+import AnimatedNVLogo, { NV_DRAW_DURATION } from './AnimatedNVLogo';
 import Magnetic from './Magnetic';
 import GrainOverlay from './GrainOverlay';
 import { BUSINESS } from '@/config/business';
 import { trackEvent } from '@/lib/firebase';
+import { armChimeOnFirstInteraction, playChime } from '@/lib/chime';
 
 const EASE = [0.22, 1, 0.36, 1] as const;
+const LOGO_DELAY = 0.1;
+/** The instant the V's last stroke lands — the light burst and chime cue off it */
+const REVEAL_AT = LOGO_DELAY + NV_DRAW_DURATION;
 
 export default function Hero() {
   const prefersReducedMotion = useReducedMotion();
   const { scrollY } = useScroll();
+  const [revealed, setRevealed] = useState(false);
 
   // The composition settles back as the page moves on
   const markY = useTransform(scrollY, [0, 800], [0, 140]);
   const contentY = useTransform(scrollY, [0, 800], [0, 60]);
   const fade = useTransform(scrollY, [0, 520], [1, 0]);
+
+  // Fires the light burst + chime once, right as the mark finishes
+  // drawing itself in — the sign "switching on".
+  useEffect(() => {
+    if (prefersReducedMotion) {
+      setRevealed(true);
+      return;
+    }
+    const timer = window.setTimeout(() => {
+      setRevealed(true);
+      playChime();
+    }, REVEAL_AT * 1000);
+    const disarm = armChimeOnFirstInteraction();
+    return () => {
+      window.clearTimeout(timer);
+      disarm();
+    };
+  }, [prefersReducedMotion]);
 
   const rise = (delay: number) => ({
     initial: prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 26 },
@@ -35,10 +59,12 @@ export default function Hero() {
     <header className="relative flex min-h-[100svh] flex-col overflow-hidden bg-obsidian bg-slats">
       <GrainOverlay />
 
-      {/* Ambient wash — the sconce light pooling on a black wall */}
-      <div
+      {/* Ambient wash — the sconce light pooling on a black wall, breathing gently */}
+      <motion.div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_38%,rgba(246,245,242,0.09),transparent_70%)]"
+        className={`pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_38%,rgba(198,161,91,0.12),transparent_70%)] ${
+          !prefersReducedMotion ? 'animate-drift' : ''
+        }`}
       />
 
       {/* Inset hairline frame, drawn corner to corner */}
@@ -54,19 +80,63 @@ export default function Hero() {
         style={{ opacity: prefersReducedMotion ? 1 : fade }}
         className="relative z-10 flex flex-1 flex-col items-center justify-center px-6 py-24 text-center sm:px-10"
       >
-        {/* The mark, orbited by a slow dashed ring */}
+        {/* The mark, orbited by a slow dashed ring, in gold */}
         <motion.div
           style={{ y: prefersReducedMotion ? 0 : markY }}
           className="relative flex items-center justify-center"
         >
+          {/* Base glow — present from the start, softly breathing */}
           <div
             aria-hidden="true"
-            className="absolute h-56 w-56 rounded-full bg-pearl/[0.07] blur-3xl sm:h-72 sm:w-72"
+            className="absolute h-56 w-56 rounded-full bg-gold/[0.14] blur-3xl transition-all duration-1000 sm:h-72 sm:w-72"
           />
+
+          {/* The reveal burst — a bright gold flash that blooms once and
+              settles, timed to the logo's last stroke landing */}
+          {!prefersReducedMotion && (
+            <motion.div
+              aria-hidden="true"
+              className="absolute h-40 w-40 rounded-full bg-gold-bright/40 blur-2xl sm:h-52 sm:w-52"
+              initial={{ opacity: 0, scale: 0.6 }}
+              animate={
+                revealed
+                  ? { opacity: [0, 0.9, 0], scale: [0.6, 1.5, 1.9] }
+                  : { opacity: 0, scale: 0.6 }
+              }
+              transition={{ duration: 1.1, ease: 'easeOut' }}
+            />
+          )}
+
+          {/* Fine radiating rays — the sign "switching on" */}
+          {!prefersReducedMotion && revealed && (
+            <motion.svg
+              aria-hidden="true"
+              viewBox="0 0 200 200"
+              className="pointer-events-none absolute h-48 w-48 text-gold-bright sm:h-64 sm:w-64"
+              initial={{ opacity: 0, scale: 0.7, rotate: 0 }}
+              animate={{ opacity: [0, 0.8, 0], scale: [0.7, 1.15, 1.3], rotate: 18 }}
+              transition={{ duration: 1.3, ease: 'easeOut' }}
+            >
+              {Array.from({ length: 12 }).map((_, i) => (
+                <line
+                  key={i}
+                  x1="100"
+                  y1="100"
+                  x2="100"
+                  y2="14"
+                  stroke="currentColor"
+                  strokeWidth="1"
+                  strokeLinecap="round"
+                  transform={`rotate(${i * 30} 100 100)`}
+                />
+              ))}
+            </motion.svg>
+          )}
+
           <svg
             aria-hidden="true"
             viewBox="0 0 100 100"
-            className="animate-orbit absolute h-40 w-40 text-platinum/25 sm:h-52 sm:w-52"
+            className="animate-orbit absolute h-40 w-40 text-gold/30 sm:h-52 sm:w-52"
             fill="none"
           >
             <circle
@@ -79,10 +149,11 @@ export default function Hero() {
               strokeLinecap="round"
             />
           </svg>
+
           <AnimatedNVLogo
-            delay={0.1}
+            delay={LOGO_DELAY}
             weight={4.2}
-            className="relative h-24 w-24 text-pearl drop-shadow-[0_0_28px_rgba(246,245,242,0.22)] sm:h-32 sm:w-32"
+            className="relative h-24 w-24 text-gold-bright drop-shadow-[0_0_32px_rgba(232,200,120,0.45)] sm:h-32 sm:w-32"
           />
         </motion.div>
 
@@ -97,9 +168,9 @@ export default function Hero() {
             {...rise(0.15)}
             className="flex items-center gap-4 text-[10px] font-medium uppercase tracking-luxe text-silver sm:text-[11px]"
           >
-            <span aria-hidden="true" className="h-px w-8 bg-platinum/40 sm:w-14" />
+            <span aria-hidden="true" className="h-px w-8 bg-gold/40 sm:w-14" />
             Bostancı Marmaray · İstanbul
-            <span aria-hidden="true" className="h-px w-8 bg-platinum/40 sm:w-14" />
+            <span aria-hidden="true" className="h-px w-8 bg-gold/40 sm:w-14" />
           </motion.p>
 
           <h1 className="mt-7 max-w-5xl font-display font-normal leading-[1.02] tracking-tight">
@@ -135,7 +206,7 @@ export default function Hero() {
               <Link
                 href="/menu"
                 onClick={() => trackEvent('cta_click', { cta: 'hero_menu' })}
-                className="group inline-flex min-h-12 items-center gap-3 rounded-full bg-pearl px-9 py-4 text-[11px] font-semibold uppercase tracking-[0.22em] text-obsidian shadow-halo transition-all duration-300 hover:bg-ivory hover:shadow-halo-strong"
+                className="group inline-flex min-h-12 items-center gap-3 rounded-full bg-gold-bright px-9 py-4 text-[11px] font-semibold uppercase tracking-[0.22em] text-obsidian shadow-glow-gold transition-all duration-300 hover:bg-gold hover:shadow-glow-gold-strong"
               >
                 Menüyü Keşfet
                 <ArrowUpRight
@@ -151,7 +222,7 @@ export default function Hero() {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => trackEvent('cta_click', { cta: 'hero_directions' })}
-                className="inline-flex min-h-12 items-center gap-2.5 rounded-full border border-pearl/25 px-9 py-4 text-[11px] font-semibold uppercase tracking-[0.22em] text-pearl transition-colors duration-300 hover:border-pearl/60 hover:bg-pearl/[0.04]"
+                className="inline-flex min-h-12 items-center gap-2.5 rounded-full border border-pearl/25 px-9 py-4 text-[11px] font-semibold uppercase tracking-[0.22em] text-pearl transition-colors duration-300 hover:border-gold/50 hover:bg-pearl/[0.04]"
               >
                 <MapPin className="h-4 w-4" aria-hidden="true" />
                 Yol Tarifi
@@ -172,7 +243,7 @@ export default function Hero() {
         <span className="relative block h-14 w-px overflow-hidden bg-pearl/15">
           {!prefersReducedMotion && (
             <motion.span
-              className="absolute inset-x-0 h-6 bg-gradient-to-b from-transparent via-pearl to-transparent"
+              className="absolute inset-x-0 h-6 bg-gradient-to-b from-transparent via-gold-bright to-transparent"
               animate={{ y: ['-100%', '260%'] }}
               transition={{ duration: 2.6, repeat: Infinity, ease: 'easeInOut' }}
             />

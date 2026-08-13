@@ -19,8 +19,8 @@ export default function ColumnDivider({
   className = '',
 }: ColumnDividerProps) {
   const prefersReducedMotion = useReducedMotion();
-  const stroke = tone === 'light' ? '#6C6E74' : '#D8D9DC';
-  const peak = tone === 'light' ? 0.5 : 0.55;
+  const stroke = '#C6A15B';
+  const peak = tone === 'light' ? 0.55 : 0.6;
 
   return (
     <div

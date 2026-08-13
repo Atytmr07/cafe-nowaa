@@ -36,7 +36,7 @@ export default function Marquee() {
             <span className="font-display text-xl italic text-pearl/70 sm:text-2xl">
               {label}
             </span>
-            <span className="h-1 w-1 rotate-45 bg-platinum/50" />
+            <span className="h-1 w-1 rotate-45 bg-gold/70" />
           </span>
         ))}
       </div>

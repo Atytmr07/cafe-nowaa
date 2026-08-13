@@ -75,19 +75,20 @@ export default function Navbar() {
               <a
                 key={link.href}
                 href={link.href}
-                className="relative text-[10px] font-medium uppercase tracking-[0.24em] text-silver transition-colors duration-300 after:absolute after:-bottom-1.5 after:left-0 after:h-px after:w-0 after:bg-pearl after:transition-all after:duration-300 hover:text-pearl hover:after:w-full"
+                className="relative text-[10px] font-medium uppercase tracking-[0.24em] text-silver transition-colors duration-300 after:absolute after:-bottom-1.5 after:left-0 after:h-px after:w-0 after:bg-gold-bright after:transition-all after:duration-300 hover:text-pearl hover:after:w-full"
               >
                 {link.label}
               </a>
             ))}
-            {/* Menü is a destination, not an anchor — pearl pill */}
+            {/* Menü is a destination, not an anchor — gold pill, matching
+                every other "go to the menu" action on the site */}
             <motion.div
               whileHover={prefersReducedMotion ? undefined : { scale: 1.04 }}
               transition={{ type: 'spring', stiffness: 400, damping: 20 }}
             >
               <Link
                 href="/menu"
-                className="inline-flex min-h-11 items-center rounded-full bg-pearl px-6 text-[10px] font-semibold uppercase tracking-[0.22em] text-obsidian transition-colors duration-300 hover:bg-ivory"
+                className="inline-flex min-h-11 items-center rounded-full bg-gold-bright px-6 text-[10px] font-semibold uppercase tracking-[0.22em] text-obsidian shadow-glow-gold transition-all duration-300 hover:bg-gold hover:shadow-glow-gold-strong"
               >
                 Menü
               </Link>
@@ -153,7 +154,7 @@ export default function Navbar() {
                 <Link
                   href="/menu"
                   onClick={() => setOpen(false)}
-                  className="inline-flex min-h-12 w-full items-center justify-center rounded-full bg-pearl px-8 py-4 text-[11px] font-semibold uppercase tracking-[0.24em] text-obsidian shadow-halo"
+                  className="inline-flex min-h-12 w-full items-center justify-center rounded-full bg-gold-bright px-8 py-4 text-[11px] font-semibold uppercase tracking-[0.24em] text-obsidian shadow-glow-gold"
                 >
                   Menü
                 </Link>
@@ -165,7 +166,7 @@ export default function Navbar() {
                   variants={overlayItem}
                   href={link.href}
                   onClick={() => setOpen(false)}
-                  className="flex min-h-12 items-center font-display text-3xl text-pearl transition-colors duration-300 hover:text-platinum"
+                  className="flex min-h-12 items-center font-display text-3xl text-pearl transition-colors duration-300 hover:text-gold-bright"
                 >
                   {link.label}
                 </motion.a>

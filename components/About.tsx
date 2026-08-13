@@ -36,8 +36,6 @@ export default function About() {
 
         <div className="grid items-center gap-14 lg:grid-cols-[1fr_1.1fr] lg:gap-20">
           <Reveal>
-            {/* PLACEHOLDER — replace with real interior photography
-                (wood-slat façade, marble pilaster, sconce lighting). */}
             <div
               ref={imageRef}
               className="relative aspect-[4/5] overflow-hidden shadow-soft"
@@ -47,8 +45,8 @@ export default function About() {
                 style={{ y: prefersReducedMotion ? 0 : parallaxY }}
               >
                 <Photo
-                  src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?q=80&w=1000&auto=format&fit=crop"
-                  alt="Cafe Nowaa'nın sıcak ışıklı iç mekanı"
+                  src="/photos/cafe-nowaa-kahve-bari.jpeg"
+                  alt="Cafe Nowaa'nın kahve barı ve tatlı vitrini"
                   sizes="(min-width: 1024px) 45vw, 100vw"
                 />
               </motion.div>

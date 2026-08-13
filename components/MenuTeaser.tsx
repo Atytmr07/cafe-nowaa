@@ -10,8 +10,18 @@ import Photo from './Photo';
 import GrainOverlay from './GrainOverlay';
 import Lightbox, { type LightboxItem } from './Lightbox';
 import { useMenu } from '@/hooks/useMenu';
-import { byOrder, formatPrice, type MenuProduct } from '@/lib/menu-types';
+import {
+  byOrder,
+  formatPrice,
+  type MenuCategory,
+  type MenuProduct,
+} from '@/lib/menu-types';
 import { trackEvent } from '@/lib/firebase';
+
+/** Kahvaltı and Yeni Nesil Kahvaltı both read as "breakfast" to a visitor —
+ *  used so the teaser doesn't accidentally quote breakfast twice over. */
+const isBreakfast = (category: MenuCategory) =>
+  category.label.toLocaleLowerCase('tr').includes('kahvalt');
 
 /**
  * Homepage preview — an editorial spread rather than a wall of photos:
@@ -28,15 +38,28 @@ export default function MenuTeaser() {
     [menu.categories]
   );
 
-  /** The signature plate: first featured item that actually has a photo. */
-  const hero = useMemo(
-    () =>
-      menu.products.find((p) => p.isFeatured && p.imageUrl) ??
-      menu.products.find((p) => p.imageUrl),
-    [menu.products]
-  );
+  /**
+   * The signature plate: the first featured, photographed dish that ISN'T
+   * a breakfast item — Kahvaltı already anchors the first excerpt column,
+   * so the hero plate is where pizza/burger/ana yemek get to make the case.
+   * Falls back to any featured photo, then any photo at all.
+   */
+  const hero = useMemo(() => {
+    const withPhoto = menu.products.filter((p) => p.isFeatured && p.imageUrl);
+    const nonBreakfast = withPhoto.find((p) => {
+      const category = menu.categories.find((c) => c.id === p.categoryId);
+      return !category || !isBreakfast(category);
+    });
+    return nonBreakfast ?? withPhoto[0] ?? menu.products.find((p) => p.imageUrl);
+  }, [menu.products, menu.categories]);
 
-  /** Two columns quoting real rows, so the preview reads as a menu. */
+  /**
+   * Two columns quoting real rows. The first is whichever category leads
+   * the card; the second is deliberately the first NON-breakfast category
+   * with enough priced items, so the excerpt reads as "the whole kitchen"
+   * rather than "just kahvaltı" — a genuine bug in an earlier pass, since
+   * Kahvaltı and Yeni Nesil Kahvaltı sit first and second on the card.
+   */
   const excerpts = useMemo(() => {
     const usable = categories
       .map((category) => ({
@@ -47,7 +70,14 @@ export default function MenuTeaser() {
           .slice(0, 4),
       }))
       .filter((column) => column.items.length >= 3);
-    return usable.slice(0, 2);
+
+    if (usable.length <= 2) return usable;
+
+    const first = usable[0];
+    const second =
+      usable.find((c) => c.category.id !== first.category.id && !isBreakfast(c.category)) ??
+      usable[1];
+    return [first, second];
   }, [categories, menu.products]);
 
   const priced = menu.products.filter((p) => p.price !== null);
@@ -179,24 +209,29 @@ export default function MenuTeaser() {
               ))}
             </div>
 
-            {/* Category index */}
+            {/* Category index — a running line, not a row of boxed pills */}
             <Reveal delay={0.2}>
               <div className="mt-12 border-t border-pearl/10 pt-8">
                 <p className="text-[10px] font-medium uppercase tracking-luxe text-steel">
                   Tüm kategoriler
                 </p>
-                <ul className="mt-4 flex flex-wrap gap-2">
-                  {categories.map((category) => (
-                    <li key={category.id}>
+                <p className="mt-4 flex flex-wrap items-baseline gap-x-1 gap-y-2 text-[13px] tracking-wide text-silver">
+                  {categories.map((category, i) => (
+                    <span key={category.id} className="inline-flex items-baseline">
                       <Link
                         href={`/menu#kategori-${category.id}`}
-                        className="inline-flex min-h-9 items-center rounded-full border border-pearl/15 px-4 text-[11px] tracking-wide text-silver transition-colors hover:border-pearl/45 hover:text-pearl"
+                        className="min-h-9 py-1.5 underline decoration-pearl/0 decoration-1 underline-offset-4 transition-colors duration-200 hover:text-pearl hover:decoration-pearl/50"
                       >
                         {category.label}
                       </Link>
-                    </li>
+                      {i < categories.length - 1 && (
+                        <span aria-hidden="true" className="ml-1 text-pearl/20">
+                          ·
+                        </span>
+                      )}
+                    </span>
                   ))}
-                </ul>
+                </p>
 
                 <p className="mt-6 font-display text-lg italic text-platinum">
                   {categories.length} kategori · {priced.length}+ lezzet

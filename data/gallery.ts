@@ -1,7 +1,7 @@
 /**
- * MOCK GALLERY — placeholder Unsplash imagery for the demo build.
- * Replace every entry with real photography of the venue (interior,
- * storefront at night, coffee close-ups, plated dishes) before launch.
+ * GALLERY — real venue photography, supplied by the client.
+ * Files live in public/photos/; renamed from the original WhatsApp export
+ * names to descriptive, URL-safe kebab-case.
  */
 
 export type GalleryImage = {
@@ -12,56 +12,65 @@ export type GalleryImage = {
   aspect: string;
 };
 
-const img = (id: string, w = 900) =>
-  `https://images.unsplash.com/${id}?q=80&w=${w}&auto=format&fit=crop`;
-
 export const GALLERY_IMAGES: GalleryImage[] = [
   {
     id: 'g1',
-    src: img('photo-1554118811-1e0d58224f24'),
-    alt: 'Sıcak ışıklı kafe iç mekanı',
-    aspect: 'aspect-[3/4]',
+    src: '/photos/cafe-nowaa-vitrin-gece.jpeg',
+    alt: 'Cafe Nowaa vitrini, gece ışıklandırmasıyla',
+    aspect: 'aspect-[2/3]',
   },
   {
     id: 'g2',
-    src: img('photo-1447933601403-0c6688de566e'),
-    alt: 'Taze demlenmiş filtre kahve yakın çekim',
-    aspect: 'aspect-square',
-  },
-  {
-    id: 'g3',
-    src: img('photo-1511920170033-f8396924c348'),
-    alt: 'Barista latte hazırlarken',
-    aspect: 'aspect-[4/5]',
-  },
-  {
-    id: 'g4',
-    src: img('photo-1504674900247-0877df9cc836'),
-    alt: 'Özenle tabaklanmış ana yemek',
-    aspect: 'aspect-[4/3]',
-  },
-  {
-    id: 'g5',
-    src: img('photo-1521017432531-fbd92d768814'),
-    alt: 'Ahşap detaylı oturma alanı',
-    aspect: 'aspect-square',
-  },
-  {
-    id: 'g6',
-    src: img('photo-1555507036-ab1f4038808a'),
-    alt: 'Tereyağlı kruvasan ve kahve',
+    src: '/photos/cafe-nowaa-giris-merdiven.jpeg',
+    alt: 'Giriş merdiveni ve NV logolu cam kapı',
     aspect: 'aspect-[3/4]',
   },
   {
-    id: 'g7',
-    src: img('photo-1498804103079-a6351b050096'),
-    alt: 'Espresso makinesinden akan kahve',
+    id: 'g3',
+    src: '/photos/cafe-nowaa-kahve-bari.jpeg',
+    alt: 'Espresso makinesi ve tatlı vitrini olan kahve barı',
     aspect: 'aspect-[4/3]',
   },
   {
+    id: 'g4',
+    src: '/photos/cafe-nowaa-oturma-koseleri.jpeg',
+    alt: 'Bonzai ağacı ve rahat koltuklarla oturma köşesi',
+    aspect: 'aspect-[3/4]',
+  },
+  {
+    id: 'g5',
+    src: '/photos/cafe-nowaa-vip-oda.jpeg',
+    alt: 'Cafe Nowaa VIP oda — toplantı ve özel günler için',
+    aspect: 'aspect-[3/4]',
+  },
+  {
+    id: 'g6',
+    src: '/photos/cafe-nowaa-salon-koltuklari.jpeg',
+    alt: 'Salon oturma alanı, ahşap masalar ve rahat koltuklar',
+    aspect: 'aspect-[4/3]',
+  },
+  {
+    id: 'g7',
+    src: '/photos/cafe-nowaa-koridor-vitrin.jpeg',
+    alt: 'Tatlı vitrini ve menü ekranlarının bulunduğu koridor',
+    aspect: 'aspect-[3/4]',
+  },
+  {
     id: 'g8',
-    src: img('photo-1453614512568-c4024d13c247'),
-    alt: 'Akşam ışığında kafe vitrini',
-    aspect: 'aspect-[4/5]',
+    src: '/photos/cafe-nowaa-teras-1.jpeg',
+    alt: 'Açılabilir tavanlı dış mekan terası, gece görünümü',
+    aspect: 'aspect-[4/3]',
+  },
+  {
+    id: 'g9',
+    src: '/photos/cafe-nowaa-teras-ay-detay.jpeg',
+    alt: 'Terasta ay temalı duvar aydınlatma detayı',
+    aspect: 'aspect-[4/3]',
+  },
+  {
+    id: 'g10',
+    src: '/photos/cafe-nowaa-salon-genis.jpeg',
+    alt: 'Geniş iç mekan salonu, alt kata inen merdivenle',
+    aspect: 'aspect-[4/3]',
   },
 ];

@@ -1,47 +1,53 @@
 import type { Config } from 'tailwindcss';
 
 /**
- * "Nowaa Monochrome Luxe" — pearl/platinum on a near-black ground, with
- * gold reserved as the single warm accent: the hero mark, prices, ratings
- * and "Şefin Önerisi" marks. Everything else stays monochrome so gold
- * reads as a deliberate signal, not decoration.
+ * "Nowaa Espresso & Gold".
+ *
+ * The earlier neutral-grey ground read as generic dark-mode UI — technically
+ * correct, emotionally flat. Every dark surface here now carries a warm
+ * espresso undertone (red/yellow bias in the shadows) the way a real room lit
+ * by warm bulbs does, and the light surfaces are cream rather than blue-white.
+ * Gold is a genuinely saturated brass, not the washed sand it was.
  */
 const config: Config = {
   content: ['./app/**/*.{ts,tsx}', './components/**/*.{ts,tsx}', './lib/**/*.{ts,tsx}'],
   theme: {
     extend: {
       colors: {
-        // A notch off true black so texture and depth still read on OLED
-        // screens instead of crushing to a flat void.
-        obsidian: '#131316',
-        onyx: '#1B1B1F',
-        graphite: '#242429',
-        pearl: '#F6F5F2',
-        ivory: '#FFFFFF',
-        platinum: '#D8D9DC',
-        silver: '#A9ABB0',
-        steel: '#6C6E74',
-        ink: '#101012',
-        gold: '#C6A15B',
-        'gold-bright': '#E8C878',
-        'gold-deep': '#8C6E38',
+        // Warm espresso darks — a notch off black so texture reads, and
+        // biased red/yellow so the room feels lit rather than switched off.
+        obsidian: '#17120E',
+        onyx: '#211A14',
+        graphite: '#2E251B',
+        // Cream, not blue-white — paper stock, not a screenshot of a screen
+        pearl: '#F8F4EC',
+        ivory: '#FFFCF6',
+        platinum: '#E0D6C6',
+        silver: '#B3A796',
+        steel: '#7C6F5F',
+        ink: '#14100B',
+        // Real brass. The previous #C6A15B desaturated to near-beige against
+        // cream and simply disappeared.
+        gold: '#D9A441',
+        'gold-bright': '#F5CE6D',
+        'gold-deep': '#9C6F22',
       },
       fontFamily: {
-        display: ['var(--font-display)', 'Didot', 'Georgia', 'serif'],
+        display: ['var(--font-display)', 'Georgia', 'Cambria', 'serif'],
         sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
       },
       boxShadow: {
         depth: '0 24px 70px rgba(0, 0, 0, 0.6)',
-        soft: '0 10px 30px rgba(16, 16, 18, 0.07)',
-        halo: '0 0 40px rgba(216, 217, 220, 0.18)',
-        'halo-strong': '0 0 60px rgba(246, 245, 242, 0.28)',
-        'glow-gold': '0 0 40px rgba(198, 161, 91, 0.35)',
-        'glow-gold-strong': '0 0 80px rgba(232, 200, 120, 0.55)',
+        soft: '0 10px 30px rgba(20, 16, 11, 0.08)',
+        halo: '0 0 40px rgba(224, 214, 198, 0.18)',
+        'halo-strong': '0 0 60px rgba(248, 244, 236, 0.28)',
+        'glow-gold': '0 0 44px rgba(217, 164, 65, 0.45)',
+        'glow-gold-strong': '0 0 84px rgba(245, 206, 109, 0.65)',
       },
       backgroundImage: {
         // Abstracted vertical wood-slat rhythm from the real façade
         slats:
-          'repeating-linear-gradient(90deg, transparent 0px, transparent 26px, rgba(246, 245, 242, 0.026) 26px, rgba(246, 245, 242, 0.026) 27px)',
+          'repeating-linear-gradient(90deg, transparent 0px, transparent 26px, rgba(248, 244, 236, 0.03) 26px, rgba(248, 244, 236, 0.03) 27px)',
       },
       letterSpacing: {
         luxe: '0.32em',

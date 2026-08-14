@@ -9,8 +9,10 @@ import { SITE_URL } from '@/config/site';
 
 /**
  * The standalone digital menu — its own micro-site and the destination
- * for table QR codes: full-bleed obsidian, mobile-first, with its own
- * masthead rather than the homepage navigation.
+ * for table QR codes: a cream paper card under a dark brand masthead,
+ * mobile-first, with its own header rather than the homepage navigation.
+ * (It was full-bleed dark; read at arm's length over a table it felt
+ * gloomy, and printed menus are light for a reason.)
  *
  * The seed card renders server-side so the page stays static and
  * indexable; live Firestore data takes over on the client when present.
@@ -88,7 +90,7 @@ export default function MenuPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(menuJsonLd) }}
       />
-      <main className="min-h-[100svh] bg-obsidian">
+      <main className="min-h-[100svh] bg-pearl">
         <MenuHeader />
         <MenuExperience />
         <WhatsAppButton />

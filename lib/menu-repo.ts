@@ -116,6 +116,14 @@ export async function setFeatured(id: string, isFeatured: boolean) {
 }
 
 /**
+ * Price-only write, so the list can offer inline edits without loading the
+ * whole product form. `null` means "Sorunuz" — no figure on the card.
+ */
+export async function setPrice(id: string, price: number | null) {
+  await updateDoc(doc(db(), PRODUCTS, id), { price });
+}
+
+/**
  * Reordering swaps the `order` of two neighbours in one batch, so a
  * failed write can never leave two items claiming the same slot.
  */

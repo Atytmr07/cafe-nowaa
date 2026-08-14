@@ -1,24 +1,26 @@
 import type { Metadata, Viewport } from 'next';
-import { Bodoni_Moda, Jost } from 'next/font/google';
+import { DM_Sans, Fraunces } from 'next/font/google';
 import Analytics from '@/components/Analytics';
 import './globals.css';
 
-/** Didone display face — hairline contrast, the couture register */
-const bodoni = Bodoni_Moda({
+/**
+ * Display face. Bodoni Moda was doing the site no favours — a Didone's
+ * hairline serifs and vertical stress read as cold fashion-house, not warm
+ * café. Fraunces is a soft, high-contrast old-style serif with real warmth
+ * in the terminals, and its `SOFT` and `WONK` axes give the headlines a
+ * hand-cut character that flat geometric faces can't.
+ */
+const fraunces = Fraunces({
   subsets: ['latin', 'latin-ext'],
   weight: 'variable',
   style: ['normal', 'italic'],
   variable: '--font-display',
   display: 'swap',
-  // Next ships no metric overrides for Bodoni Moda; naming Didone-adjacent
-  // system faces keeps the pre-swap render close instead of defaulting to
-  // Times with mismatched metrics.
-  adjustFontFallback: false,
-  fallback: ['Didot', 'Bodoni MT', 'Playfair Display', 'Georgia', 'serif'],
+  axes: ['SOFT', 'WONK', 'opsz'],
 });
 
-/** Geometric grotesk — echoes the circular construction of the NV mark */
-const jost = Jost({
+/** Body grotesk — DM Sans is warmer and rounder in the bowls than Jost */
+const dmSans = DM_Sans({
   subsets: ['latin', 'latin-ext'],
   weight: 'variable',
   variable: '--font-sans',
@@ -38,7 +40,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: '#0B0B0C',
+  themeColor: '#17120E',
   colorScheme: 'dark',
 };
 
@@ -46,7 +48,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="tr" className={`${bodoni.variable} ${jost.variable}`}>
+    <html lang="tr" className={`${fraunces.variable} ${dmSans.variable}`}>
       <body>
         {children}
         <Analytics />

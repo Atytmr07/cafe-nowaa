@@ -82,8 +82,8 @@ export default function MenuExperience() {
   return (
     <>
       {/* Search sits above the rail so filtering never hides the nav */}
-      <div className="border-b border-pearl/10 bg-obsidian">
-        <div className="mx-auto max-w-3xl px-5 py-3 sm:px-8">
+      <div className="bg-pearl">
+        <div className="mx-auto max-w-3xl px-5 py-4 sm:px-8">
           <div className="relative">
             <Search
               className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-steel"
@@ -96,14 +96,14 @@ export default function MenuExperience() {
               onChange={(e) => setQuery(e.target.value)}
               aria-label="Menüde ara"
               placeholder="Menüde ara — ürün, içerik, alerjen…"
-              className="min-h-12 w-full rounded-full border border-pearl/15 bg-onyx pl-11 pr-11 text-sm text-pearl placeholder:text-steel focus:border-pearl/45 focus:outline-none"
+              className="min-h-12 w-full rounded-full border border-ink/15 bg-ivory pl-11 pr-11 text-sm text-ink shadow-soft placeholder:text-steel focus:border-gold focus:outline-none"
             />
             {searching && (
               <button
                 type="button"
                 onClick={() => setQuery('')}
                 aria-label="Aramayı temizle"
-                className="absolute right-2 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full text-silver transition-colors hover:text-pearl"
+                className="absolute right-2 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full text-steel transition-colors hover:text-ink"
               >
                 <X className="h-4 w-4" strokeWidth={1.6} aria-hidden="true" />
               </button>
@@ -123,15 +123,15 @@ export default function MenuExperience() {
       <div className="mx-auto max-w-3xl px-5 pb-24 sm:px-8">
         {searching ? (
           <section aria-label="Arama sonuçları" className="pt-10">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-platinum">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-steel">
               {results.length} sonuç
             </p>
             {results.length === 0 ? (
-              <p className="mt-8 text-center text-sm font-light text-silver">
+              <p className="mt-8 text-center text-sm font-light text-steel">
                 “{query}” için sonuç bulunamadı.
               </p>
             ) : (
-              <div className="mt-4 divide-y divide-pearl/[0.07]">
+              <div className="mt-4 divide-y divide-ink/10">
                 {results.map((product) => (
                   <MenuItemRow
                     key={product.id}
@@ -153,7 +153,7 @@ export default function MenuExperience() {
           ))
         )}
 
-        <div className="mt-20 border-t border-pearl/10 pt-8 text-center">
+        <div className="mt-20 border-t border-ink/10 pt-8 text-center">
           <p className="text-[10px] uppercase tracking-[0.2em] text-steel">
             Fiyatlarımıza KDV dahildir
           </p>
@@ -179,7 +179,7 @@ export default function MenuExperience() {
             }
             aria-label="Başa dön"
             // Stacked above the floating WhatsApp button (bottom-5, h-14)
-            className="fixed bottom-[5.75rem] right-5 z-40 flex h-12 w-12 items-center justify-center rounded-full border border-pearl/20 bg-obsidian/90 text-pearl backdrop-blur-md transition-colors hover:border-pearl/60"
+            className="fixed bottom-[5.75rem] right-5 z-40 flex h-12 w-12 items-center justify-center rounded-full border border-ink/15 bg-ivory/90 text-ink shadow-soft backdrop-blur-md transition-colors hover:border-gold"
           >
             <ArrowUp className="h-5 w-5" strokeWidth={1.5} aria-hidden="true" />
           </motion.button>

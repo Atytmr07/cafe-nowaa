@@ -14,11 +14,10 @@ import Magnetic from './Magnetic';
 import GrainOverlay from './GrainOverlay';
 import { BUSINESS } from '@/config/business';
 import { trackEvent } from '@/lib/firebase';
-import { armChimeOnFirstInteraction, playChime } from '@/lib/chime';
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 const LOGO_DELAY = 0.1;
-/** The instant the V's last stroke lands — the light burst and chime cue off it */
+/** The instant the V's last stroke lands — the halo lifts to meet it */
 const REVEAL_AT = LOGO_DELAY + NV_DRAW_DURATION;
 
 export default function Hero() {
@@ -31,22 +30,14 @@ export default function Hero() {
   const contentY = useTransform(scrollY, [0, 800], [0, 60]);
   const fade = useTransform(scrollY, [0, 520], [1, 0]);
 
-  // Fires the light burst + chime once, right as the mark finishes
-  // drawing itself in — the sign "switching on".
+  // Lifts the halo once, right as the mark finishes drawing itself in.
   useEffect(() => {
     if (prefersReducedMotion) {
       setRevealed(true);
       return;
     }
-    const timer = window.setTimeout(() => {
-      setRevealed(true);
-      playChime();
-    }, REVEAL_AT * 1000);
-    const disarm = armChimeOnFirstInteraction();
-    return () => {
-      window.clearTimeout(timer);
-      disarm();
-    };
+    const timer = window.setTimeout(() => setRevealed(true), REVEAL_AT * 1000);
+    return () => window.clearTimeout(timer);
   }, [prefersReducedMotion]);
 
   const rise = (delay: number) => ({
@@ -62,7 +53,7 @@ export default function Hero() {
       {/* Ambient wash — the sconce light pooling on a black wall, breathing gently */}
       <motion.div
         aria-hidden="true"
-        className={`pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_38%,rgba(198,161,91,0.12),transparent_70%)] ${
+        className={`pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_38%,rgba(217,164,65,0.18),transparent_70%)] ${
           !prefersReducedMotion ? 'animate-drift' : ''
         }`}
       />
@@ -85,58 +76,30 @@ export default function Hero() {
           style={{ y: prefersReducedMotion ? 0 : markY }}
           className="relative flex items-center justify-center"
         >
-          {/* Base glow — present from the start, softly breathing */}
+          {/* The halo behind the mark. It sits low while the mark inks in,
+              then lifts to full strength as the last stroke lands and stays
+              there, breathing — the sign lit, rather than a flashbulb. */}
+          {/* Two layers on purpose: the outer one handles the one-off lift
+              with a plain CSS transition, the inner one breathes. Driving
+              both from the same element would put Framer's inline opacity
+              and the keyframe animation in a fight over the same property. */}
           <div
             aria-hidden="true"
-            className="absolute h-56 w-56 rounded-full bg-gold/[0.14] blur-3xl transition-all duration-1000 sm:h-72 sm:w-72"
-          />
-
-          {/* The reveal burst — a bright gold flash that blooms once and
-              settles, timed to the logo's last stroke landing */}
-          {!prefersReducedMotion && (
-            <motion.div
-              aria-hidden="true"
-              className="absolute h-40 w-40 rounded-full bg-gold-bright/40 blur-2xl sm:h-52 sm:w-52"
-              initial={{ opacity: 0, scale: 0.6 }}
-              animate={
-                revealed
-                  ? { opacity: [0, 0.9, 0], scale: [0.6, 1.5, 1.9] }
-                  : { opacity: 0, scale: 0.6 }
-              }
-              transition={{ duration: 1.1, ease: 'easeOut' }}
+            className={`absolute h-56 w-56 transition-opacity duration-1000 ease-out sm:h-72 sm:w-72 ${
+              revealed ? 'opacity-100' : 'opacity-40'
+            }`}
+          >
+            <div
+              className={`h-full w-full rounded-full bg-gold/25 blur-3xl ${
+                revealed && !prefersReducedMotion ? 'animate-glow-breathe' : ''
+              }`}
             />
-          )}
-
-          {/* Fine radiating rays — the sign "switching on" */}
-          {!prefersReducedMotion && revealed && (
-            <motion.svg
-              aria-hidden="true"
-              viewBox="0 0 200 200"
-              className="pointer-events-none absolute h-48 w-48 text-gold-bright sm:h-64 sm:w-64"
-              initial={{ opacity: 0, scale: 0.7, rotate: 0 }}
-              animate={{ opacity: [0, 0.8, 0], scale: [0.7, 1.15, 1.3], rotate: 18 }}
-              transition={{ duration: 1.3, ease: 'easeOut' }}
-            >
-              {Array.from({ length: 12 }).map((_, i) => (
-                <line
-                  key={i}
-                  x1="100"
-                  y1="100"
-                  x2="100"
-                  y2="14"
-                  stroke="currentColor"
-                  strokeWidth="1"
-                  strokeLinecap="round"
-                  transform={`rotate(${i * 30} 100 100)`}
-                />
-              ))}
-            </motion.svg>
-          )}
+          </div>
 
           <svg
             aria-hidden="true"
             viewBox="0 0 100 100"
-            className="animate-orbit absolute h-40 w-40 text-gold/30 sm:h-52 sm:w-52"
+            className="animate-orbit absolute h-40 w-40 text-gold/40 sm:h-52 sm:w-52"
             fill="none"
           >
             <circle
@@ -153,7 +116,8 @@ export default function Hero() {
           <AnimatedNVLogo
             delay={LOGO_DELAY}
             weight={4.2}
-            className="relative h-24 w-24 text-gold-bright drop-shadow-[0_0_32px_rgba(232,200,120,0.45)] sm:h-32 sm:w-32"
+            metal
+            className="relative h-24 w-24 text-gold-bright drop-shadow-[0_0_28px_rgba(245,206,109,0.55)] sm:h-32 sm:w-32"
           />
         </motion.div>
 
@@ -218,7 +182,7 @@ export default function Hero() {
 
             <Magnetic>
               <a
-                href={BUSINESS.mapsUrl}
+                href={BUSINESS.directionsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => trackEvent('cta_click', { cta: 'hero_directions' })}

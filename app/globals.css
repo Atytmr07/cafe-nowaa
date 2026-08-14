@@ -3,17 +3,18 @@
 @tailwind utilities;
 
 :root {
-  --obsidian: #131316;
-  --onyx: #1b1b1f;
-  --graphite: #24242a;
-  --pearl: #f6f5f2;
-  --ivory: #ffffff;
-  --platinum: #d8d9dc;
-  --silver: #a9abb0;
-  --steel: #6c6e74;
-  --ink: #101012;
-  --gold: #c6a15b;
-  --gold-bright: #e8c878;
+  --obsidian: #17120e;
+  --onyx: #211a14;
+  --graphite: #2e251b;
+  --pearl: #f8f4ec;
+  --ivory: #fffcf6;
+  --platinum: #e0d6c6;
+  --silver: #b3a796;
+  --steel: #7c6f5f;
+  --ink: #14100b;
+  --gold: #d9a441;
+  --gold-bright: #f5ce6d;
+  --gold-deep: #9c6f22;
 }
 
 html {
@@ -30,9 +31,19 @@ body {
   @apply bg-obsidian font-sans text-pearl antialiased;
 }
 
+/*
+ * Fraunces is variable on more than weight. Left at defaults it renders as a
+ * fairly ordinary serif; SOFT rounds the terminals and WONK swaps in the
+ * splayed, hand-cut alternates that give the headings their character. opsz
+ * at the display end keeps the contrast high at large sizes.
+ */
+.font-display {
+  font-variation-settings: 'SOFT' 45, 'WONK' 1, 'opsz' 120;
+}
+
 ::selection {
-  background: rgba(198, 161, 91, 0.28);
-  color: #ffffff;
+  background: rgba(217, 164, 65, 0.32);
+  color: #fffcf6;
 }
 
 /* Gold focus ring — a warmer, more visible mark than plain platinum */
@@ -50,21 +61,22 @@ body {
     background: var(--obsidian);
   }
   ::-webkit-scrollbar-thumb {
-    background: #34343a;
+    background: #3d3123;
     border: 3px solid var(--obsidian);
     border-radius: 999px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #48484f;
+    background: var(--gold-deep);
   }
 }
 
 /*
- * Photography grade: a restrained, slightly cooled contrast pass that
- * unifies the mixed placeholder set without draining appetite from food.
+ * Photography grade. The old pass desaturated to 0.88, which is the right
+ * instinct for stock imagery and the wrong one for real food shot under warm
+ * bulbs — it greyed the venue out. Now it holds saturation and adds warmth.
  */
 .luxe-photo {
-  filter: saturate(0.88) contrast(1.08) brightness(0.97);
+  filter: saturate(1.04) contrast(1.07) brightness(0.99) sepia(0.06);
 }
 
 /* Metallic sweep across text — light travelling over a polished surface */
@@ -171,11 +183,29 @@ body {
   animation: pulse-ring 2.6s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
+/* The hero mark's halo, breathing like a filament rather than sitting flat */
+@keyframes glow-breathe {
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.95;
+    transform: scale(1.1);
+  }
+}
+
+.animate-glow-breathe {
+  animation: glow-breathe 4.5s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-marquee,
   .animate-orbit,
   .animate-drift,
   .animate-pulse-ring,
+  .animate-glow-breathe,
   .shimmer-text,
   .shimmer-text-gold {
     animation: none;

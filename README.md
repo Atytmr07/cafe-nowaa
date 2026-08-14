@@ -5,22 +5,33 @@ bistro beside the Bostancı Marmaray station entrance in Istanbul.
 
 ## Design system — "Nowaa Monochrome Luxe"
 
-The palette is taken directly from the real backlit roundel: a pure white NV
-mark on deep black. No gold, no colour casts — pearl, platinum and silver are
-the only accents.
+"Espresso & Gold", taken from the venue itself: warm bulbs on dark timber,
+cream paper, brass signage. Every dark token carries a red/yellow undertone —
+a neutral grey ground read as generic dark-mode UI rather than a lit room.
 
 | Token | Hex | Use |
 |---|---|---|
-| `obsidian` | `#0B0B0C` | Primary dark surface |
-| `onyx` | `#131315` | Cards, elevated dark panels |
-| `pearl` | `#F6F5F2` | Light sections, text on dark |
-| `platinum` | `#D8D9DC` | Accent — prices, active states |
-| `silver` | `#A9ABB0` | Muted text on dark |
-| `steel` | `#6C6E74` | Muted text on light |
-| `ink` | `#101012` | Text on light |
+| `obsidian` | `#17120E` | Primary dark surface |
+| `onyx` | `#211A14` | Cards, elevated dark panels |
+| `graphite` | `#2E251B` | Deepest inset panels |
+| `pearl` | `#F8F4EC` | Light sections, text on dark |
+| `ivory` | `#FFFCF6` | Brightest light surface |
+| `silver` | `#B3A796` | Muted text on dark |
+| `steel` | `#7C6F5F` | Muted text on light |
+| `ink` | `#14100B` | Text on light |
+| `gold` | `#D9A441` | Accent — CTAs, active states |
+| `gold-bright` | `#F5CE6D` | Gold on dark grounds, hero mark |
+| `gold-deep` | `#9C6F22` | Gold on cream grounds (prices, labels) |
 
-Type: **Bodoni Moda** (Didone display) + **Jost** (geometric grotesk, echoing
-the circular construction of the mark). Both loaded via `next/font`.
+Gold means "this leads to the menu", plus prices, ratings and Şefin Önerisi
+marks. Everything else stays neutral so it reads as a signal, not decoration.
+On cream use `gold-deep`; `gold-bright` is unreadable there.
+
+Only the hero, the menu masthead, the reviews band and the footer are dark —
+the rest is cream, and `/menu` is a light paper card.
+
+Type: **Fraunces** (soft high-contrast serif, `SOFT`/`WONK` axes on for the
+hand-cut character) + **DM Sans**. Both loaded via `next/font`.
 
 ## Stack
 

@@ -45,8 +45,8 @@ export default function About() {
                 style={{ y: prefersReducedMotion ? 0 : parallaxY }}
               >
                 <Photo
-                  src="/photos/cafe-nowaa-kahve-bari.jpeg"
-                  alt="Cafe Nowaa'nın kahve barı ve tatlı vitrini"
+                  src="/giris.jpeg"
+                  alt="Cafe Nowaa'nın aydınlatılmış girişi ve sütunlu cephesi, akşamüstü"
                   sizes="(min-width: 1024px) 45vw, 100vw"
                 />
               </motion.div>

@@ -11,10 +11,10 @@ import { BUSINESS } from '@/config/business';
  */
 export default function MenuHeader() {
   return (
-    <header className="relative border-b border-pearl/10">
+    <header className="relative bg-obsidian bg-slats">
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_140%_at_50%_0%,rgba(246,245,242,0.07),transparent_70%)]"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_140%_at_50%_0%,rgba(217,164,65,0.16),transparent_70%)]"
       />
 
       <div className="relative mx-auto grid max-w-5xl grid-cols-[1fr_auto_1fr] items-center px-4 py-4 sm:px-6">
@@ -28,7 +28,7 @@ export default function MenuHeader() {
         </Link>
 
         <div className="flex flex-col items-center gap-2">
-          <NVLogo className="h-11 w-11 text-pearl" />
+          <NVLogo className="h-11 w-11 text-gold-bright" />
           <span className="font-display text-sm tracking-[0.18em] text-pearl">
             CAFE NOWAA
           </span>

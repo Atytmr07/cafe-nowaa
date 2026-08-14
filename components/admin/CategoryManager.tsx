@@ -127,30 +127,11 @@ export default function CategoryManager({
               key={category.id}
               className="rounded-xl border border-pearl/10 bg-obsidian/60"
             >
-              <div className="flex items-center gap-3 p-3">
-                <div className="flex flex-col gap-1">
-                  <IconButton
-                    aria-label={`${category.label} yukarı taşı`}
-                    disabled={busy || index === 0}
-                    onClick={() => move(index, -1)}
-                    className="h-6 w-6"
-                  >
-                    <ChevronUp className="h-3.5 w-3.5" />
-                  </IconButton>
-                  <IconButton
-                    aria-label={`${category.label} aşağı taşı`}
-                    disabled={busy || index === categories.length - 1}
-                    onClick={() => move(index, 1)}
-                    className="h-6 w-6"
-                  >
-                    <ChevronDown className="h-3.5 w-3.5" />
-                  </IconButton>
-                </div>
-
+              <div className="p-3">
                 <button
                   type="button"
                   onClick={() => setExpanded(isOpen ? null : category.id)}
-                  className="min-w-0 flex-1 text-left"
+                  className="block w-full min-w-0 text-left"
                 >
                   <p className="truncate text-sm text-pearl">{category.label}</p>
                   <p className="mt-0.5 text-[11px] text-steel">
@@ -158,28 +139,54 @@ export default function CategoryManager({
                   </p>
                 </button>
 
-                <Button onClick={() => setExpanded(isOpen ? null : category.id)}>
-                  {isOpen ? 'Kapat' : 'Alt kategoriler'}
-                </Button>
+                {/* Controls sit under the title so a long category name never
+                    squeezes them off a narrow screen */}
+                <div className="mt-3 flex items-center justify-between gap-2 border-t border-pearl/10 pt-2.5">
+                  <div className="flex items-center gap-1.5">
+                    <IconButton
+                      aria-label={`${category.label} yukarı taşı`}
+                      disabled={busy || index === 0}
+                      onClick={() => move(index, -1)}
+                    >
+                      <ChevronUp className="h-4 w-4" />
+                    </IconButton>
+                    <IconButton
+                      aria-label={`${category.label} aşağı taşı`}
+                      disabled={busy || index === categories.length - 1}
+                      onClick={() => move(index, 1)}
+                    >
+                      <ChevronDown className="h-4 w-4" />
+                    </IconButton>
+                  </div>
 
-                <IconButton
-                  aria-label={`${category.label} kategorisini sil`}
-                  disabled={busy}
-                  onClick={async () => {
-                    if (count > 0) {
-                      setError(
-                        `"${category.label}" içinde ${count} ürün var. Önce ürünleri taşıyın veya silin.`
-                      );
-                      return;
-                    }
-                    if (!confirm(`"${category.label}" silinsin mi?`)) return;
-                    setBusy(true);
-                    await deleteCategory(category.id);
-                    setBusy(false);
-                  }}
-                >
-                  <Trash2 className="h-4 w-4" />
-                </IconButton>
+                  <div className="flex items-center gap-1.5">
+                    <Button
+                      onClick={() => setExpanded(isOpen ? null : category.id)}
+                      className="px-4"
+                    >
+                      {isOpen ? 'Kapat' : 'Alt kategoriler'}
+                    </Button>
+
+                    <IconButton
+                      aria-label={`${category.label} kategorisini sil`}
+                      disabled={busy}
+                      onClick={async () => {
+                        if (count > 0) {
+                          setError(
+                            `"${category.label}" içinde ${count} ürün var. Önce ürünleri taşıyın veya silin.`
+                          );
+                          return;
+                        }
+                        if (!confirm(`"${category.label}" silinsin mi?`)) return;
+                        setBusy(true);
+                        await deleteCategory(category.id);
+                        setBusy(false);
+                      }}
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </IconButton>
+                  </div>
+                </div>
               </div>
 
               {isOpen && (

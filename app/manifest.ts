@@ -8,8 +8,8 @@ export default function manifest(): MetadataRoute.Manifest {
       'Kahve, kahvaltı, taş fırın pizza ve burger — Bostancı Marmaray girişinin hemen yanında.',
     start_url: '/',
     display: 'standalone',
-    background_color: '#0B0B0C',
-    theme_color: '#0B0B0C',
+    background_color: '#17120E',
+    theme_color: '#17120E',
     lang: 'tr',
     icons: [
       {

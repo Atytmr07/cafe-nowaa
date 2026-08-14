@@ -131,7 +131,7 @@ export default function Location() {
 
             <Magnetic className="mt-10 inline-block">
               <a
-                href={BUSINESS.mapsUrl}
+                href={BUSINESS.directionsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => trackEvent('cta_click', { cta: 'directions' })}
@@ -144,38 +144,19 @@ export default function Location() {
           </Reveal>
 
           <Reveal delay={0.1}>
-            {/*
-              MAP PLACEHOLDER — swap for the real Google Maps iframe once the
-              client's Business Profile / exact coordinates are confirmed:
-
+            <div className="relative h-full min-h-[420px] overflow-hidden shadow-soft">
               <iframe
-                src="https://www.google.com/maps/embed?pb=..."
-                className="h-full w-full border-0"
-                loading="lazy" allowFullScreen
-                referrerPolicy="no-referrer-when-downgrade"
-                title="Cafe Nowaa konumu"
+                src={BUSINESS.mapEmbedUrl}
+                title="Cafe Nowaa konumu — Google Haritalar"
+                className="h-full min-h-[420px] w-full border-0"
+                loading="lazy"
+                allowFullScreen
+                referrerPolicy="strict-origin-when-cross-origin"
               />
-            */}
-            <div className="relative flex h-full min-h-[420px] flex-col items-center justify-center bg-ivory p-10 text-center shadow-soft">
               <span
                 aria-hidden="true"
-                className="pointer-events-none absolute inset-4 border border-ink/10"
+                className="pointer-events-none absolute inset-0 border border-ink/10"
               />
-              <MapPin
-                className="h-7 w-7 text-steel"
-                strokeWidth={1}
-                aria-hidden="true"
-              />
-              <p className="mt-6 font-display text-2xl leading-snug text-ink">
-                Bostancı Marmaray
-                <br />
-                <em className="italic">Girişi Yanı</em>
-              </p>
-              <span className="mt-5 h-px w-12 bg-ink/20" aria-hidden="true" />
-              <p className="mt-5 max-w-xs text-xs font-light leading-relaxed text-steel">
-                Harita gömme alanı — gerçek Google Maps embed&apos;i burada yer
-                alacak.
-              </p>
             </div>
           </Reveal>
         </div>

@@ -62,8 +62,8 @@ export default function AdminShell({
   return (
     <div className="min-h-[100svh] bg-obsidian">
       <header className="sticky top-0 z-40 border-b border-pearl/10 bg-obsidian/92 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-5xl flex-wrap items-center gap-3 px-5 py-3.5">
-          <NVLogo className="h-8 w-8 flex-none text-pearl" />
+        <div className="mx-auto flex max-w-5xl items-center gap-3 px-4 py-3.5 sm:px-5">
+          <NVLogo className="h-8 w-8 flex-none text-gold" />
           <div className="min-w-0 flex-1">
             <p className="font-display text-base leading-tight text-pearl">
               Menü Yönetimi
@@ -74,18 +74,19 @@ export default function AdminShell({
           <Link
             href="/menu"
             target="_blank"
-            className="inline-flex min-h-10 items-center gap-2 rounded-full border border-pearl/20 px-4 text-[11px] font-semibold uppercase tracking-[0.16em] text-pearl transition-colors hover:border-pearl/50"
+            className="inline-flex min-h-10 flex-none items-center gap-2 rounded-full border border-pearl/20 px-3.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-pearl transition-colors hover:border-gold/60 sm:px-4"
+            aria-label="Menüyü yeni sekmede aç"
           >
             <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
-            Menüyü Gör
+            <span className="hidden sm:inline">Menüyü Gör</span>
           </Link>
-          <Button onClick={onSignOut}>
+          <Button onClick={onSignOut} className="flex-none px-3.5 sm:px-5">
             <LogOut className="h-3.5 w-3.5" aria-hidden="true" />
-            Çıkış
+            <span className="hidden sm:inline">Çıkış</span>
           </Button>
         </div>
 
-        <div className="mx-auto flex max-w-5xl gap-1.5 px-5 pb-3">
+        <div className="mx-auto flex max-w-5xl gap-1.5 px-4 pb-3 sm:px-5">
           {(
             [
               ['urunler', 'Ürünler'],
@@ -99,7 +100,7 @@ export default function AdminShell({
               aria-current={tab === value ? 'true' : undefined}
               className={`min-h-10 rounded-full px-5 text-[11px] font-semibold uppercase tracking-[0.16em] transition-colors ${
                 tab === value
-                  ? 'bg-pearl text-obsidian'
+                  ? 'bg-gold text-ink'
                   : 'text-silver hover:text-pearl'
               }`}
             >
@@ -109,7 +110,7 @@ export default function AdminShell({
         </div>
       </header>
 
-      <main className="mx-auto max-w-5xl space-y-6 px-5 py-8">
+      <main className="mx-auto max-w-5xl space-y-6 px-4 py-8 sm:px-5">
         {notice && (
           <p
             role="status"

@@ -53,8 +53,8 @@ export const metadata: Metadata = {
   },
 };
 
-// LocalBusiness structured data with the real address and hours.
-// Geo coordinates approximate Bostancı Marmaray — confirm with the client.
+// LocalBusiness structured data with the real address, hours and the exact
+// coordinates of the venue's own Google Business listing.
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'CafeOrCoffeeShop',
@@ -71,8 +71,8 @@ const jsonLd = {
   },
   geo: {
     '@type': 'GeoCoordinates',
-    latitude: 40.9524,
-    longitude: 29.0961,
+    latitude: BUSINESS.geo.lat,
+    longitude: BUSINESS.geo.lng,
   },
   openingHoursSpecification: {
     '@type': 'OpeningHoursSpecification',
@@ -99,7 +99,8 @@ const jsonLd = {
     'Tatlı',
   ],
   priceRange: '₺₺',
-  sameAs: [BUSINESS.instagram],
+  hasMap: BUSINESS.mapsUrl,
+  sameAs: [BUSINESS.instagram, BUSINESS.mapsUrl],
 };
 
 export default function HomePage() {

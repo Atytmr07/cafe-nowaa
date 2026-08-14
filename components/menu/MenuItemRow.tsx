@@ -27,7 +27,10 @@ export default function MenuItemRow({
   const allergens = product.allergens ?? [];
 
   return (
-    <motion.article variants={rowVariants} className="flex gap-4 py-5 sm:gap-5">
+    <motion.article
+      variants={rowVariants}
+      className="flex gap-4 py-5 transition-colors duration-300 hover:bg-gold/[0.05] sm:gap-5"
+    >
       {hasImage && (
         <button
           type="button"
@@ -56,7 +59,7 @@ export default function MenuItemRow({
           />
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute inset-1.5 border border-pearl/25 transition-colors duration-300 group-hover:border-pearl/60"
+            className="pointer-events-none absolute inset-1.5 border border-ivory/40 transition-colors duration-300 group-hover:border-ivory/80"
           />
           <span
             aria-hidden="true"
@@ -69,16 +72,16 @@ export default function MenuItemRow({
 
       <div className="min-w-0 flex-1">
         <div className="flex items-baseline gap-3">
-          <h4 className="font-display text-[17px] leading-snug tracking-tight text-pearl sm:text-lg">
+          <h4 className="font-display text-[17px] leading-snug tracking-tight text-ink sm:text-lg">
             {product.name}
           </h4>
           <span
             aria-hidden="true"
-            className="mb-1 h-px min-w-5 flex-1 border-b border-dotted border-pearl/25"
+            className="mb-1 h-px min-w-5 flex-1 border-b border-dotted border-ink/25"
           />
-          <span className="flex-none text-sm font-medium tabular-nums tracking-wide text-gold-bright">
+          <span className="flex-none text-sm font-semibold tabular-nums tracking-wide text-gold-deep">
             {product.price === null ? (
-              <span className="text-[10px] uppercase tracking-[0.16em] text-silver">
+              <span className="text-[10px] uppercase tracking-[0.16em] text-steel">
                 Sorunuz
               </span>
             ) : (
@@ -88,7 +91,7 @@ export default function MenuItemRow({
         </div>
 
         {product.description && (
-          <p className="mt-2 text-[13px] font-light leading-relaxed text-silver">
+          <p className="mt-2 text-[13px] font-light leading-relaxed text-steel">
             {product.description}
           </p>
         )}
@@ -99,14 +102,14 @@ export default function MenuItemRow({
           allergens.length > 0) && (
           <div className="mt-2.5 flex flex-wrap items-center gap-x-3 gap-y-1.5">
             {product.isFeatured && (
-              <span className="inline-flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-gold">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-gold/15 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-gold-deep">
                 <Star className="h-3 w-3 fill-current" aria-hidden="true" />
                 Şefin Önerisi
               </span>
             )}
 
             {product.kcal ? (
-              <span className="inline-flex items-center gap-1.5 text-[10px] uppercase tracking-[0.16em] text-silver">
+              <span className="inline-flex items-center gap-1.5 text-[10px] uppercase tracking-[0.16em] text-steel">
                 <Flame className="h-3 w-3" strokeWidth={1.6} aria-hidden="true" />
                 {product.kcal} kcal
               </span>
@@ -124,7 +127,7 @@ export default function MenuItemRow({
                 {allergens.map((allergen) => (
                   <span
                     key={allergen}
-                    className="rounded-full border border-pearl/15 px-2.5 py-0.5 text-[10px] tracking-wide text-steel"
+                    className="rounded-full border border-ink/15 px-2.5 py-0.5 text-[10px] tracking-wide text-steel"
                   >
                     {allergen}
                   </span>

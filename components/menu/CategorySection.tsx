@@ -36,11 +36,11 @@ export default function CategorySection({
       <div className="text-center">
         <span
           aria-hidden="true"
-          className="mx-auto mb-6 block h-10 w-px bg-pearl/15"
+          className="mx-auto mb-6 block h-10 w-px bg-gradient-to-b from-transparent to-gold"
         />
         <h2
           id={`baslik-${category.id}`}
-          className="font-display text-3xl leading-tight tracking-tight text-pearl sm:text-4xl"
+          className="font-display text-3xl leading-tight tracking-tight text-ink sm:text-4xl"
         >
           {category.label}
         </h2>
@@ -50,11 +50,11 @@ export default function CategorySection({
         <div key={subcategory || '_'} className="mt-12">
           {subcategory && subcategory !== category.label && (
             <div className="mb-2 flex items-center gap-4">
-              <span aria-hidden="true" className="h-px w-6 bg-gold/40" />
-              <h3 className="text-[10px] font-semibold uppercase tracking-[0.24em] text-gold">
+              <span aria-hidden="true" className="h-px w-6 bg-gold" />
+              <h3 className="text-[10px] font-semibold uppercase tracking-[0.24em] text-gold-deep">
                 {subcategory}
               </h3>
-              <span aria-hidden="true" className="h-px flex-1 bg-pearl/10" />
+              <span aria-hidden="true" className="h-px flex-1 bg-ink/10" />
             </div>
           )}
 
@@ -63,7 +63,7 @@ export default function CategorySection({
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: '-40px' }}
-            className="divide-y divide-pearl/[0.07]"
+            className="divide-y divide-ink/[0.09]"
           >
             {items.map((product) => (
               <MenuItemRow

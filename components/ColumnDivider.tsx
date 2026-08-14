@@ -19,7 +19,7 @@ export default function ColumnDivider({
   className = '',
 }: ColumnDividerProps) {
   const prefersReducedMotion = useReducedMotion();
-  const stroke = '#C6A15B';
+  const stroke = '#D9A441';
   const peak = tone === 'light' ? 0.55 : 0.6;
 
   return (

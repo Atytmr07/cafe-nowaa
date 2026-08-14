@@ -12,7 +12,7 @@ type CategoryTabsProps = {
 
 /**
  * Sticky category rail over the single-page menu, doubling as scrollspy:
- * the pearl pill slides to whichever category is on screen, and tapping a
+ * the brass pill slides to whichever category is on screen, and tapping a
  * label scrolls to its section. The rail keeps the active label centred.
  */
 export default function CategoryTabs({
@@ -38,7 +38,7 @@ export default function CategoryTabs({
   return (
     <nav
       aria-label="Menü kategorileri"
-      className="sticky top-0 z-30 border-b border-pearl/10 bg-obsidian/92 backdrop-blur-xl"
+      className="sticky top-0 z-30 border-b border-ink/10 bg-pearl/92 backdrop-blur-xl"
     >
       <div
         ref={railRef}
@@ -54,14 +54,14 @@ export default function CategoryTabs({
               aria-current={active ? 'true' : undefined}
               onClick={() => onSelect(category.id)}
               className={`relative min-h-11 whitespace-nowrap rounded-full px-5 text-[10px] font-semibold uppercase tracking-[0.18em] transition-colors duration-300 ${
-                active ? 'text-obsidian' : 'text-silver hover:text-pearl'
+                active ? 'text-ink' : 'text-steel hover:text-ink'
               }`}
             >
               {active && (
                 <motion.span
                   layoutId="active-category-pill"
                   aria-hidden="true"
-                  className="absolute inset-0 rounded-full bg-gold-bright shadow-glow-gold"
+                  className="absolute inset-0 rounded-full bg-gold shadow-soft"
                   transition={
                     prefersReducedMotion
                       ? { duration: 0 }

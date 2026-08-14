@@ -1,16 +1,25 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
-import { ChevronDown, ChevronUp, Pencil, Plus, Search, Star, Trash2 } from 'lucide-react';
+import {
+  Check,
+  ChevronDown,
+  ChevronUp,
+  Pencil,
+  Plus,
+  Search,
+  Star,
+  Trash2,
+} from 'lucide-react';
 import {
   deleteProduct,
   setFeatured,
+  setPrice,
   swapOrder,
 } from '@/lib/menu-repo';
 import {
   byOrder,
-  formatPrice,
   type MenuCategory,
   type MenuProduct,
 } from '@/lib/menu-types';
@@ -142,90 +151,95 @@ export default function ProductManager({
           return (
             <li
               key={product.id}
-              className="flex items-center gap-3 rounded-xl border border-pearl/10 bg-obsidian/60 p-3"
+              className="rounded-xl border border-pearl/10 bg-obsidian/60 p-3"
             >
-              <div className="flex flex-col gap-1">
-                <IconButton
-                  aria-label={`${product.name} yukarı taşı`}
-                  disabled={busy || !canReorder || index === 0}
-                  onClick={() => move(product, -1)}
-                  className="h-6 w-6"
-                >
-                  <ChevronUp className="h-3.5 w-3.5" />
-                </IconButton>
-                <IconButton
-                  aria-label={`${product.name} aşağı taşı`}
-                  disabled={busy || !canReorder || index === rows.length - 1}
-                  onClick={() => move(product, 1)}
-                  className="h-6 w-6"
-                >
-                  <ChevronDown className="h-3.5 w-3.5" />
-                </IconButton>
+              <div className="flex items-start gap-3">
+                <div className="relative h-14 w-12 flex-none overflow-hidden rounded-md border border-pearl/10 bg-graphite">
+                  {product.imageUrl && (
+                    <Image
+                      src={product.imageUrl}
+                      alt=""
+                      fill
+                      sizes="48px"
+                      className="object-cover"
+                      unoptimized
+                    />
+                  )}
+                </div>
+
+                <div className="min-w-0 flex-1">
+                  <p className="truncate text-sm text-pearl">
+                    {product.name || '(isimsiz)'}
+                  </p>
+                  <p className="mt-0.5 truncate text-[11px] text-steel">
+                    {product.subcategory || 'Alt kategori yok'}
+                    {product.kcal ? ` · ${product.kcal} kcal` : ''}
+                    {product.allergens?.length
+                      ? ` · ${product.allergens.length} alerjen`
+                      : ''}
+                  </p>
+                </div>
+
+                <PriceEditor product={product} />
               </div>
 
-              <div className="relative h-12 w-10 flex-none overflow-hidden rounded-md border border-pearl/10 bg-graphite">
-                {product.imageUrl && (
-                  <Image
-                    src={product.imageUrl}
-                    alt=""
-                    fill
-                    sizes="40px"
-                    className="object-cover"
-                    unoptimized
-                  />
-                )}
+              {/* Actions on their own row: seven controls on one line
+                  overflowed the viewport on a phone, which is where the
+                  owner actually updates the card. */}
+              <div className="mt-3 flex items-center justify-between gap-2 border-t border-pearl/10 pt-2.5">
+                <div className="flex items-center gap-1.5">
+                  <IconButton
+                    aria-label={`${product.name} yukarı taşı`}
+                    disabled={busy || !canReorder || index === 0}
+                    onClick={() => move(product, -1)}
+                  >
+                    <ChevronUp className="h-4 w-4" />
+                  </IconButton>
+                  <IconButton
+                    aria-label={`${product.name} aşağı taşı`}
+                    disabled={busy || !canReorder || index === rows.length - 1}
+                    onClick={() => move(product, 1)}
+                  >
+                    <ChevronDown className="h-4 w-4" />
+                  </IconButton>
+                </div>
+
+                <div className="flex items-center gap-1.5">
+                  <IconButton
+                    aria-label={`${product.name} şefin önerisi`}
+                    aria-pressed={Boolean(product.isFeatured)}
+                    disabled={busy}
+                    onClick={() => setFeatured(product.id, !product.isFeatured)}
+                    className={product.isFeatured ? 'border-gold/70' : ''}
+                  >
+                    <Star
+                      className={`h-4 w-4 ${
+                        product.isFeatured ? 'fill-gold text-gold' : ''
+                      }`}
+                    />
+                  </IconButton>
+
+                  <IconButton
+                    aria-label={`${product.name} düzenle`}
+                    onClick={() => setEditing(product)}
+                  >
+                    <Pencil className="h-4 w-4" />
+                  </IconButton>
+
+                  <IconButton
+                    aria-label={`${product.name} sil`}
+                    disabled={busy}
+                    onClick={async () => {
+                      if (!confirm(`"${product.name}" silinsin mi?`)) return;
+                      setBusy(true);
+                      await deleteProduct(product);
+                      setBusy(false);
+                    }}
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </IconButton>
+                </div>
               </div>
-
-              <div className="min-w-0 flex-1">
-                <p className="truncate text-sm text-pearl">
-                  {product.name || '(isimsiz)'}
-                </p>
-                <p className="mt-0.5 truncate text-[11px] text-steel">
-                  {product.subcategory || 'Alt kategori yok'}
-                  {product.kcal ? ` · ${product.kcal} kcal` : ''}
-                  {product.allergens?.length
-                    ? ` · ${product.allergens.length} alerjen`
-                    : ''}
-                </p>
-              </div>
-
-              <span className="flex-none text-sm tabular-nums text-platinum">
-                {product.price === null ? '—' : formatPrice(product.price)}
-              </span>
-
-              <IconButton
-                aria-label={`${product.name} şefin önerisi`}
-                aria-pressed={Boolean(product.isFeatured)}
-                disabled={busy}
-                onClick={() => setFeatured(product.id, !product.isFeatured)}
-                className={product.isFeatured ? 'border-pearl/60' : ''}
-              >
-                <Star
-                  className={`h-4 w-4 ${
-                    product.isFeatured ? 'fill-pearl text-pearl' : ''
-                  }`}
-                />
-              </IconButton>
-
-              <IconButton
-                aria-label={`${product.name} düzenle`}
-                onClick={() => setEditing(product)}
-              >
-                <Pencil className="h-4 w-4" />
-              </IconButton>
-
-              <IconButton
-                aria-label={`${product.name} sil`}
-                disabled={busy}
-                onClick={async () => {
-                  if (!confirm(`"${product.name}" silinsin mi?`)) return;
-                  setBusy(true);
-                  await deleteProduct(product);
-                  setBusy(false);
-                }}
-              >
-                <Trash2 className="h-4 w-4" />
-              </IconButton>
             </li>
           );
         })}
@@ -237,5 +251,107 @@ export default function ProductManager({
         </p>
       )}
     </Panel>
+  );
+}
+
+/**
+ * Price, editable in place. Zam günü means touching dozens of figures, and
+ * opening the full product form for each one is the wrong shape of work —
+ * this writes only the `price` field, on blur or Enter.
+ *
+ * An empty field means "Sorunuz" (no figure on the card), which is a real
+ * state on this menu, so it has to be reachable — not just a validation
+ * failure.
+ */
+function PriceEditor({ product }: { product: MenuProduct }) {
+  const asText = (price: number | null) => (price === null ? '' : String(price));
+  const [value, setValue] = useState(() => asText(product.price));
+  const [state, setState] = useState<'idle' | 'saving' | 'saved' | 'error'>(
+    'idle'
+  );
+
+  // Re-sync when the figure changes underneath us — our own save echoing
+  // back through the live subscription, or an edit from another device.
+  useEffect(() => {
+    setValue(asText(product.price));
+  }, [product.price]);
+
+  const commit = async () => {
+    const raw = value.trim().replace(',', '.');
+    const next = raw === '' ? null : Number(raw);
+
+    if (next !== null && (!Number.isFinite(next) || next < 0)) {
+      setState('error');
+      return;
+    }
+    if (next === product.price) {
+      setState('idle');
+      return;
+    }
+
+    setState('saving');
+    try {
+      await setPrice(product.id, next);
+      setState('saved');
+      window.setTimeout(
+        () => setState((s) => (s === 'saved' ? 'idle' : s)),
+        1400
+      );
+    } catch {
+      setState('error');
+    }
+  };
+
+  return (
+    <div className="flex flex-none items-center gap-1.5">
+      <div className="relative">
+        <input
+          inputMode="decimal"
+          value={value}
+          aria-label={`${product.name} fiyatı`}
+          placeholder="—"
+          disabled={state === 'saving'}
+          onChange={(e) => {
+            setValue(e.target.value);
+            if (state !== 'idle') setState('idle');
+          }}
+          onBlur={commit}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              e.preventDefault();
+              e.currentTarget.blur();
+            }
+            if (e.key === 'Escape') {
+              setValue(asText(product.price));
+              setState('idle');
+            }
+          }}
+          className={`w-20 rounded-lg border bg-onyx py-2 pl-2.5 pr-6 text-right text-sm tabular-nums text-pearl placeholder:text-steel focus:outline-none disabled:opacity-50 ${
+            state === 'error'
+              ? 'border-red-500/70'
+              : state === 'saved'
+                ? 'border-gold/70'
+                : 'border-pearl/15 focus:border-gold/60'
+          }`}
+        />
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-xs text-steel"
+        >
+          ₺
+        </span>
+      </div>
+
+      <span className="w-4 flex-none" aria-live="polite">
+        {state === 'saved' && (
+          <Check className="h-4 w-4 text-gold" aria-label="Kaydedildi" />
+        )}
+        {state === 'error' && (
+          <span className="text-xs text-red-400" role="alert" title="Kaydedilemedi">
+            !
+          </span>
+        )}
+      </span>
+    </div>
   );
 }

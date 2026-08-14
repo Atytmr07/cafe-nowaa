@@ -11,7 +11,7 @@ import type {
 /** Shared admin controls — plain, dense, and legible on obsidian. */
 
 const FIELD =
-  'w-full rounded-lg border border-pearl/15 bg-onyx px-3 py-2.5 text-sm text-pearl placeholder:text-steel focus:border-pearl/45 focus:outline-none';
+  'w-full rounded-lg border border-pearl/15 bg-onyx px-3 py-2.5 text-sm text-pearl placeholder:text-steel focus:border-gold/60 focus:outline-none';
 
 export function Field({
   label,
@@ -53,8 +53,8 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 
 export function Button({ variant = 'ghost', ...props }: ButtonProps) {
   const styles = {
-    primary: 'bg-pearl text-obsidian hover:bg-ivory',
-    ghost: 'border border-pearl/20 text-pearl hover:border-pearl/50',
+    primary: 'bg-gold text-ink hover:bg-gold-bright',
+    ghost: 'border border-pearl/20 text-pearl hover:border-gold/60',
     danger: 'border border-red-500/40 text-red-300 hover:border-red-500/80',
   }[variant];
 
@@ -73,7 +73,7 @@ export function IconButton(props: ButtonHTMLAttributes<HTMLButtonElement>) {
     <button
       type="button"
       {...props}
-      className={`flex h-9 w-9 flex-none items-center justify-center rounded-lg border border-pearl/15 text-silver transition-colors hover:border-pearl/40 hover:text-pearl disabled:cursor-not-allowed disabled:opacity-30 ${
+      className={`flex h-10 w-10 flex-none items-center justify-center rounded-lg border border-pearl/15 text-silver transition-colors hover:border-gold/50 hover:text-pearl disabled:cursor-not-allowed disabled:opacity-30 ${
         props.className ?? ''
       }`}
     />
@@ -90,7 +90,7 @@ export function Panel({
   children: ReactNode;
 }) {
   return (
-    <section className="rounded-2xl border border-pearl/10 bg-onyx/60 p-5 sm:p-6">
+    <section className="rounded-2xl border border-pearl/10 bg-onyx/60 p-4 sm:p-6">
       <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
         <h2 className="font-display text-xl text-pearl">{title}</h2>
         {action}

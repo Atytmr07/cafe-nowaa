@@ -99,7 +99,7 @@ export default function Hero() {
           <svg
             aria-hidden="true"
             viewBox="0 0 100 100"
-            className="animate-orbit absolute h-40 w-40 text-gold/40 sm:h-52 sm:w-52"
+            className="animate-orbit absolute h-36 w-36 text-gold/40 sm:h-48 sm:w-48"
             fill="none"
           >
             <circle

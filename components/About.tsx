@@ -12,6 +12,9 @@ import Reveal from './Reveal';
 import MaskedText from './MaskedText';
 import Photo from './Photo';
 import ColumnDivider from './ColumnDivider';
+import CoffeeBeans from './decor/CoffeeBeans';
+import DotWeave from './decor/DotWeave';
+import OrganicBlob from './decor/OrganicBlob';
 
 const MARKS = [
   { icon: Coffee, label: 'Günlük Taze Kavrulmuş Kahve' },
@@ -30,8 +33,22 @@ export default function About() {
   const parallaxY = useTransform(scrollYProgress, [0, 1], [-30, 30]);
 
   return (
-    <section id="hakkimizda" className="bg-pearl py-24 md:py-32">
-      <div className="mx-auto max-w-7xl px-5 sm:px-8">
+    <section
+      id="hakkimizda"
+      className="relative overflow-hidden bg-pearl py-24 md:py-32"
+    >
+      {/* Quiet texture, breaking up what was a flat cream fill */}
+      <DotWeave className="pointer-events-none absolute inset-0 opacity-[0.045]" />
+      <OrganicBlob
+        tone="gold"
+        className="pointer-events-none absolute -right-32 -top-32 h-96 w-96 opacity-[0.09] blur-3xl animate-drift"
+      />
+      <CoffeeBeans
+        tone="ink"
+        className="pointer-events-none absolute bottom-10 left-6 h-16 w-28 opacity-[0.14] sm:bottom-16 sm:left-10"
+      />
+
+      <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
         <ColumnDivider tone="light" className="mb-16" />
 
         <div className="grid items-center gap-14 lg:grid-cols-[1fr_1.1fr] lg:gap-20">

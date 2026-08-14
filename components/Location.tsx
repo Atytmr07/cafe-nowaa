@@ -6,13 +6,21 @@ import Magnetic from './Magnetic';
 import Reveal from './Reveal';
 import MaskedText from './MaskedText';
 import ColumnDivider from './ColumnDivider';
+import CoffeeBeans from './decor/CoffeeBeans';
+import DotWeave from './decor/DotWeave';
 import { BUSINESS } from '@/config/business';
 import { trackEvent } from '@/lib/firebase';
 
 export default function Location() {
   return (
-    <section id="konum" className="bg-pearl py-24 md:py-32">
-      <div className="mx-auto max-w-7xl px-5 sm:px-8">
+    <section id="konum" className="relative overflow-hidden bg-pearl py-24 md:py-32">
+      <DotWeave className="pointer-events-none absolute inset-0 opacity-[0.045]" />
+      <CoffeeBeans
+        tone="gold"
+        className="pointer-events-none absolute -right-4 top-16 h-16 w-28 rotate-[18deg] opacity-[0.16] sm:right-10"
+      />
+
+      <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
         <ColumnDivider tone="light" className="mb-16" />
 
         <div className="text-center">

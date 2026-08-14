@@ -8,6 +8,7 @@ import Reveal from './Reveal';
 import MaskedText from './MaskedText';
 import Photo from './Photo';
 import CountUp from './CountUp';
+import CoffeeBeans from './decor/CoffeeBeans';
 import Lightbox, { type LightboxItem } from './Lightbox';
 import { useMenu } from '@/hooks/useMenu';
 import {
@@ -87,6 +88,10 @@ export default function MenuTeaser() {
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-x-0 top-0 h-80 bg-[radial-gradient(ellipse_45%_100%_at_50%_0%,rgba(217,164,65,0.14),transparent_72%)]"
+      />
+      <CoffeeBeans
+        tone="gold"
+        className="pointer-events-none absolute -left-6 bottom-10 h-14 w-24 -rotate-[10deg] opacity-[0.12]"
       />
 
       <div className="relative mx-auto max-w-6xl px-5 sm:px-8">

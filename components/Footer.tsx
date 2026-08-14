@@ -3,6 +3,7 @@ import { Instagram, MapPin, Phone } from 'lucide-react';
 import NVLogo from './NVLogo';
 import FooterWordmark from './FooterWordmark';
 import OpenStatus from './OpenStatus';
+import CoffeeBeans from './decor/CoffeeBeans';
 import WhatsAppIcon from './icons/WhatsAppIcon';
 import { BUSINESS } from '@/config/business';
 
@@ -21,6 +22,10 @@ export default function Footer() {
       className="relative overflow-hidden bg-obsidian pt-24 md:pt-32"
     >
       <FooterWordmark />
+      <CoffeeBeans
+        tone="gold"
+        className="pointer-events-none absolute right-6 top-10 h-14 w-24 rotate-[12deg] opacity-[0.14] sm:right-12"
+      />
 
       <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
         <div className="grid gap-14 md:grid-cols-2 lg:grid-cols-4">
@@ -128,7 +133,7 @@ export default function Footer() {
               Çalışma Saatleri
             </h3>
             <p className="mt-6 font-display text-2xl text-pearl">
-              07:00 — 00:00
+              09:00 — 02:00
             </p>
             <p className="mt-2 text-sm font-light text-silver">Her gün açığız</p>
             <OpenStatus className="mt-3" />

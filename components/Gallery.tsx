@@ -13,6 +13,8 @@ import MaskedText from './MaskedText';
 import Photo from './Photo';
 import ColumnDivider from './ColumnDivider';
 import Lightbox, { type LightboxItem } from './Lightbox';
+import DotWeave from './decor/DotWeave';
+import OrganicBlob from './decor/OrganicBlob';
 import { GALLERY_IMAGES, type GalleryImage } from '@/data/gallery';
 
 const LIGHTBOX_ITEMS: LightboxItem[] = GALLERY_IMAGES.map((image) => ({
@@ -24,8 +26,14 @@ export default function Gallery() {
   const [zoomedIndex, setZoomedIndex] = useState<number | null>(null);
 
   return (
-    <section id="galeri" className="bg-pearl py-24 md:py-32">
-      <div className="mx-auto max-w-7xl px-5 sm:px-8">
+    <section id="galeri" className="relative overflow-hidden bg-pearl py-24 md:py-32">
+      <DotWeave className="pointer-events-none absolute inset-0 opacity-[0.045]" />
+      <OrganicBlob
+        tone="gold"
+        className="pointer-events-none absolute -left-28 bottom-0 h-80 w-80 opacity-[0.08] blur-3xl animate-drift"
+      />
+
+      <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
         <ColumnDivider tone="light" className="mb-16" />
 
         <div className="text-center">

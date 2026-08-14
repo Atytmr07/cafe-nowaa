@@ -6,6 +6,7 @@ import { useReducedMotion } from 'framer-motion';
 import Reveal from './Reveal';
 import MaskedText from './MaskedText';
 import GrainOverlay from './GrainOverlay';
+import CoffeeBeans from './decor/CoffeeBeans';
 import { REVIEWS } from '@/data/reviews';
 
 function StarRow({ rating, name }: { rating: number; name: string }) {
@@ -92,6 +93,10 @@ export default function Reviews() {
       <div
         aria-hidden="true"
         className="pointer-events-none absolute -top-40 left-1/2 h-80 w-[44rem] -translate-x-1/2 rounded-full bg-gold/[0.06] blur-3xl"
+      />
+      <CoffeeBeans
+        tone="gold"
+        className="pointer-events-none absolute -right-4 bottom-8 h-16 w-28 rotate-[-16deg] opacity-[0.16] sm:right-10"
       />
 
       <div className="relative mx-auto max-w-7xl px-5 sm:px-8">

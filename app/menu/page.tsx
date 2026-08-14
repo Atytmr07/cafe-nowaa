@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import MenuHeader from '@/components/menu/MenuHeader';
 import MenuExperience from '@/components/menu/MenuExperience';
 import WhatsAppButton from '@/components/WhatsAppButton';
+import DotWeave from '@/components/decor/DotWeave';
 import { SEED_CATEGORIES, SEED_PRODUCTS } from '@/data/seed';
 import { groupProducts } from '@/lib/menu-types';
 import { BUSINESS } from '@/config/business';
@@ -90,7 +91,14 @@ export default function MenuPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(menuJsonLd) }}
       />
-      <main className="min-h-[100svh] bg-pearl">
+      <main className="relative min-h-[100svh] bg-pearl">
+        {/* Printed-card texture behind the whole scroll, not just the hero
+            band — a long flat cream field is exactly what read as pale.
+            Absolute rather than fixed: it stretches to match the full
+            scrollable height of `main` and paints behind every sibling by
+            DOM order alone, same convention the rest of the site uses for
+            background decor (no z-index juggling against fixed elements). */}
+        <DotWeave className="pointer-events-none absolute inset-0 opacity-[0.04]" />
         <MenuHeader />
         <MenuExperience />
         <WhatsAppButton />

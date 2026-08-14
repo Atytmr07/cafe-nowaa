@@ -3,7 +3,6 @@
 import { motion } from 'framer-motion';
 import { Flame, Star, ZoomIn } from 'lucide-react';
 import Photo from '@/components/Photo';
-import type { LightboxItem } from '@/components/Lightbox';
 import { formatPrice, type MenuProduct } from '@/lib/menu-types';
 
 const rowVariants = {
@@ -21,7 +20,9 @@ export default function MenuItemRow({
   onZoom,
 }: {
   product: MenuProduct;
-  onZoom: (item: LightboxItem) => void;
+  /** Id rather than a built LightboxItem: the parent owns the photographed-
+   *  product list (in card order) so the lightbox can page through it. */
+  onZoom: (productId: string) => void;
 }) {
   const hasImage = Boolean(product.imageUrl);
   const allergens = product.allergens ?? [];
@@ -34,20 +35,7 @@ export default function MenuItemRow({
       {hasImage && (
         <button
           type="button"
-          onClick={() =>
-            onZoom({
-              src: product.imageUrl!,
-              alt: product.name,
-              caption: product.name,
-              meta: [
-                product.price !== null ? formatPrice(product.price) : null,
-                product.kcal ? `${product.kcal} kcal` : null,
-                allergens.length ? `Alerjen: ${allergens.join(', ')}` : null,
-              ]
-                .filter(Boolean)
-                .join('  ·  '),
-            })
-          }
+          onClick={() => onZoom(product.id)}
           aria-label={`${product.name} görselini büyüt`}
           className="group relative h-24 w-20 flex-none overflow-hidden sm:h-28 sm:w-24"
         >

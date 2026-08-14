@@ -3,8 +3,9 @@
 import { useEffect, useState } from 'react';
 
 /** Trading hours, local time. Keep in step with config/business.ts. */
-const OPENS_HOUR = 7;
-const CLOSES_HOUR = 24;
+const OPENS_HOUR = 9;
+/** Past midnight, so this is smaller than OPENS_HOUR — handled below */
+const CLOSES_HOUR = 2;
 
 type Status = { open: boolean; label: string } | null;
 
@@ -21,7 +22,10 @@ function currentStatus(): Status {
   const minute = Number(parts.find((p) => p.type === 'minute')?.value ?? '0');
   const minutes = hour * 60 + minute;
 
-  const open = minutes >= OPENS_HOUR * 60 && minutes < CLOSES_HOUR * 60;
+  // The window crosses midnight (09:00 → 02:00 next day), so "open" is
+  // everything from opening time through end of day, plus everything from
+  // midnight up to closing time.
+  const open = minutes >= OPENS_HOUR * 60 || minutes < CLOSES_HOUR * 60;
 
   return {
     open,

@@ -85,8 +85,8 @@ const jsonLd = {
       'Saturday',
       'Sunday',
     ],
-    opens: '07:00',
-    closes: '00:00',
+    opens: '09:00',
+    closes: '02:00',
   },
   hasMenu: `${SITE_URL}/menu`,
   servesCuisine: [

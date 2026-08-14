@@ -8,8 +8,21 @@ import CategorySection from './CategorySection';
 import MenuItemRow from './MenuItemRow';
 import Lightbox, { type LightboxItem } from '@/components/Lightbox';
 import { useMenu } from '@/hooks/useMenu';
-import { byOrder } from '@/lib/menu-types';
+import { byOrder, formatPrice, groupProducts, type MenuProduct } from '@/lib/menu-types';
 import { trackEvent } from '@/lib/firebase';
+
+const toLightboxItem = (product: MenuProduct): LightboxItem => ({
+  src: product.imageUrl!,
+  alt: product.name,
+  caption: product.name,
+  meta: [
+    product.price !== null ? formatPrice(product.price) : null,
+    product.kcal ? `${product.kcal} kcal` : null,
+    product.allergens?.length ? `Alerjen: ${product.allergens.join(', ')}` : null,
+  ]
+    .filter(Boolean)
+    .join('  ·  '),
+});
 
 /** Sticky rail height plus breathing room — the scrollspy trigger line */
 const SPY_OFFSET = 150;
@@ -22,7 +35,7 @@ export default function MenuExperience() {
   const { menu } = useMenu();
   const [activeId, setActiveId] = useState(menu.categories[0]?.id ?? '');
   const [query, setQuery] = useState('');
-  const [zoomed, setZoomed] = useState<LightboxItem | null>(null);
+  const [zoomedId, setZoomedId] = useState<string | null>(null);
   const [showTop, setShowTop] = useState(false);
   const lockUntil = useRef(0);
   const prefersReducedMotion = useReducedMotion();
@@ -46,6 +59,28 @@ export default function MenuExperience() {
       )
       .sort(byOrder);
   }, [menu.products, query]);
+
+  /**
+   * The photographed dishes, in the same order they're printed on the
+   * page — every category's buckets in turn, exactly what CategorySection
+   * renders — so the lightbox's arrows step through the card the way a
+   * visitor is already reading it, not in some unrelated database order.
+   */
+  const browsablePhotos = useMemo(() => {
+    const source = searching
+      ? results
+      : categories.flatMap((category) =>
+          groupProducts(category, menu.products).flatMap((b) => b.items)
+        );
+    return source.filter((p) => p.imageUrl);
+  }, [searching, results, categories, menu.products]);
+
+  const zoomedIndex =
+    zoomedId != null ? browsablePhotos.findIndex((p) => p.id === zoomedId) : -1;
+  const lightboxItems = useMemo(
+    () => browsablePhotos.map(toLightboxItem),
+    [browsablePhotos]
+  );
 
   // Scrollspy: the last section whose top has passed the rail wins
   useEffect(() => {
@@ -136,7 +171,7 @@ export default function MenuExperience() {
                   <MenuItemRow
                     key={product.id}
                     product={product}
-                    onZoom={setZoomed}
+                    onZoom={setZoomedId}
                   />
                 ))}
               </div>
@@ -148,7 +183,7 @@ export default function MenuExperience() {
               key={category.id}
               category={category}
               products={menu.products}
-              onZoom={setZoomed}
+              onZoom={setZoomedId}
             />
           ))
         )}
@@ -186,7 +221,13 @@ export default function MenuExperience() {
         )}
       </AnimatePresence>
 
-      <Lightbox item={zoomed} onClose={() => setZoomed(null)} />
+      <Lightbox
+        item={zoomedIndex >= 0 ? lightboxItems[zoomedIndex] : null}
+        items={lightboxItems}
+        index={zoomedIndex >= 0 ? zoomedIndex : null}
+        onNavigate={(i) => setZoomedId(browsablePhotos[i]?.id ?? null)}
+        onClose={() => setZoomedId(null)}
+      />
     </>
   );
 }

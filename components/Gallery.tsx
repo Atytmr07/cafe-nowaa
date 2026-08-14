@@ -15,8 +15,13 @@ import ColumnDivider from './ColumnDivider';
 import Lightbox, { type LightboxItem } from './Lightbox';
 import { GALLERY_IMAGES, type GalleryImage } from '@/data/gallery';
 
+const LIGHTBOX_ITEMS: LightboxItem[] = GALLERY_IMAGES.map((image) => ({
+  src: image.src,
+  alt: image.alt,
+}));
+
 export default function Gallery() {
-  const [zoomed, setZoomed] = useState<LightboxItem | null>(null);
+  const [zoomedIndex, setZoomedIndex] = useState<number | null>(null);
 
   return (
     <section id="galeri" className="bg-pearl py-24 md:py-32">
@@ -49,14 +54,20 @@ export default function Gallery() {
                 key={image.id}
                 image={image}
                 index={i}
-                onZoom={setZoomed}
+                onZoom={setZoomedIndex}
               />
             ))}
           </div>
         </Reveal>
       </div>
 
-      <Lightbox item={zoomed} onClose={() => setZoomed(null)} />
+      <Lightbox
+        item={zoomedIndex != null ? LIGHTBOX_ITEMS[zoomedIndex] : null}
+        items={LIGHTBOX_ITEMS}
+        index={zoomedIndex}
+        onNavigate={setZoomedIndex}
+        onClose={() => setZoomedIndex(null)}
+      />
     </section>
   );
 }
@@ -78,7 +89,7 @@ function GalleryTile({
 }: {
   image: GalleryImage;
   index: number;
-  onZoom: (item: LightboxItem) => void;
+  onZoom: (index: number) => void;
 }) {
   const ref = useRef<HTMLElement>(null);
   const prefersReducedMotion = useReducedMotion();
@@ -102,7 +113,7 @@ function GalleryTile({
       <motion.div style={{ y: prefersReducedMotion ? 0 : y }}>
         <button
           type="button"
-          onClick={() => onZoom({ src: image.src, alt: image.alt })}
+          onClick={() => onZoom(index)}
           aria-label={`${image.alt} — büyüt`}
           className="group relative block w-full overflow-hidden shadow-soft"
         >

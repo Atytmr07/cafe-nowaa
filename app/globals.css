@@ -142,12 +142,13 @@ body {
 }
 
 .animate-marquee {
-  animation: marquee 38s linear infinite;
+  animation: marquee 78s linear infinite;
 }
 
-/* Slightly off the first row's period so the two never sync up */
+/* Deliberately not a multiple of the first row's period, so the two rows
+   never fall into step with each other */
 .animate-marquee-reverse {
-  animation: marquee-reverse 47s linear infinite;
+  animation: marquee-reverse 95s linear infinite;
 }
 
 /* Slow rotation for the dashed ring orbiting the hero mark */

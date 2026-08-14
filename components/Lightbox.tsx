@@ -3,7 +3,7 @@
 import { useCallback, useEffect } from 'react';
 import Image from 'next/image';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
-import { X } from 'lucide-react';
+import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 
 export type LightboxItem = {
   src: string;
@@ -13,25 +13,49 @@ export type LightboxItem = {
 };
 
 /**
- * Full-screen image viewer. Closes on Escape, backdrop click or the
- * button; locks page scroll and returns focus behaviour to the browser
- * by rendering a real dialog.
+ * Full-screen image viewer. Closes on Escape, backdrop click or the button;
+ * locks page scroll and returns focus behaviour to the browser by rendering
+ * a real dialog.
+ *
+ * `items` + `index` are optional: pass them when the trigger is one photo
+ * among a set worth browsing (the gallery grid, a menu category) and arrow
+ * controls appear, with ←/→ and edge-to-edge swipe wired up so a visitor
+ * never has to close and reopen to see the next shot. A caller with a
+ * single photo can omit them entirely and gets the plain viewer.
  */
 export default function Lightbox({
   item,
+  items,
+  index,
+  onNavigate,
   onClose,
 }: {
   item: LightboxItem | null;
+  items?: LightboxItem[];
+  index?: number | null;
+  onNavigate?: (index: number) => void;
   onClose: () => void;
 }) {
   const prefersReducedMotion = useReducedMotion();
   const open = Boolean(item);
+  const canNavigate = Boolean(items && items.length > 1 && onNavigate);
+  const count = items?.length ?? 0;
+
+  const go = useCallback(
+    (delta: 1 | -1) => {
+      if (!canNavigate || index == null || !onNavigate) return;
+      onNavigate((index + delta + count) % count);
+    },
+    [canNavigate, index, onNavigate, count]
+  );
 
   const handleKey = useCallback(
     (event: KeyboardEvent) => {
       if (event.key === 'Escape') onClose();
+      if (event.key === 'ArrowRight') go(1);
+      if (event.key === 'ArrowLeft') go(-1);
     },
-    [onClose]
+    [onClose, go]
   );
 
   useEffect(() => {
@@ -44,6 +68,11 @@ export default function Lightbox({
       document.body.style.overflow = previous;
     };
   }, [open, handleKey]);
+
+  // Basic swipe: a horizontal drag past the threshold steps to the
+  // neighbouring photo instead of closing, so touch users get the same
+  // "keep browsing without leaving" behaviour as the arrow buttons.
+  const SWIPE_THRESHOLD = 60;
 
   return (
     <AnimatePresence>
@@ -63,14 +92,49 @@ export default function Lightbox({
             type="button"
             onClick={onClose}
             aria-label="Görseli kapat"
-            className="absolute right-4 top-4 flex h-12 w-12 items-center justify-center rounded-full border border-pearl/20 text-pearl transition-colors hover:border-pearl/60 sm:right-6 sm:top-6"
+            className="absolute right-4 top-4 z-10 flex h-12 w-12 items-center justify-center rounded-full border border-pearl/20 text-pearl transition-colors hover:border-gold/60 sm:right-6 sm:top-6"
           >
             <X className="h-5 w-5" strokeWidth={1.4} aria-hidden="true" />
           </button>
 
+          {canNavigate && (
+            <>
+              <button
+                type="button"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  go(-1);
+                }}
+                aria-label="Önceki görsel"
+                className="absolute left-2 top-1/2 z-10 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-pearl/20 text-pearl transition-colors hover:border-gold/60 sm:left-6"
+              >
+                <ChevronLeft className="h-5 w-5" strokeWidth={1.4} aria-hidden="true" />
+              </button>
+              <button
+                type="button"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  go(1);
+                }}
+                aria-label="Sonraki görsel"
+                className="absolute right-2 top-1/2 z-10 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-pearl/20 text-pearl transition-colors hover:border-gold/60 sm:right-6"
+              >
+                <ChevronRight className="h-5 w-5" strokeWidth={1.4} aria-hidden="true" />
+              </button>
+            </>
+          )}
+
           <motion.figure
+            key={item.src}
             // Clicks inside the frame must not fall through to the backdrop
             onClick={(event) => event.stopPropagation()}
+            drag={canNavigate && !prefersReducedMotion ? 'x' : false}
+            dragConstraints={{ left: 0, right: 0 }}
+            dragElastic={0.6}
+            onDragEnd={(_, dragInfo) => {
+              if (dragInfo.offset.x <= -SWIPE_THRESHOLD) go(1);
+              else if (dragInfo.offset.x >= SWIPE_THRESHOLD) go(-1);
+            }}
             initial={
               prefersReducedMotion
                 ? { opacity: 0 }
@@ -91,8 +155,9 @@ export default function Lightbox({
                 alt={item.alt}
                 fill
                 sizes="(min-width: 768px) 768px, 100vw"
-                className="luxe-photo object-contain"
+                className="luxe-photo pointer-events-none object-contain"
                 unoptimized
+                draggable={false}
               />
             </div>
 
@@ -109,6 +174,12 @@ export default function Lightbox({
                   </p>
                 )}
               </figcaption>
+            )}
+
+            {canNavigate && index != null && (
+              <p className="mt-4 text-center text-[11px] tracking-[0.2em] text-steel">
+                {index + 1} / {count}
+              </p>
             )}
           </motion.figure>
         </motion.div>

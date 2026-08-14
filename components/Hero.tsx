@@ -13,7 +13,6 @@ import { ArrowUpRight, MapPin } from 'lucide-react';
 import AnimatedNVLogo, { NV_DRAW_DURATION } from './AnimatedNVLogo';
 import Magnetic from './Magnetic';
 import GrainOverlay from './GrainOverlay';
-import OpenStatus from './OpenStatus';
 import { BUSINESS } from '@/config/business';
 import { trackEvent } from '@/lib/firebase';
 
@@ -190,12 +189,6 @@ export default function Hero() {
             Kahve, kahvaltı, taş fırın pizza, burger ve daha fazlası —
             Marmaray&apos;ın hemen yanı başında, şık bir mola.
           </motion.p>
-
-          {/* A live signal, not a poster: the dot actually reflects whether
-              the kitchen is open right now, in Istanbul time */}
-          <motion.div {...rise(0.56)} className="mt-6">
-            <OpenStatus className="rounded-full border border-pearl/15 bg-obsidian/50 px-4 py-2 backdrop-blur-sm" />
-          </motion.div>
 
           <motion.div
             {...rise(0.62)}

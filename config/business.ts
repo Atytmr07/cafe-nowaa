@@ -14,7 +14,7 @@ export const BUSINESS = {
     'Bostancı Mah. Bostan Tariki Sk. No: A1, Bostancı Marmaray Girişi Yanı, İstanbul',
   instagram: 'https://www.instagram.com/cafe_nowaa/',
   instagramHandle: '@cafe_nowaa',
-  hours: 'Her gün 07:00 – 00:00', // placeholder — confirm real hours with client
+  hours: 'Her gün 09:00 – 02:00',
   /** Exact coordinates of the real Google Business listing */
   geo: { lat: 40.9541456, lng: 29.0956178 },
   /**

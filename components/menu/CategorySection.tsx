@@ -2,7 +2,6 @@
 
 import { motion } from 'framer-motion';
 import MenuItemRow from './MenuItemRow';
-import type { LightboxItem } from '@/components/Lightbox';
 import { groupProducts, type MenuCategory, type MenuProduct } from '@/lib/menu-types';
 
 const listVariants = {
@@ -22,7 +21,7 @@ export default function CategorySection({
 }: {
   category: MenuCategory;
   products: MenuProduct[];
-  onZoom: (item: LightboxItem) => void;
+  onZoom: (productId: string) => void;
 }) {
   const buckets = groupProducts(category, products);
   if (buckets.length === 0) return null;

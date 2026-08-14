@@ -10,7 +10,18 @@ import type { Config } from 'tailwindcss';
  * Gold is a genuinely saturated brass, not the washed sand it was.
  */
 const config: Config = {
-  content: ['./app/**/*.{ts,tsx}', './components/**/*.{ts,tsx}', './lib/**/*.{ts,tsx}'],
+  // `data/` and `config/` must be scanned too: data/gallery.ts carries the
+  // per-image `aspect-[3/4]` classes, and with the directory unscanned that
+  // class was never generated — five gallery tiles collapsed to zero height
+  // and vanished. Only `aspect-[4/3]` survived, because Lightbox.tsx happens
+  // to use it as well.
+  content: [
+    './app/**/*.{ts,tsx}',
+    './components/**/*.{ts,tsx}',
+    './lib/**/*.{ts,tsx}',
+    './data/**/*.{ts,tsx}',
+    './config/**/*.{ts,tsx}',
+  ],
   theme: {
     extend: {
       colors: {

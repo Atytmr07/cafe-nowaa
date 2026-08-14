@@ -132,8 +132,22 @@ body {
   }
 }
 
+@keyframes marquee-reverse {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
 .animate-marquee {
   animation: marquee 38s linear infinite;
+}
+
+/* Slightly off the first row's period so the two never sync up */
+.animate-marquee-reverse {
+  animation: marquee-reverse 47s linear infinite;
 }
 
 /* Slow rotation for the dashed ring orbiting the hero mark */
@@ -183,6 +197,40 @@ body {
   animation: pulse-ring 2.6s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
+/*
+ * Ken Burns. The site's photography only moved on :hover, which means it
+ * never moved at all on a phone — the whole page froze the moment its
+ * entrance animations finished. These drift continuously instead.
+ */
+@keyframes ken-burns {
+  0%,
+  100% {
+    transform: scale(1.06) translate3d(0, 0, 0);
+  }
+  50% {
+    transform: scale(1.18) translate3d(-1.8%, -1.4%, 0);
+  }
+}
+
+.animate-ken-burns {
+  animation: ken-burns 28s ease-in-out infinite;
+}
+
+/* Opposite drift, so neighbouring photos never move in lockstep */
+@keyframes ken-burns-alt {
+  0%,
+  100% {
+    transform: scale(1.08) translate3d(0, 0, 0);
+  }
+  50% {
+    transform: scale(1.16) translate3d(1.6%, 1.2%, 0);
+  }
+}
+
+.animate-ken-burns-alt {
+  animation: ken-burns-alt 34s ease-in-out infinite;
+}
+
 /* The hero mark's halo, breathing like a filament rather than sitting flat */
 @keyframes glow-breathe {
   0%,
@@ -202,6 +250,9 @@ body {
 
 @media (prefers-reduced-motion: reduce) {
   .animate-marquee,
+  .animate-marquee-reverse,
+  .animate-ken-burns,
+  .animate-ken-burns-alt,
   .animate-orbit,
   .animate-drift,
   .animate-pulse-ring,

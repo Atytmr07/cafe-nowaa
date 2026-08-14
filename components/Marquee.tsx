@@ -1,6 +1,10 @@
 /**
  * Scrolling band of the kitchen's repertoire, set in the display face —
- * signage drifting past the window. Pure CSS loop, paused for reduced motion.
+ * signage drifting past the window.
+ *
+ * Two rows running against each other rather than one: a single row reads as
+ * a decorative strip, while opposing rows read as motion and give the eye a
+ * reason to stay. Pure CSS loops, paused for reduced motion.
  */
 const ITEMS = [
   'Kahve',
@@ -12,7 +16,55 @@ const ITEMS = [
   'Tatlı',
 ];
 
+/** Second row leads with different words so the two never rhyme visually */
+const ITEMS_ALT = [
+  'Taş Fırın',
+  'Serpme Kahvaltı',
+  'Filtre Kahve',
+  'Tost',
+  'Salata & Wrap',
+  'Tatlı Vitrini',
+  'Wrap',
+];
+
 const RUN = [...ITEMS, ...ITEMS, ...ITEMS];
+const RUN_ALT = [...ITEMS_ALT, ...ITEMS_ALT, ...ITEMS_ALT];
+
+function Row({
+  items,
+  reverse = false,
+  muted = false,
+}: {
+  items: string[];
+  reverse?: boolean;
+  muted?: boolean;
+}) {
+  return (
+    <div
+      className={`flex w-max items-center ${
+        reverse ? 'animate-marquee-reverse' : 'animate-marquee'
+      }`}
+      aria-hidden="true"
+    >
+      {[...items, ...items].map((label, i) => (
+        <span key={i} className="flex items-center gap-8 pr-8">
+          <span
+            className={`font-display italic ${
+              muted
+                ? 'text-lg text-pearl/35 sm:text-xl'
+                : 'text-xl text-pearl/75 sm:text-2xl'
+            }`}
+          >
+            {label}
+          </span>
+          <span
+            className={`h-1 w-1 rotate-45 ${muted ? 'bg-gold/40' : 'bg-gold'}`}
+          />
+        </span>
+      ))}
+    </div>
+  );
+}
 
 export default function Marquee() {
   return (
@@ -30,15 +82,9 @@ export default function Marquee() {
         className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-onyx to-transparent"
       />
 
-      <div className="animate-marquee flex w-max items-center" aria-hidden="true">
-        {[...RUN, ...RUN].map((label, i) => (
-          <span key={i} className="flex items-center gap-8 pr-8">
-            <span className="font-display text-xl italic text-pearl/70 sm:text-2xl">
-              {label}
-            </span>
-            <span className="h-1 w-1 rotate-45 bg-gold/70" />
-          </span>
-        ))}
+      <div className="space-y-2">
+        <Row items={RUN} />
+        <Row items={RUN_ALT} reverse muted />
       </div>
 
       <span className="sr-only">

@@ -42,9 +42,9 @@ export const NV_DRAW_DURATION = 1.75;
  */
 const FLARES: [number, number, number][] = [
   [71.0, 13.6, 0.0],
-  [89.5, 64.4, 0.22],
-  [10.5, 64.4, 0.4],
-  [35.6, 10.5, 0.56],
+  [89.5, 64.4, 0.9],
+  [10.5, 64.4, 1.8],
+  [35.6, 10.5, 2.6],
 ];
 
 /** A four-point twinkle — long thin arms with concave sides. */
@@ -179,8 +179,9 @@ export default function AnimatedNVLogo({
             </g>
           </motion.g>
 
-          {/* Catch-lights on the ring, popping in sequence then settling
-              into a slow twinkle */}
+          {/* Catch-lights on the ring. Each one flares up and goes fully
+              out — nothing lingers on the mark between twinkles — then
+              returns after a pause, staggered so they never fire together. */}
           {FLARES.map(([x, y, stagger]) => (
             <motion.path
               key={`${x}-${y}`}
@@ -188,14 +189,14 @@ export default function AnimatedNVLogo({
               fill="#FFF6DC"
               style={{ translateX: x, translateY: y }}
               initial={{ opacity: 0, scale: 0 }}
-              animate={{ opacity: [0, 1, 0.35, 0.75, 0.35], scale: [0, 1.15, 0.6, 0.85, 0.6] }}
+              animate={{ opacity: [0, 1, 0], scale: [0, 1.2, 0] }}
               transition={{
-                duration: 3.2,
-                times: [0, 0.18, 0.42, 0.7, 1],
+                duration: 1.15,
+                times: [0, 0.38, 1],
                 ease: 'easeOut',
                 delay: payoff + stagger,
                 repeat: Infinity,
-                repeatDelay: 2.4,
+                repeatDelay: 3.4,
               }}
             />
           ))}

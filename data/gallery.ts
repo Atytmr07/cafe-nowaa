@@ -19,12 +19,8 @@ export const GALLERY_IMAGES: GalleryImage[] = [
     alt: 'Neon Cafe Nowaa tabelasının altında, döküm tavada sıcak servis edilen tatlı',
     aspect: 'aspect-[3/4]',
   },
-  {
-    id: 'g1',
-    src: '/photos/cafe-nowaa-vitrin-gece.jpeg',
-    alt: 'Cafe Nowaa vitrini, gece ışıklandırmasıyla',
-    aspect: 'aspect-[2/3]',
-  },
+  // cafe-nowaa-vitrin-gece.jpeg is deliberately absent: it now sits behind
+  // the hero, and repeating it here would show the same shot twice on one page.
   {
     id: 'g2',
     src: '/photos/cafe-nowaa-giris-merdiven.jpeg',

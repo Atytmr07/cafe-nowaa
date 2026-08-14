@@ -1,13 +1,19 @@
 'use client';
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
+import {
+  motion,
+  useReducedMotion,
+  useScroll,
+  useTransform,
+} from 'framer-motion';
 import { ZoomIn } from 'lucide-react';
 import Reveal from './Reveal';
 import MaskedText from './MaskedText';
 import Photo from './Photo';
 import ColumnDivider from './ColumnDivider';
 import Lightbox, { type LightboxItem } from './Lightbox';
-import { GALLERY_IMAGES } from '@/data/gallery';
+import { GALLERY_IMAGES, type GalleryImage } from '@/data/gallery';
 
 export default function Gallery() {
   const [zoomed, setZoomed] = useState<LightboxItem | null>(null);
@@ -38,38 +44,13 @@ export default function Gallery() {
         {/* Editorial masonry — CSS columns keep varied ratios flowing */}
         <Reveal className="mt-16">
           <div className="columns-2 gap-4 md:columns-3 md:gap-6 [&>*]:mb-4 md:[&>*]:mb-6">
-            {GALLERY_IMAGES.map((image) => (
-              <figure key={image.id} className="break-inside-avoid">
-                <button
-                  type="button"
-                  onClick={() =>
-                    setZoomed({ src: image.src, alt: image.alt })
-                  }
-                  aria-label={`${image.alt} — büyüt`}
-                  className="group relative block w-full overflow-hidden shadow-soft"
-                >
-                  <div className={`relative ${image.aspect}`}>
-                    <Photo
-                      src={image.src}
-                      alt={image.alt}
-                      sizes="(min-width: 768px) 33vw, 50vw"
-                      imgClassName="transition-transform duration-[900ms] ease-out group-hover:scale-[1.05]"
-                    />
-                    <span
-                      aria-hidden="true"
-                      className="pointer-events-none absolute inset-3 border border-pearl/0 transition-colors duration-500 group-hover:border-pearl/35"
-                    />
-                    <span
-                      aria-hidden="true"
-                      className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-                    >
-                      <span className="flex h-11 w-11 items-center justify-center rounded-full border border-pearl/40 bg-obsidian/40 text-pearl backdrop-blur-sm">
-                        <ZoomIn className="h-4 w-4" strokeWidth={1.5} />
-                      </span>
-                    </span>
-                  </div>
-                </button>
-              </figure>
+            {GALLERY_IMAGES.map((image, i) => (
+              <GalleryTile
+                key={image.id}
+                image={image}
+                index={i}
+                onZoom={setZoomed}
+              />
             ))}
           </div>
         </Reveal>
@@ -77,5 +58,82 @@ export default function Gallery() {
 
       <Lightbox item={zoomed} onClose={() => setZoomed(null)} />
     </section>
+  );
+}
+
+/**
+ * One tile of the masonry. Two kinds of motion, both independent of hover —
+ * which matters because on a phone there is no hover, and without this the
+ * whole gallery sat frozen once its entrance had played:
+ *
+ *  - the image drifts continuously (Ken Burns), alternating direction so
+ *    neighbours never move in lockstep
+ *  - the tile itself is offset by scroll position, so the grid breathes as
+ *    the visitor scrolls rather than arriving and stopping
+ */
+function GalleryTile({
+  image,
+  index,
+  onZoom,
+}: {
+  image: GalleryImage;
+  index: number;
+  onZoom: (item: LightboxItem) => void;
+}) {
+  const ref = useRef<HTMLElement>(null);
+  const prefersReducedMotion = useReducedMotion();
+
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start end', 'end start'],
+  });
+
+  // Alternating magnitude keeps the columns from sliding as one slab
+  const drift = [22, -14, 18][index % 3];
+  const y = useTransform(scrollYProgress, [0, 1], [drift, -drift]);
+
+  return (
+    // The transform lives on an inner element, never on the figure itself:
+    // a transformed child of a CSS multi-column container gets fragmented
+    // wrongly and half the tiles simply vanished. Keeping the figure
+    // untransformed also means its layout height stays put, so neighbouring
+    // tiles don't reflow as this one drifts — which is what parallax wants.
+    <figure ref={ref} className="break-inside-avoid">
+      <motion.div style={{ y: prefersReducedMotion ? 0 : y }}>
+        <button
+          type="button"
+          onClick={() => onZoom({ src: image.src, alt: image.alt })}
+          aria-label={`${image.alt} — büyüt`}
+          className="group relative block w-full overflow-hidden shadow-soft"
+        >
+          <div className={`relative ${image.aspect}`}>
+            <Photo
+              src={image.src}
+              alt={image.alt}
+              sizes="(min-width: 768px) 33vw, 50vw"
+              imgClassName={
+                prefersReducedMotion
+                  ? ''
+                  : index % 2 === 0
+                    ? 'animate-ken-burns'
+                    : 'animate-ken-burns-alt'
+              }
+            />
+            <span
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-3 border border-pearl/0 transition-colors duration-500 group-hover:border-gold/60"
+            />
+            <span
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+            >
+              <span className="flex h-11 w-11 items-center justify-center rounded-full border border-pearl/40 bg-obsidian/40 text-pearl backdrop-blur-sm">
+                <ZoomIn className="h-4 w-4" strokeWidth={1.5} />
+              </span>
+            </span>
+          </div>
+        </button>
+      </motion.div>
+    </figure>
   );
 }

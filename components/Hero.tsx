@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import {
   motion,
@@ -12,6 +13,7 @@ import { ArrowUpRight, MapPin } from 'lucide-react';
 import AnimatedNVLogo, { NV_DRAW_DURATION } from './AnimatedNVLogo';
 import Magnetic from './Magnetic';
 import GrainOverlay from './GrainOverlay';
+import OpenStatus from './OpenStatus';
 import { BUSINESS } from '@/config/business';
 import { trackEvent } from '@/lib/firebase';
 
@@ -47,7 +49,34 @@ export default function Hero() {
   });
 
   return (
-    <header className="relative flex min-h-[100svh] flex-col overflow-hidden bg-obsidian bg-slats">
+    <header className="relative flex min-h-[100svh] flex-col overflow-hidden bg-obsidian">
+      {/*
+        The venue itself, drifting. This screen used to be an empty black
+        rectangle with a logo on it — the single biggest reason the site felt
+        lifeless, since a café's first screen should show the café. The image
+        carries `priority` because it is the LCP element.
+      */}
+      <div aria-hidden="true" className="absolute inset-0 overflow-hidden">
+        <Image
+          src="/photos/cafe-nowaa-vitrin-gece.jpeg"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          // Crop to the lit doorway: centred, the shot's own CAFE NOWAA sign
+          // sat behind the NV mark and the street signpost stayed legible
+          // enough to compete with the headline.
+          className={`object-cover object-[58%_68%] ${
+            prefersReducedMotion ? '' : 'animate-ken-burns'
+          }`}
+        />
+        {/* Scrim: heavy enough that pearl text clears AA contrast over the
+            brightest part of the shot (the lit doorway) */}
+        <div className="absolute inset-0 bg-obsidian/[0.78]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-obsidian via-obsidian/45 to-obsidian" />
+        <div className="absolute inset-0 bg-slats" />
+      </div>
+
       <GrainOverlay />
 
       {/* Ambient wash — the sconce light pooling on a black wall, breathing gently */}
@@ -161,6 +190,12 @@ export default function Hero() {
             Kahve, kahvaltı, taş fırın pizza, burger ve daha fazlası —
             Marmaray&apos;ın hemen yanı başında, şık bir mola.
           </motion.p>
+
+          {/* A live signal, not a poster: the dot actually reflects whether
+              the kitchen is open right now, in Istanbul time */}
+          <motion.div {...rise(0.56)} className="mt-6">
+            <OpenStatus className="rounded-full border border-pearl/15 bg-obsidian/50 px-4 py-2 backdrop-blur-sm" />
+          </motion.div>
 
           <motion.div
             {...rise(0.62)}

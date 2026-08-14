@@ -48,6 +48,7 @@ export default function About() {
                   src="/giris.jpeg"
                   alt="Cafe Nowaa'nın aydınlatılmış girişi ve sütunlu cephesi, akşamüstü"
                   sizes="(min-width: 1024px) 45vw, 100vw"
+                  imgClassName={prefersReducedMotion ? '' : 'animate-ken-burns'}
                 />
               </motion.div>
               {/* Hairline frame inside the image */}

@@ -7,6 +7,7 @@ import Magnetic from './Magnetic';
 import Reveal from './Reveal';
 import MaskedText from './MaskedText';
 import Photo from './Photo';
+import CountUp from './CountUp';
 import Lightbox, { type LightboxItem } from './Lightbox';
 import { useMenu } from '@/hooks/useMenu';
 import {
@@ -279,7 +280,8 @@ export default function MenuTeaser() {
                 </p>
 
                 <p className="mt-6 font-display text-lg italic text-gold-deep">
-                  {categories.length} kategori · {priced.length}+ lezzet
+                  <CountUp to={categories.length} /> kategori ·{' '}
+                  <CountUp to={priced.length} suffix="+" /> lezzet
                 </p>
               </div>
             </Reveal>

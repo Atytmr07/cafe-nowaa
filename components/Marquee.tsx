@@ -99,7 +99,7 @@ export default function Marquee() {
       */}
       <SectionWave
         fill="var(--pearl)"
-        className="absolute inset-x-0 bottom-0 h-8 w-full sm:h-10"
+        className="absolute inset-x-0 bottom-0 h-6 w-full sm:h-8"
       />
 
       <span className="sr-only">

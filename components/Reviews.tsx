@@ -104,7 +104,7 @@ export default function Reviews() {
         className="pointer-events-none absolute left-6 top-28 h-14 w-24 rotate-[20deg] opacity-[0.1] sm:left-14"
       />
       {/* The seam into Location */}
-      <SectionWave fill="var(--pearl)" className="absolute inset-x-0 bottom-0 h-10 w-full sm:h-14" />
+      <SectionWave fill="var(--pearl)" className="absolute inset-x-0 bottom-0 h-8 w-full sm:h-12" />
 
       <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
         <div className="text-center">

@@ -1,14 +1,16 @@
 /**
  * A soft curved seam between two sections, replacing the dead-flat cut a
- * plain background-colour change leaves. Sits at the TOP of a section,
- * filled with that section's own background colour; everything above the
- * curve is transparent, so the section above it — flat right up to the
- * boundary — shows through the "valleys" and reads as one continuous wave
- * rather than two rectangles stacked on top of each other.
+ * plain background-colour change leaves. Lives at the BOTTOM of the
+ * section it dips OUT of, filled with the NEXT section's colour — putting
+ * it at the top of the section it enters doesn't work, since that section
+ * already paints its own solid background across its full height and the
+ * wave's fill would just match what's already behind it and vanish.
  *
- * Deliberately a single gentle curve rather than a busy multi-wave beach
- * scene: the brand's other dividers (ColumnDivider) are thin and precise,
- * and a loud wave would be the odd one out.
+ * The first version used a ~50-unit amplitude on an 80-unit canvas — fine
+ * on paper, but squashed into an actual 40–56px strip that reads as a soft
+ * blobby smear rather than a line, especially once a screenshot or chat
+ * client recompresses it. This one moves within an 18-unit band, which is
+ * the difference between "a ripple" and "a stain."
  */
 export default function SectionWave({
   className = '',
@@ -25,7 +27,7 @@ export default function SectionWave({
       className={className}
     >
       <path
-        d="M0,34 C220,58 420,6 720,26 C1020,46 1220,10 1440,30 L1440,80 L0,80 Z"
+        d="M0,46 C240,54 480,38 720,46 C960,54 1200,38 1440,46 L1440,80 L0,80 Z"
         fill={fill}
       />
     </svg>

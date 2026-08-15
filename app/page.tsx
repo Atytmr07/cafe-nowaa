@@ -35,15 +35,9 @@ export const metadata: Metadata = {
     siteName: 'Cafe Nowaa',
     locale: 'tr_TR',
     type: 'website',
-    images: [
-      {
-        // Placeholder OG image — replace with a real storefront/interior shot
-        url: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?q=80&w=1200&auto=format&fit=crop',
-        width: 1200,
-        height: 630,
-        alt: 'Cafe Nowaa iç mekanı',
-      },
-    ],
+    // Image comes from app/opengraph-image.tsx (the gold NV mark on
+    // espresso) — resolved automatically by the file convention, so no
+    // images array here.
   },
   twitter: {
     card: 'summary_large_image',

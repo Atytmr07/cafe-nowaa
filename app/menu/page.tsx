@@ -31,15 +31,7 @@ export const metadata: Metadata = {
     siteName: 'Cafe Nowaa',
     locale: 'tr_TR',
     type: 'website',
-    images: [
-      {
-        // Placeholder OG image — replace with a real signature-dish shot
-        url: 'https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?q=80&w=1200&auto=format&fit=crop',
-        width: 1200,
-        height: 630,
-        alt: 'Cafe Nowaa serpme kahvaltı',
-      },
-    ],
+    // No images array — /menu falls back to the root app/opengraph-image.tsx.
   },
 };
 

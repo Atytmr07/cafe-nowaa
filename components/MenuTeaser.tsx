@@ -9,6 +9,7 @@ import MaskedText from './MaskedText';
 import Photo from './Photo';
 import CountUp from './CountUp';
 import CoffeeBeans from './decor/CoffeeBeans';
+import SectionWave from './decor/SectionWave';
 import Lightbox, { type LightboxItem } from './Lightbox';
 import { useMenu } from '@/hooks/useMenu';
 import {
@@ -91,8 +92,14 @@ export default function MenuTeaser() {
       />
       <CoffeeBeans
         tone="gold"
-        className="pointer-events-none absolute -left-6 bottom-10 h-14 w-24 -rotate-[10deg] opacity-[0.12]"
+        className="pointer-events-none absolute -left-6 bottom-10 h-16 w-28 -rotate-[10deg] opacity-[0.14]"
       />
+      <CoffeeBeans
+        tone="ink"
+        className="pointer-events-none absolute right-8 bottom-16 h-14 w-24 rotate-[16deg] opacity-[0.1] sm:right-16"
+      />
+      {/* The seam into Gallery */}
+      <SectionWave fill="var(--pearl)" className="absolute inset-x-0 bottom-0 h-10 w-full sm:h-14" />
 
       <div className="relative mx-auto max-w-6xl px-5 sm:px-8">
         <div className="text-center">

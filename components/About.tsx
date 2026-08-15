@@ -15,6 +15,7 @@ import ColumnDivider from './ColumnDivider';
 import CoffeeBeans from './decor/CoffeeBeans';
 import DotWeave from './decor/DotWeave';
 import OrganicBlob from './decor/OrganicBlob';
+import SectionWave from './decor/SectionWave';
 
 const MARKS = [
   { icon: Coffee, label: 'Günlük Taze Kavrulmuş Kahve' },
@@ -45,8 +46,15 @@ export default function About() {
       />
       <CoffeeBeans
         tone="ink"
-        className="pointer-events-none absolute bottom-10 left-6 h-16 w-28 opacity-[0.14] sm:bottom-16 sm:left-10"
+        className="pointer-events-none absolute bottom-10 left-6 h-20 w-32 opacity-[0.16] sm:bottom-16 sm:left-10"
       />
+      <CoffeeBeans
+        tone="gold"
+        className="pointer-events-none absolute right-10 top-24 h-16 w-28 rotate-[24deg] opacity-[0.14] sm:right-16"
+      />
+      {/* The seam into MenuTeaser — see Marquee.tsx for why this lives on
+          the outgoing section rather than the one it leads into */}
+      <SectionWave fill="var(--ivory)" className="absolute inset-x-0 bottom-0 h-10 w-full sm:h-14" />
 
       <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
         <ColumnDivider tone="light" className="mb-16" />

@@ -1,3 +1,5 @@
+import SectionWave from './decor/SectionWave';
+
 /**
  * Scrolling band of the kitchen's repertoire, set in the display face —
  * signage drifting past the window.
@@ -86,6 +88,19 @@ export default function Marquee() {
         <Row items={RUN} />
         <Row items={RUN_ALT} reverse muted />
       </div>
+
+      {/*
+        The seam into About. A SectionWave belongs to the section it dips
+        OUT OF, not the one it dips into — About already paints bg-pearl
+        across its own full height, so a wave living inside About would
+        just be pearl-on-pearl and vanish. Living here at Marquee's own
+        bottom edge, painted in About's colour, it erodes onyx upward into
+        a curve with nothing behind it to fight for the same pixels.
+      */}
+      <SectionWave
+        fill="var(--pearl)"
+        className="absolute inset-x-0 bottom-0 h-8 w-full sm:h-10"
+      />
 
       <span className="sr-only">
         Kahve, kahvaltı, pizza, burger, makarna, ana yemekler ve tatlı

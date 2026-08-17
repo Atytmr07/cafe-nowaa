@@ -68,9 +68,11 @@ function Row({
 
 export default function Marquee() {
   return (
+    // Top hairline only: the bottom edge is dissolved by About's fade now, and
+    // a line there would reinstate exactly the seam the fade removes.
     <section
       aria-label="Mutfağımızdan"
-      className="relative overflow-hidden border-y border-pearl/10 bg-onyx py-5"
+      className="relative overflow-hidden border-t border-pearl/10 bg-onyx py-5"
     >
       {/* Edges dissolve into the surface */}
       <div

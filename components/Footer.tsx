@@ -4,6 +4,7 @@ import NVLogo from './NVLogo';
 import FooterWordmark from './FooterWordmark';
 import OpenStatus from './OpenStatus';
 import CoffeeBeans from './decor/CoffeeBeans';
+import SectionFade from './decor/SectionFade';
 import WhatsAppIcon from './icons/WhatsAppIcon';
 import { BUSINESS } from '@/config/business';
 
@@ -22,10 +23,12 @@ export default function Footer() {
       className="relative overflow-hidden bg-obsidian pt-24 md:pt-32"
     >
       <FooterWordmark />
+      {/* Sits below the fade's reach, or it would be washed out entirely */}
       <CoffeeBeans
         tone="gold"
-        className="pointer-events-none absolute right-6 top-10 h-14 w-24 rotate-[12deg] opacity-[0.14] sm:right-12"
+        className="pointer-events-none absolute right-6 top-36 h-14 w-24 rotate-[12deg] opacity-[0.14] sm:right-12 md:top-44"
       />
+      <SectionFade from="pearl" />
 
       <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
         <div className="grid gap-14 md:grid-cols-2 lg:grid-cols-4">

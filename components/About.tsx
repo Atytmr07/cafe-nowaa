@@ -13,6 +13,7 @@ import MaskedText from './MaskedText';
 import Photo from './Photo';
 import ColumnDivider from './ColumnDivider';
 import CoffeeBeans from './decor/CoffeeBeans';
+import SectionFade from './decor/SectionFade';
 import DotWeave from './decor/DotWeave';
 import OrganicBlob from './decor/OrganicBlob';
 
@@ -51,8 +52,10 @@ export default function About() {
         tone="gold"
         className="pointer-events-none absolute right-10 top-24 h-16 w-28 rotate-[24deg] opacity-[0.14] sm:right-16"
       />
-      {/* No wave into MenuTeaser: pearl and ivory are close enough that the
-          curve had nothing to show against and just read as noise */}
+      {/* Dissolves the marquee's dark band into this cream one. Nothing needed
+          going into MenuTeaser — pearl and ivory are near enough to be the
+          same colour already. */}
+      <SectionFade from="onyx" />
 
       <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
         <ColumnDivider tone="light" className="mb-16" />

@@ -16,7 +16,6 @@ import Lightbox, { type LightboxItem } from './Lightbox';
 import CoffeeBeans from './decor/CoffeeBeans';
 import DotWeave from './decor/DotWeave';
 import OrganicBlob from './decor/OrganicBlob';
-import SectionWave from './decor/SectionWave';
 import { GALLERY_IMAGES, type GalleryImage } from '@/data/gallery';
 
 const LIGHTBOX_ITEMS: LightboxItem[] = GALLERY_IMAGES.map((image) => ({
@@ -38,9 +37,6 @@ export default function Gallery() {
         tone="ink"
         className="pointer-events-none absolute right-6 top-24 h-16 w-28 rotate-[-18deg] opacity-[0.13] sm:right-14"
       />
-      {/* The seam into Reviews */}
-      <SectionWave fill="var(--obsidian)" className="absolute inset-x-0 bottom-0 h-8 w-full sm:h-12" />
-
       <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
         <ColumnDivider tone="light" className="mb-16" />
 

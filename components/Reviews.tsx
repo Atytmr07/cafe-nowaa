@@ -7,7 +7,6 @@ import Reveal from './Reveal';
 import MaskedText from './MaskedText';
 import GrainOverlay from './GrainOverlay';
 import CoffeeBeans from './decor/CoffeeBeans';
-import SectionWave from './decor/SectionWave';
 import { REVIEWS } from '@/data/reviews';
 
 function StarRow({ rating, name }: { rating: number; name: string }) {
@@ -103,9 +102,6 @@ export default function Reviews() {
         tone="pearl"
         className="pointer-events-none absolute left-6 top-28 h-14 w-24 rotate-[20deg] opacity-[0.1] sm:left-14"
       />
-      {/* The seam into Location */}
-      <SectionWave fill="var(--pearl)" className="absolute inset-x-0 bottom-0 h-8 w-full sm:h-12" />
-
       <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
         <div className="text-center">
           <Reveal>

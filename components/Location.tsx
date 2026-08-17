@@ -8,7 +8,6 @@ import MaskedText from './MaskedText';
 import ColumnDivider from './ColumnDivider';
 import CoffeeBeans from './decor/CoffeeBeans';
 import DotWeave from './decor/DotWeave';
-import SectionWave from './decor/SectionWave';
 import { BUSINESS } from '@/config/business';
 import { trackEvent } from '@/lib/firebase';
 
@@ -24,9 +23,6 @@ export default function Location() {
         tone="ink"
         className="pointer-events-none absolute bottom-14 left-8 h-14 w-24 -rotate-[12deg] opacity-[0.1] sm:left-16"
       />
-      {/* The seam into Footer */}
-      <SectionWave fill="var(--obsidian)" className="absolute inset-x-0 bottom-0 h-8 w-full sm:h-12" />
-
       <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
         <ColumnDivider tone="light" className="mb-16" />
 

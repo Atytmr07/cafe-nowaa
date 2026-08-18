@@ -7,7 +7,7 @@ import Reveal from './Reveal';
 import MaskedText from './MaskedText';
 import GrainOverlay from './GrainOverlay';
 import CoffeeBeans from './decor/CoffeeBeans';
-import SectionFade from './decor/SectionFade';
+import SectionEdge from './decor/SectionEdge';
 import { REVIEWS } from '@/data/reviews';
 
 function StarRow({ rating, name }: { rating: number; name: string }) {
@@ -103,7 +103,7 @@ export default function Reviews() {
         tone="pearl"
         className="pointer-events-none absolute left-6 top-28 h-14 w-24 rotate-[20deg] opacity-[0.1] sm:left-14"
       />
-      <SectionFade from="pearl" />
+      <SectionEdge from="pearl" />
       <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
         <div className="text-center">
           <Reveal>

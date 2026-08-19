@@ -7,8 +7,13 @@ import CategoryTabs from './CategoryTabs';
 import CategorySection from './CategorySection';
 import MenuItemRow from './MenuItemRow';
 import Lightbox, { type LightboxItem } from '@/components/Lightbox';
-import { useMenu } from '@/hooks/useMenu';
-import { byOrder, formatPrice, groupProducts, type MenuProduct } from '@/lib/menu-types';
+import {
+  byOrder,
+  formatPrice,
+  groupProducts,
+  type MenuData,
+  type MenuProduct,
+} from '@/lib/menu-types';
 import { trackEvent } from '@/lib/firebase';
 
 const toLightboxItem = (product: MenuProduct): LightboxItem => ({
@@ -31,8 +36,7 @@ const SPY_OFFSET = 150;
 const matches = (haystack: string, needle: string) =>
   haystack.toLocaleLowerCase('tr').includes(needle);
 
-export default function MenuExperience() {
-  const { menu } = useMenu();
+export default function MenuExperience({ menu }: { menu: MenuData }) {
   const [activeId, setActiveId] = useState(menu.categories[0]?.id ?? '');
   const [query, setQuery] = useState('');
   const [zoomedId, setZoomedId] = useState<string | null>(null);

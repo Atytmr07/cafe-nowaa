@@ -10,11 +10,11 @@ import Photo from './Photo';
 import CountUp from './CountUp';
 import CoffeeBeans from './decor/CoffeeBeans';
 import Lightbox, { type LightboxItem } from './Lightbox';
-import { useMenu } from '@/hooks/useMenu';
 import {
   byOrder,
   formatPrice,
   type MenuCategory,
+  type MenuData,
   type MenuProduct,
 } from '@/lib/menu-types';
 import { trackEvent } from '@/lib/firebase';
@@ -29,9 +29,12 @@ const isBreakfast = (category: MenuCategory) =>
  * one plated signature on the left, a genuine excerpt of the printed
  * card on the right, and the category index beneath. Deliberately
  * incomplete; the whole card lives at /menu.
+ *
+ * The menu arrives as a prop from the server rather than being fetched
+ * here. This section shows five dishes; subscribing to Firestore for it
+ * cost 170 document reads and the whole SDK on every homepage view.
  */
-export default function MenuTeaser() {
-  const { menu } = useMenu();
+export default function MenuTeaser({ menu }: { menu: MenuData }) {
   const [zoomed, setZoomed] = useState<LightboxItem | null>(null);
 
   const categories = useMemo(

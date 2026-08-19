@@ -56,13 +56,43 @@ const WAVE_BACK =
   'C600,96 480,52 360,52 ' +
   'C240,52 120,88 0,88 Z';
 
+/**
+ * Half the crests, for narrow screens.
+ *
+ * The viewBox is stretched to the section's width, so on a phone the
+ * four-crest path compresses from one crest every ~360px to one every ~97px
+ * and the seam turns choppy — a ripple rather than a wave. This is the same
+ * curve language with a single crossing, which is all a 390px-wide edge has
+ * room to state.
+ */
+const WAVE_FRONT_NARROW =
+  'M0,0 H1440 V50 ' +
+  'C1200,50 960,92 720,92 ' +
+  'C480,92 240,46 0,46 Z';
+
+const WAVE_BACK_NARROW =
+  'M0,0 H1440 V82 ' +
+  'C1200,82 960,46 720,46 ' +
+  'C480,46 240,84 0,84 Z';
+
 /** One wide shallow dome — the awning note, kept away from the wavy seams */
 const ARCH_FRONT = 'M0,0 H1440 V26 C1100,116 340,116 0,26 Z';
 const ARCH_BACK = 'M0,0 H1440 V44 C1160,104 280,104 0,44 Z';
 
 const SHAPES = {
-  wave: { front: WAVE_FRONT, back: WAVE_BACK },
-  arch: { front: ARCH_FRONT, back: ARCH_BACK },
+  wave: {
+    front: WAVE_FRONT,
+    back: WAVE_BACK,
+    narrowFront: WAVE_FRONT_NARROW,
+    narrowBack: WAVE_BACK_NARROW,
+  },
+  // A single dome already reads at any width — no narrow variant needed
+  arch: {
+    front: ARCH_FRONT,
+    back: ARCH_BACK,
+    narrowFront: ARCH_FRONT,
+    narrowBack: ARCH_BACK,
+  },
 } as const;
 
 export default function SectionEdge({
@@ -76,17 +106,33 @@ export default function SectionEdge({
   className?: string;
 }) {
   const { fill, shadow } = TONES[from];
-  const { front, back } = SHAPES[variant];
+  const { front, back, narrowFront, narrowBack } = SHAPES[variant];
+
+  // Two elements swapped by media query rather than one path chosen in JS:
+  // the crest count has to change at the same breakpoint the layout does,
+  // and a resize must not need a re-render to correct it.
+  const box = `pointer-events-none absolute inset-x-0 top-0 h-16 w-full md:h-24 ${className}`;
 
   return (
-    <svg
-      aria-hidden="true"
-      viewBox="0 0 1440 120"
-      preserveAspectRatio="none"
-      className={`pointer-events-none absolute inset-x-0 top-0 h-16 w-full md:h-24 ${className}`}
-    >
-      <path d={back} fill={shadow} />
-      <path d={front} fill={fill} />
-    </svg>
+    <>
+      <svg
+        aria-hidden="true"
+        viewBox="0 0 1440 120"
+        preserveAspectRatio="none"
+        className={`${box} md:hidden`}
+      >
+        <path d={narrowBack} fill={shadow} />
+        <path d={narrowFront} fill={fill} />
+      </svg>
+      <svg
+        aria-hidden="true"
+        viewBox="0 0 1440 120"
+        preserveAspectRatio="none"
+        className={`${box} hidden md:block`}
+      >
+        <path d={back} fill={shadow} />
+        <path d={front} fill={fill} />
+      </svg>
+    </>
   );
 }

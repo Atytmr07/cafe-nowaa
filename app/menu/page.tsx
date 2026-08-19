@@ -3,10 +3,12 @@ import MenuHeader from '@/components/menu/MenuHeader';
 import MenuExperience from '@/components/menu/MenuExperience';
 import WhatsAppButton from '@/components/WhatsAppButton';
 import DotWeave from '@/components/decor/DotWeave';
-import { SEED_CATEGORIES, SEED_PRODUCTS } from '@/data/seed';
-import { groupProducts } from '@/lib/menu-types';
+import { groupProducts, type MenuData } from '@/lib/menu-types';
+import { getMenu, REVALIDATE_SECONDS } from '@/lib/menu-server';
 import { BUSINESS } from '@/config/business';
 import { SITE_URL } from '@/config/site';
+
+export const revalidate = REVALIDATE_SECONDS;
 
 /**
  * The standalone digital menu — its own micro-site and the destination
@@ -15,8 +17,9 @@ import { SITE_URL } from '@/config/site';
  * (It was full-bleed dark; read at arm's length over a table it felt
  * gloomy, and printed menus are light for a reason.)
  *
- * The seed card renders server-side so the page stays static and
- * indexable; live Firestore data takes over on the client when present.
+ * The card renders server-side from Firestore (falling back to the printed
+ * seed), so the page stays indexable and the browser never loads a database
+ * SDK to read a menu that changes a few times a year.
  */
 export const metadata: Metadata = {
   title: { absolute: 'Cafe Nowaa — Menü' },
@@ -35,17 +38,21 @@ export const metadata: Metadata = {
   },
 };
 
-/** Schema.org Menu so search engines can surface individual dishes. */
-const menuJsonLd = {
+/**
+ * Schema.org Menu so search engines can surface individual dishes. Built
+ * from the same live data the page renders — structured data quoting prices
+ * the visitor doesn't see is worse than none.
+ */
+const buildMenuJsonLd = (menu: MenuData) => ({
   '@context': 'https://schema.org',
   '@type': 'Menu',
   name: `${BUSINESS.name} Menü`,
   url: `${SITE_URL}/menu`,
   inLanguage: 'tr-TR',
-  hasMenuSection: SEED_CATEGORIES.map((category) => ({
+  hasMenuSection: menu.categories.map((category) => ({
     '@type': 'MenuSection',
     name: category.label,
-    hasMenuSection: groupProducts(category, SEED_PRODUCTS).map(
+    hasMenuSection: groupProducts(category, menu.products).map(
       ({ subcategory, items }) => ({
         '@type': 'MenuSection',
         name: subcategory || category.label,
@@ -74,14 +81,18 @@ const menuJsonLd = {
       })
     ),
   })),
-};
+});
 
-export default function MenuPage() {
+export default async function MenuPage() {
+  const menu = await getMenu();
+
   return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(menuJsonLd) }}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(buildMenuJsonLd(menu)),
+        }}
       />
       <main className="relative min-h-[100svh] bg-pearl">
         {/* Printed-card texture behind the whole scroll, not just the hero
@@ -92,7 +103,7 @@ export default function MenuPage() {
             background decor (no z-index juggling against fixed elements). */}
         <DotWeave className="pointer-events-none absolute inset-0 opacity-[0.04]" />
         <MenuHeader />
-        <MenuExperience />
+        <MenuExperience menu={menu} />
         <WhatsAppButton />
       </main>
     </>

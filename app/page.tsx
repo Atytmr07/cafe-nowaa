@@ -12,6 +12,11 @@ import Footer from '@/components/Footer';
 import WhatsAppButton from '@/components/WhatsAppButton';
 import { BUSINESS } from '@/config/business';
 import { SITE_URL } from '@/config/site';
+import { getMenu, REVALIDATE_SECONDS } from '@/lib/menu-server';
+
+// The teaser's dishes come from Firestore, read server-side once per
+// window rather than once per visitor. See lib/menu-server.ts.
+export const revalidate = REVALIDATE_SECONDS;
 
 export const metadata: Metadata = {
   title: { absolute: 'Cafe Nowaa — Bostancı Marmaray' },
@@ -97,7 +102,9 @@ const jsonLd = {
   sameAs: [BUSINESS.instagram, BUSINESS.mapsUrl],
 };
 
-export default function HomePage() {
+export default async function HomePage() {
+  const menu = await getMenu();
+
   return (
     <>
       <script
@@ -110,7 +117,7 @@ export default function HomePage() {
         <Hero />
         <Marquee />
         <About />
-        <MenuTeaser />
+        <MenuTeaser menu={menu} />
         <Gallery />
         <Reviews />
         <Location />

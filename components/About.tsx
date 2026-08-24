@@ -52,6 +52,10 @@ export default function About() {
         tone="gold"
         className="pointer-events-none absolute right-10 top-24 h-16 w-28 rotate-[24deg] opacity-[0.14] sm:right-16"
       />
+      <CoffeeBeans
+        tone="ink"
+        className="pointer-events-none absolute left-1/2 bottom-4 hidden h-12 w-20 -translate-x-1/2 rotate-[6deg] opacity-[0.08] lg:block"
+      />
       {/* Dissolves the marquee's dark band into this cream one. Nothing needed
           going into MenuTeaser — pearl and ivory are near enough to be the
           same colour already. */}

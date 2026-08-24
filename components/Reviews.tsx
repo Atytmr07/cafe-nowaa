@@ -103,6 +103,10 @@ export default function Reviews() {
         tone="pearl"
         className="pointer-events-none absolute left-6 top-28 h-14 w-24 rotate-[20deg] opacity-[0.1] sm:left-14"
       />
+      <CoffeeBeans
+        tone="gold"
+        className="pointer-events-none absolute right-1/4 bottom-1/3 hidden h-10 w-16 rotate-[-8deg] opacity-[0.06] lg:block"
+      />
       <SectionEdge from="pearl" />
       <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
         <div className="text-center">

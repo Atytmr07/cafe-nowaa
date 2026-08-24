@@ -100,6 +100,10 @@ export default function MenuTeaser({ menu }: { menu: MenuData }) {
         tone="ink"
         className="pointer-events-none absolute right-8 bottom-16 h-14 w-24 rotate-[16deg] opacity-[0.1] sm:right-16"
       />
+      <CoffeeBeans
+        tone="gold"
+        className="pointer-events-none absolute left-1/3 top-10 hidden h-11 w-20 rotate-[-20deg] opacity-[0.07] lg:block"
+      />
       {/* No wave into Gallery: ivory and pearl are too close in value for
           the curve to read against — see About.tsx for the same call */}
 

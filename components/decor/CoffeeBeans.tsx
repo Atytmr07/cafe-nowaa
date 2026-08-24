@@ -25,6 +25,8 @@ export default function CoffeeBeans({
         <path d={BEAN} transform="translate(86,20) rotate(-34 20 32) scale(0.6)" />
         <path d={BEAN} transform="translate(112,-2) rotate(10 20 32) scale(0.46)" />
         <path d={BEAN} transform="translate(30,52) rotate(48 20 32) scale(0.4)" />
+        <path d={BEAN} transform="translate(138,28) rotate(-6 20 32) scale(0.34)" />
+        <path d={BEAN} transform="translate(66,58) rotate(30 20 32) scale(0.3)" />
       </g>
     </svg>
   );

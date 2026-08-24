@@ -28,6 +28,10 @@ export default function Footer() {
         tone="gold"
         className="pointer-events-none absolute right-6 top-36 h-14 w-24 rotate-[12deg] opacity-[0.14] sm:right-12 md:top-44"
       />
+      <CoffeeBeans
+        tone="pearl"
+        className="pointer-events-none absolute left-6 top-40 h-12 w-20 -rotate-[10deg] opacity-[0.08] sm:left-12 md:top-48"
+      />
       <SectionEdge from="pearl" variant="arch" />
 
       <div className="relative mx-auto max-w-7xl px-5 sm:px-8">

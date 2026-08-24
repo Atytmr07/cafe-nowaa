@@ -24,6 +24,10 @@ export default function Location() {
         tone="ink"
         className="pointer-events-none absolute bottom-14 left-8 h-14 w-24 -rotate-[12deg] opacity-[0.1] sm:left-16"
       />
+      <CoffeeBeans
+        tone="gold"
+        className="pointer-events-none absolute right-1/3 top-1/2 hidden h-10 w-16 rotate-[22deg] opacity-[0.07] lg:block"
+      />
       <SectionEdge from="obsidian" />
       <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
         <ColumnDivider tone="light" className="mb-16" />

@@ -96,7 +96,7 @@ export default function Reviews() {
         aria-hidden="true"
         className="pointer-events-none absolute -top-40 left-1/2 h-80 w-[44rem] -translate-x-1/2 rounded-full bg-gold/[0.06] blur-3xl"
       />
-      <BeanField tone="pearl" className="pointer-events-none absolute inset-0 opacity-[0.035]" />
+      <BeanField tone="pearl" className="pointer-events-none absolute inset-0 opacity-[0.11]" />
       <CoffeeBeans
         tone="gold"
         className="pointer-events-none absolute -right-4 bottom-8 h-16 w-28 rotate-[-16deg] opacity-[0.16] sm:right-10"

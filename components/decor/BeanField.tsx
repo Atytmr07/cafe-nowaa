@@ -17,9 +17,11 @@ import { useId } from 'react';
  *  - `patternTransform` rotates the whole tile off-axis, which breaks the
  *    horizontal/vertical seams a grid-aligned repeat would otherwise show
  *
- * Opacity is expected to do the rest — this is a paper-grain-level texture
- * (0.03–0.05, same range as DotWeave/GrainOverlay), not a graphic, so it
- * has to stay that quiet however far it spreads.
+ * Opacity is expected to do the rest. Deliberately louder than
+ * DotWeave/GrainOverlay's paper-grain range (0.03–0.05) — those are
+ * neutral material texture, while this is the site's actual motif and is
+ * meant to be recognised as coffee beans on a quick glance, not just felt
+ * as grain.
  */
 const BEAN =
   'M20 2C10 2 3 16 3 32C3 48 10 58 20 58C30 58 37 48 37 32C37 16 30 2 20 2Z M20 6C14 16 14 44 20 54';
@@ -45,7 +47,7 @@ export default function BeanField({
           patternUnits="userSpaceOnUse"
           patternTransform="rotate(7)"
         >
-          <g stroke={color} strokeWidth="1" strokeLinecap="round" fill="none">
+          <g stroke={color} strokeWidth="1.4" strokeLinecap="round" fill="none">
             <path d={BEAN} transform="translate(4,-6) rotate(-18 20 32) scale(0.36)" />
             <path d={BEAN} transform="translate(118,18) rotate(26 20 32) scale(0.26)" />
             <path d={BEAN} transform="translate(206,-14) rotate(-6 20 32) scale(0.42)" />

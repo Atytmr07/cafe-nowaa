@@ -93,7 +93,7 @@ export default function MenuTeaser({ menu }: { menu: MenuData }) {
         aria-hidden="true"
         className="pointer-events-none absolute inset-x-0 top-0 h-80 bg-[radial-gradient(ellipse_45%_100%_at_50%_0%,rgba(217,164,65,0.14),transparent_72%)]"
       />
-      <BeanField tone="ink" className="pointer-events-none absolute inset-0 opacity-[0.03]" />
+      <BeanField tone="ink" className="pointer-events-none absolute inset-0 opacity-[0.1]" />
       <CoffeeBeans
         tone="gold"
         className="pointer-events-none absolute -left-6 bottom-10 h-16 w-28 -rotate-[10deg] opacity-[0.14]"

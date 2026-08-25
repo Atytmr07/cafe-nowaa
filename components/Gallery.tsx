@@ -30,7 +30,7 @@ export default function Gallery() {
   return (
     <section id="galeri" className="relative overflow-hidden bg-pearl py-24 md:py-32">
       <DotWeave className="pointer-events-none absolute inset-0 opacity-[0.045]" />
-      <BeanField tone="ink" className="pointer-events-none absolute inset-0 opacity-[0.035]" />
+      <BeanField tone="ink" className="pointer-events-none absolute inset-0 opacity-[0.11]" />
       <OrganicBlob
         tone="gold"
         className="pointer-events-none absolute -left-28 bottom-0 h-80 w-80 opacity-[0.08] blur-3xl animate-drift"

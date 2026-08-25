@@ -24,7 +24,7 @@ export default function Footer() {
       className="relative overflow-hidden bg-obsidian pt-24 md:pt-32"
     >
       <FooterWordmark />
-      <BeanField tone="pearl" className="pointer-events-none absolute inset-0 opacity-[0.025]" />
+      <BeanField tone="pearl" className="pointer-events-none absolute inset-0 opacity-[0.09]" />
       {/* Sits below the fade's reach, or it would be washed out entirely */}
       <CoffeeBeans
         tone="gold"

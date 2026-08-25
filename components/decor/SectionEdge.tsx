@@ -25,15 +25,23 @@
  * The back layer is NOT the same colour at reduced opacity, which is the
  * obvious thing to reach for and the wrong one: cream at 38% over espresso
  * resolves to a flat grey, and a grey band is exactly the muddiness the
- * whole palette is built to avoid. These are explicit warm mid-tones sampled
- * between the two sections instead — the shadow a cream wave would actually
- * cast in a room lit by warm bulbs.
+ * whole palette is built to avoid.
+ *
+ * It's also not a bespoke invented tone — it was one at first (two greige
+ * hexes that existed nowhere else in the palette), and sitting near the
+ * WhatsApp button's actual brand gold in the same viewport it read as a
+ * second, competing "brown". `gold-deep` is the real brand token used
+ * everywhere else warm mid-tones show up (WhatsApp button, CoffeeBeans gold
+ * accents), so the wave's shadow is now the same brown as the rest of the
+ * site rather than a look-alike invented for this one component.
  */
+const GOLD_DEEP = '#9C6F22';
+
 const TONES = {
-  onyx: { fill: '#211A14', shadow: '#8A7B69' },
-  obsidian: { fill: '#17120E', shadow: '#8A7B69' },
-  pearl: { fill: '#F8F4EC', shadow: '#5E4E3C' },
-  ivory: { fill: '#FFFCF6', shadow: '#5E4E3C' },
+  onyx: { fill: '#211A14', shadow: GOLD_DEEP },
+  obsidian: { fill: '#17120E', shadow: GOLD_DEEP },
+  pearl: { fill: '#F8F4EC', shadow: GOLD_DEEP },
+  ivory: { fill: '#FFFCF6', shadow: GOLD_DEEP },
 } as const;
 
 /**

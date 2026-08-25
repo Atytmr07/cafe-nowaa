@@ -14,6 +14,7 @@ import Photo from './Photo';
 import ColumnDivider from './ColumnDivider';
 import Lightbox, { type LightboxItem } from './Lightbox';
 import CoffeeBeans from './decor/CoffeeBeans';
+import BeanField from './decor/BeanField';
 import DotWeave from './decor/DotWeave';
 import OrganicBlob from './decor/OrganicBlob';
 import { GALLERY_IMAGES, type GalleryImage } from '@/data/gallery';
@@ -29,6 +30,7 @@ export default function Gallery() {
   return (
     <section id="galeri" className="relative overflow-hidden bg-pearl py-24 md:py-32">
       <DotWeave className="pointer-events-none absolute inset-0 opacity-[0.045]" />
+      <BeanField tone="ink" className="pointer-events-none absolute inset-0 opacity-[0.035]" />
       <OrganicBlob
         tone="gold"
         className="pointer-events-none absolute -left-28 bottom-0 h-80 w-80 opacity-[0.08] blur-3xl animate-drift"

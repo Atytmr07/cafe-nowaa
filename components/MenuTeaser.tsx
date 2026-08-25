@@ -9,6 +9,7 @@ import MaskedText from './MaskedText';
 import Photo from './Photo';
 import CountUp from './CountUp';
 import CoffeeBeans from './decor/CoffeeBeans';
+import BeanField from './decor/BeanField';
 import Lightbox, { type LightboxItem } from './Lightbox';
 import {
   byOrder,
@@ -92,6 +93,7 @@ export default function MenuTeaser({ menu }: { menu: MenuData }) {
         aria-hidden="true"
         className="pointer-events-none absolute inset-x-0 top-0 h-80 bg-[radial-gradient(ellipse_45%_100%_at_50%_0%,rgba(217,164,65,0.14),transparent_72%)]"
       />
+      <BeanField tone="ink" className="pointer-events-none absolute inset-0 opacity-[0.03]" />
       <CoffeeBeans
         tone="gold"
         className="pointer-events-none absolute -left-6 bottom-10 h-16 w-28 -rotate-[10deg] opacity-[0.14]"
@@ -99,10 +101,6 @@ export default function MenuTeaser({ menu }: { menu: MenuData }) {
       <CoffeeBeans
         tone="ink"
         className="pointer-events-none absolute right-8 bottom-16 h-14 w-24 rotate-[16deg] opacity-[0.1] sm:right-16"
-      />
-      <CoffeeBeans
-        tone="gold"
-        className="pointer-events-none absolute left-1/3 top-10 hidden h-11 w-20 rotate-[-20deg] opacity-[0.07] lg:block"
       />
       {/* No wave into Gallery: ivory and pearl are too close in value for
           the curve to read against — see About.tsx for the same call */}

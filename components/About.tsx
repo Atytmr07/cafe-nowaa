@@ -13,6 +13,7 @@ import MaskedText from './MaskedText';
 import Photo from './Photo';
 import ColumnDivider from './ColumnDivider';
 import CoffeeBeans from './decor/CoffeeBeans';
+import BeanField from './decor/BeanField';
 import SectionFade from './decor/SectionFade';
 import DotWeave from './decor/DotWeave';
 import OrganicBlob from './decor/OrganicBlob';
@@ -40,6 +41,9 @@ export default function About() {
     >
       {/* Quiet texture, breaking up what was a flat cream fill */}
       <DotWeave className="pointer-events-none absolute inset-0 opacity-[0.045]" />
+      {/* The motif spread across the whole section rather than parked in
+          corners; the two clusters below stay as the deliberate accents */}
+      <BeanField tone="ink" className="pointer-events-none absolute inset-0 opacity-[0.035]" />
       <OrganicBlob
         tone="gold"
         className="pointer-events-none absolute -right-32 -top-32 h-96 w-96 opacity-[0.09] blur-3xl animate-drift"
@@ -51,10 +55,6 @@ export default function About() {
       <CoffeeBeans
         tone="gold"
         className="pointer-events-none absolute right-10 top-24 h-16 w-28 rotate-[24deg] opacity-[0.14] sm:right-16"
-      />
-      <CoffeeBeans
-        tone="ink"
-        className="pointer-events-none absolute left-1/2 bottom-4 hidden h-12 w-20 -translate-x-1/2 rotate-[6deg] opacity-[0.08] lg:block"
       />
       {/* Dissolves the marquee's dark band into this cream one. Nothing needed
           going into MenuTeaser — pearl and ivory are near enough to be the

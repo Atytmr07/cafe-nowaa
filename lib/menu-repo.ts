@@ -30,6 +30,23 @@ function clean<T extends Record<string, unknown>>(value: T): T {
 }
 
 /**
+ * Tells the public site's cache to drop its stale copy right away, instead
+ * of waiting out its 15-minute window (see lib/menu-server.ts). Without
+ * this, a save looks like it silently failed: the admin's own view updates
+ * instantly because it subscribes directly to Firestore, but the public
+ * page a café owner checks next keeps showing the old price or photo.
+ *
+ * Fire-and-forget on purpose — the Firestore write above is already the
+ * thing that matters and has already succeeded by the time this runs; a
+ * failed revalidate ping (offline API route, cold start hiccup) shouldn't
+ * make the admin think their save failed when it didn't. Worst case, the
+ * public page just waits out the normal cache window instead.
+ */
+function notifyPublicMenuChanged(): void {
+  fetch('/api/revalidate-menu', { method: 'POST' }).catch(() => {});
+}
+
+/**
  * Live menu subscription. Calls back with null while Firestore is empty
  * so callers can keep showing the seed instead of flashing a blank menu.
  */
@@ -93,10 +110,12 @@ export async function fetchMenu(): Promise<MenuData> {
 export async function saveCategory(category: MenuCategory): Promise<void> {
   const { id, ...rest } = category;
   await setDoc(doc(db(), CATEGORIES, id), clean(rest), { merge: true });
+  notifyPublicMenuChanged();
 }
 
 export async function deleteCategory(id: string): Promise<void> {
   await deleteDoc(doc(db(), CATEGORIES, id));
+  notifyPublicMenuChanged();
 }
 
 // ─── Products ──────────────────────────────────────────────────────────────
@@ -104,15 +123,18 @@ export async function deleteCategory(id: string): Promise<void> {
 export async function saveProduct(product: MenuProduct): Promise<void> {
   const { id, ...rest } = product;
   await setDoc(doc(db(), PRODUCTS, id), clean(rest), { merge: true });
+  notifyPublicMenuChanged();
 }
 
 export async function deleteProduct(product: MenuProduct): Promise<void> {
   if (product.imagePath) await deleteProductImage(product.imagePath);
   await deleteDoc(doc(db(), PRODUCTS, product.id));
+  notifyPublicMenuChanged();
 }
 
 export async function setFeatured(id: string, isFeatured: boolean) {
   await updateDoc(doc(db(), PRODUCTS, id), { isFeatured });
+  notifyPublicMenuChanged();
 }
 
 /**
@@ -121,6 +143,7 @@ export async function setFeatured(id: string, isFeatured: boolean) {
  */
 export async function setPrice(id: string, price: number | null) {
   await updateDoc(doc(db(), PRODUCTS, id), { price });
+  notifyPublicMenuChanged();
 }
 
 /**
@@ -136,6 +159,7 @@ export async function swapOrder(
   batch.update(doc(db(), collectionName, a.id), { order: b.order });
   batch.update(doc(db(), collectionName, b.id), { order: a.order });
   await batch.commit();
+  notifyPublicMenuChanged();
 }
 
 // ─── Images ────────────────────────────────────────────────────────────────
@@ -188,4 +212,5 @@ export async function seedMenu(data: MenuData): Promise<void> {
 
   await flush();
   void writes;
+  notifyPublicMenuChanged();
 }

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import MenuHeader from '@/components/menu/MenuHeader';
 import MenuExperience from '@/components/menu/MenuExperience';
-import WhatsAppButton from '@/components/WhatsAppButton';
+import FloatingActions from '@/components/FloatingActions';
 import DotWeave from '@/components/decor/DotWeave';
 import { groupProducts, type MenuData } from '@/lib/menu-types';
 import { getMenu, REVALIDATE_SECONDS } from '@/lib/menu-server';
@@ -104,7 +104,7 @@ export default async function MenuPage() {
         <DotWeave className="pointer-events-none absolute inset-0 opacity-[0.04]" />
         <MenuHeader />
         <MenuExperience menu={menu} />
-        <WhatsAppButton />
+        <FloatingActions />
       </main>
     </>
   );

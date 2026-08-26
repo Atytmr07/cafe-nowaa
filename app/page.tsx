@@ -9,7 +9,7 @@ import Gallery from '@/components/Gallery';
 import Reviews from '@/components/Reviews';
 import Location from '@/components/Location';
 import Footer from '@/components/Footer';
-import WhatsAppButton from '@/components/WhatsAppButton';
+import FloatingActions from '@/components/FloatingActions';
 import { BUSINESS } from '@/config/business';
 import { SITE_URL } from '@/config/site';
 import { getMenu, REVALIDATE_SECONDS } from '@/lib/menu-server';
@@ -123,7 +123,7 @@ export default async function HomePage() {
         <Location />
       </main>
       <Footer />
-      <WhatsAppButton />
+      <FloatingActions />
     </>
   );
 }

@@ -14,6 +14,8 @@ export const BUSINESS = {
     'Bostancı Mah. Bostan Tariki Sk. No: A1, Bostancı Marmaray Girişi Yanı, İstanbul',
   instagram: 'https://www.instagram.com/cafe_nowaa/',
   instagramHandle: '@cafe_nowaa',
+  /** Trendyol Go Yemek listing — online delivery/pickup ordering */
+  trendyolUrl: 'https://tgoyemek.com/restoranlar/451201',
   hours: 'Her gün 09:00 – 02:00',
   /** Exact coordinates of the real Google Business listing */
   geo: { lat: 40.9541456, lng: 29.0956178 },

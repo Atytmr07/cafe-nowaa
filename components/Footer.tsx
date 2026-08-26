@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Instagram, MapPin, Phone } from 'lucide-react';
+import { Instagram, MapPin, Phone, ShoppingBag } from 'lucide-react';
 import NVLogo from './NVLogo';
 import FooterWordmark from './FooterWordmark';
 import OpenStatus from './OpenStatus';
@@ -132,6 +132,21 @@ export default function Footer() {
                   className="transition-colors hover:text-pearl"
                 >
                   {BUSINESS.instagramHandle}
+                </a>
+              </li>
+              <li className="flex items-start gap-3">
+                <ShoppingBag
+                  className="mt-0.5 h-4 w-4 flex-none text-platinum"
+                  strokeWidth={1.2}
+                  aria-hidden="true"
+                />
+                <a
+                  href={BUSINESS.trendyolUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="transition-colors hover:text-pearl"
+                >
+                  Trendyol Go&apos;dan sipariş verin
                 </a>
               </li>
             </ul>

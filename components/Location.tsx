@@ -1,6 +1,6 @@
 'use client';
 
-import { Clock, Instagram, MapPin, Phone } from 'lucide-react';
+import { Clock, Instagram, MapPin, Phone, ShoppingBag } from 'lucide-react';
 import WhatsAppIcon from './icons/WhatsAppIcon';
 import Magnetic from './Magnetic';
 import Reveal from './Reveal';
@@ -142,20 +142,57 @@ export default function Location() {
                   </a>
                 </div>
               </li>
+
+              <li className="flex items-start gap-5 py-6">
+                <ShoppingBag
+                  className="mt-0.5 h-5 w-5 flex-none text-steel"
+                  strokeWidth={1.2}
+                  aria-hidden="true"
+                />
+                <div>
+                  <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-steel">
+                    Online Sipariş
+                  </p>
+                  <a
+                    href={BUSINESS.trendyolUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => trackEvent('cta_click', { cta: 'trendyol_location' })}
+                    className="mt-1 inline-flex min-h-12 items-center text-[15px] font-light text-ink transition-opacity hover:opacity-60"
+                  >
+                    Trendyol Go&apos;dan sipariş verin
+                  </a>
+                </div>
+              </li>
             </ul>
 
-            <Magnetic className="mt-10 inline-block">
-              <a
-                href={BUSINESS.directionsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => trackEvent('cta_click', { cta: 'directions' })}
-                className="inline-flex min-h-12 items-center gap-3 rounded-full bg-ink px-10 py-4 text-[11px] font-semibold uppercase tracking-[0.22em] text-pearl transition-colors duration-300 hover:bg-obsidian"
-              >
-                <MapPin className="h-4 w-4" strokeWidth={1.5} aria-hidden="true" />
-                Yol Tarifi Al
-              </a>
-            </Magnetic>
+            <div className="mt-10 flex flex-wrap gap-4">
+              <Magnetic className="inline-block">
+                <a
+                  href={BUSINESS.directionsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => trackEvent('cta_click', { cta: 'directions' })}
+                  className="inline-flex min-h-12 items-center gap-3 rounded-full bg-ink px-10 py-4 text-[11px] font-semibold uppercase tracking-[0.22em] text-pearl transition-colors duration-300 hover:bg-obsidian"
+                >
+                  <MapPin className="h-4 w-4" strokeWidth={1.5} aria-hidden="true" />
+                  Yol Tarifi Al
+                </a>
+              </Magnetic>
+
+              <Magnetic className="inline-block">
+                <a
+                  href={BUSINESS.trendyolUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => trackEvent('cta_click', { cta: 'trendyol_button' })}
+                  className="inline-flex min-h-12 items-center gap-3 rounded-full border border-ink/20 px-10 py-4 text-[11px] font-semibold uppercase tracking-[0.22em] text-ink transition-colors duration-300 hover:border-ink/50"
+                >
+                  <ShoppingBag className="h-4 w-4" strokeWidth={1.5} aria-hidden="true" />
+                  Sipariş Ver
+                </a>
+              </Magnetic>
+            </div>
           </Reveal>
 
           <Reveal delay={0.1}>

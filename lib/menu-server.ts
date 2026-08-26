@@ -1,6 +1,12 @@
 import { firebaseConfig } from './firebase';
 import { SEED_MENU } from '@/data/seed';
-import { byOrder, type MenuCategory, type MenuData, type MenuProduct } from './menu-types';
+import {
+  byOrder,
+  isProductVisible,
+  type MenuCategory,
+  type MenuData,
+  type MenuProduct,
+} from './menu-types';
 
 /**
  * The public menu, read once per revalidation window instead of once per
@@ -28,15 +34,25 @@ import { byOrder, type MenuCategory, type MenuData, type MenuProduct } from './m
  */
 
 /**
- * Fifteen minutes. A café menu does not change faster than that, and it
- * caps Firestore at ~16,000 reads/day — a third of the free tier, with the
- * rest left for the admin panel's live editing session.
+ * Six hours — a pure safety net, not the mechanism a save relies on.
  *
- * The admin's own view is unaffected: it subscribes directly and still
- * updates instantly. This window is only how long a price edit takes to
- * reach the public page.
+ * Every admin write now calls /api/revalidate-menu right after it commits
+ * (see notifyPublicMenuChanged in menu-repo.ts), which clears this cache
+ * on the spot. That made the time-based window redundant for the normal
+ * path; it only still matters if that fire-and-forget ping is ever lost
+ * (an offline admin tab, a cold-started API route), so it only has to be
+ * short enough that a missed ping self-heals in a reasonable time, not
+ * short enough to BE the update mechanism.
+ *
+ * At 900s (the original setting, sized for that job) the public site read
+ * both collections roughly 96 times a day regardless of whether anything
+ * changed — about 16,000 Firestore reads/day on its own, a third of the
+ * Spark plan's free quota, just for a menu that in practice changes a
+ * handful of times a week. At 21600s that drops to ~4 reads/day from
+ * scheduled revalidation, with on-demand pings covering every real edit
+ * immediately on top.
  */
-export const REVALIDATE_SECONDS = 900;
+export const REVALIDATE_SECONDS = 21600;
 
 const BASE = `https://firestore.googleapis.com/v1/projects/${firebaseConfig.projectId}/databases/(default)/documents`;
 
@@ -127,7 +143,11 @@ export async function getMenu(): Promise<MenuData> {
       categories: (categories as unknown as MenuCategory[])
         .map((c) => ({ ...c, subcategories: c.subcategories ?? [] }))
         .sort(byOrder),
-      products: (products as unknown as MenuProduct[]).sort(byOrder),
+      // 86'd dishes (setAvailability, admin only) stay in Firestore and in
+      // the admin's own view — just not on the page a visitor sees.
+      products: (products as unknown as MenuProduct[])
+        .filter(isProductVisible)
+        .sort(byOrder),
     };
   } catch {
     return SEED_MENU;

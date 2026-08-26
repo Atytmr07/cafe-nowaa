@@ -138,6 +138,17 @@ export async function setFeatured(id: string, isFeatured: boolean) {
 }
 
 /**
+ * Takes a dish off the public menu without deleting it — 86'd for the day,
+ * out of season, out of stock. lib/menu-server.ts's `getMenu()` filters
+ * these out for public pages; the admin keeps showing them (dimmed) so
+ * they're one tap from coming back.
+ */
+export async function setAvailability(id: string, isAvailable: boolean) {
+  await updateDoc(doc(db(), PRODUCTS, id), { isAvailable });
+  notifyPublicMenuChanged();
+}
+
+/**
  * Price-only write, so the list can offer inline edits without loading the
  * whole product form. `null` means "Sorunuz" — no figure on the card.
  */

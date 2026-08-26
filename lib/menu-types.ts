@@ -30,6 +30,8 @@ export type MenuProduct = {
   subcategory?: string;
   order: number;
   isFeatured?: boolean;
+  /** Off = temporarily 86'd — hidden from the public menu, kept in the admin */
+  isAvailable?: boolean;
   imageUrl?: string;
   /** Storage path, kept so the old file can be deleted on replace */
   imagePath?: string;
@@ -60,6 +62,10 @@ export const formatPrice = (price: number) => `${price} ₺`;
 
 export const byOrder = <T extends { order: number }>(a: T, b: T) =>
   a.order - b.order;
+
+/** `undefined` means "never toggled off" — existing products default to visible. */
+export const isProductVisible = (product: MenuProduct) =>
+  product.isAvailable !== false;
 
 /** Products of one category, bucketed into its sub-sections, all ordered. */
 export function groupProducts(category: MenuCategory, products: MenuProduct[]) {

@@ -80,6 +80,45 @@ export function IconButton(props: ButtonHTMLAttributes<HTMLButtonElement>) {
   );
 }
 
+/**
+ * On/off slider for a boolean field written straight to Firestore on
+ * toggle — same "no form, no save button" pattern as PriceEditor. Used to
+ * take a dish off the public menu without deleting it (86'd for the day,
+ * out of season, etc.) rather than losing its photo/description/allergens.
+ */
+export function Switch({
+  checked,
+  onChange,
+  disabled,
+  label,
+}: {
+  checked: boolean;
+  onChange: () => void;
+  disabled?: boolean;
+  label: string;
+}) {
+  return (
+    <button
+      type="button"
+      role="switch"
+      aria-checked={checked}
+      aria-label={label}
+      disabled={disabled}
+      onClick={onChange}
+      className={`relative h-6 w-11 flex-none rounded-full transition-colors disabled:cursor-not-allowed disabled:opacity-40 ${
+        checked ? 'bg-gold' : 'bg-graphite'
+      }`}
+    >
+      <span
+        aria-hidden="true"
+        className={`absolute top-0.5 h-5 w-5 rounded-full bg-pearl shadow-sm transition-transform ${
+          checked ? 'translate-x-[22px]' : 'translate-x-0.5'
+        }`}
+      />
+    </button>
+  );
+}
+
 export function Panel({
   title,
   action,

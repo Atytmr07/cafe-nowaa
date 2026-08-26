@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import {
   deleteProduct,
+  setAvailability,
   setFeatured,
   setPrice,
   swapOrder,
@@ -24,7 +25,7 @@ import {
   type MenuProduct,
 } from '@/lib/menu-types';
 import ProductForm from './ProductForm';
-import { Button, IconButton, Input, Panel, Select } from './ui';
+import { Button, IconButton, Input, Panel, Select, Switch } from './ui';
 
 type ProductManagerProps = {
   categories: MenuCategory[];
@@ -148,12 +149,23 @@ export default function ProductManager({
         {visible.map((product) => {
           const index = rows.findIndex((p) => p.id === product.id);
 
+          const available = product.isAvailable !== false;
+
           return (
             <li
               key={product.id}
-              className="rounded-xl border border-pearl/10 bg-obsidian/60 p-3"
+              className={`rounded-xl border border-pearl/10 bg-obsidian/60 p-3 transition-opacity ${
+                available ? '' : 'opacity-50'
+              }`}
             >
               <div className="flex items-start gap-3">
+                <Switch
+                  checked={available}
+                  disabled={busy}
+                  label={`${product.name} menüde ${available ? 'açık' : 'kapalı'}`}
+                  onChange={() => setAvailability(product.id, !available)}
+                />
+
                 <div className="relative h-14 w-12 flex-none overflow-hidden rounded-md border border-pearl/10 bg-graphite">
                   {product.imageUrl && (
                     <Image
@@ -170,6 +182,11 @@ export default function ProductManager({
                 <div className="min-w-0 flex-1">
                   <p className="truncate text-sm text-pearl">
                     {product.name || '(isimsiz)'}
+                    {!available && (
+                      <span className="ml-2 rounded-full border border-pearl/20 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-[0.12em] text-steel">
+                        Kapalı
+                      </span>
+                    )}
                   </p>
                   <p className="mt-0.5 truncate text-[11px] text-steel">
                     {product.subcategory || 'Alt kategori yok'}

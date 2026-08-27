@@ -17,14 +17,10 @@ export default function Location() {
   return (
     <section id="konum" className="relative overflow-hidden bg-pearl py-24 md:py-32">
       <DotWeave className="pointer-events-none absolute inset-0 opacity-[0.045]" />
-      <BeanField tone="ink" className="pointer-events-none absolute inset-0 opacity-[0.11]" />
+      <BeanField tone="ink" className="pointer-events-none absolute inset-0 opacity-[0.1]" />
       <CoffeeBeans
         tone="ink"
-        className="pointer-events-none absolute -right-4 top-16 h-16 w-28 rotate-[18deg] opacity-[0.16] sm:right-10"
-      />
-      <CoffeeBeans
-        tone="ink"
-        className="pointer-events-none absolute bottom-14 left-8 h-14 w-24 -rotate-[12deg] opacity-[0.1] sm:left-16"
+        className="pointer-events-none absolute bottom-14 left-8 h-14 w-24 -rotate-[12deg] opacity-[0.12] sm:left-16"
       />
       <SectionEdge from="obsidian" />
       <div className="relative mx-auto max-w-7xl px-5 sm:px-8">

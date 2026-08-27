@@ -13,7 +13,6 @@ import { ArrowUpRight, MapPin } from 'lucide-react';
 import AnimatedNVLogo, { NV_DRAW_DURATION } from './AnimatedNVLogo';
 import Magnetic from './Magnetic';
 import GrainOverlay from './GrainOverlay';
-import CoffeeBeans from './decor/CoffeeBeans';
 import { BUSINESS } from '@/config/business';
 import { trackEvent } from '@/lib/firebase';
 
@@ -78,13 +77,6 @@ export default function Hero() {
       </div>
 
       <GrainOverlay />
-
-      {/* Faint, kept inside the hairline frame's corner so it reads as an
-          engraving on the glass rather than competing with the photo */}
-      <CoffeeBeans
-        tone="pearl"
-        className="pointer-events-none absolute left-8 top-24 hidden h-14 w-24 -rotate-[16deg] opacity-[0.08] sm:left-12 md:block"
-      />
 
       {/* Ambient wash — the sconce light pooling on a black wall, breathing gently */}
       <motion.div

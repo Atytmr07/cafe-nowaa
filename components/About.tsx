@@ -41,20 +41,16 @@ export default function About() {
     >
       {/* Quiet texture, breaking up what was a flat cream fill */}
       <DotWeave className="pointer-events-none absolute inset-0 opacity-[0.045]" />
-      {/* The motif spread across the whole section rather than parked in
-          corners; the two clusters below stay as the deliberate accents */}
-      <BeanField tone="ink" className="pointer-events-none absolute inset-0 opacity-[0.11]" />
+      {/* The motif spread across the whole section; one accent cluster
+          below, at the size and opacity every section uses. */}
+      <BeanField tone="ink" className="pointer-events-none absolute inset-0 opacity-[0.1]" />
       <OrganicBlob
         tone="gold"
         className="pointer-events-none absolute -right-32 -top-32 h-96 w-96 opacity-[0.09] blur-3xl animate-drift"
       />
       <CoffeeBeans
         tone="ink"
-        className="pointer-events-none absolute bottom-10 left-6 h-20 w-32 opacity-[0.16] sm:bottom-16 sm:left-10"
-      />
-      <CoffeeBeans
-        tone="ink"
-        className="pointer-events-none absolute right-10 top-24 h-16 w-28 rotate-[24deg] opacity-[0.14] sm:right-16"
+        className="pointer-events-none absolute bottom-10 left-6 h-14 w-24 -rotate-[12deg] opacity-[0.12] sm:bottom-16 sm:left-10"
       />
       {/* Dissolves the marquee's dark band into this cream one. Nothing needed
           going into MenuTeaser — pearl and ivory are near enough to be the

@@ -30,18 +30,14 @@ export default function Gallery() {
   return (
     <section id="galeri" className="relative overflow-hidden bg-pearl py-24 md:py-32">
       <DotWeave className="pointer-events-none absolute inset-0 opacity-[0.045]" />
-      <BeanField tone="ink" className="pointer-events-none absolute inset-0 opacity-[0.11]" />
+      <BeanField tone="ink" className="pointer-events-none absolute inset-0 opacity-[0.1]" />
       <OrganicBlob
         tone="gold"
         className="pointer-events-none absolute -left-28 bottom-0 h-80 w-80 opacity-[0.08] blur-3xl animate-drift"
       />
       <CoffeeBeans
         tone="ink"
-        className="pointer-events-none absolute right-6 top-24 h-16 w-28 rotate-[-18deg] opacity-[0.13] sm:right-14"
-      />
-      <CoffeeBeans
-        tone="ink"
-        className="pointer-events-none absolute left-8 bottom-24 h-14 w-24 rotate-[14deg] opacity-[0.1] sm:left-16"
+        className="pointer-events-none absolute right-6 top-24 h-14 w-24 rotate-[-18deg] opacity-[0.12] sm:right-14"
       />
       <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
         <ColumnDivider tone="light" className="mb-16" />

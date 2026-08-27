@@ -196,14 +196,17 @@ export default function ProductManager({
                       : ''}
                   </p>
                 </div>
-
-                <PriceEditor product={product} />
               </div>
 
-              {/* Actions on their own row: seven controls on one line
-                  overflowed the viewport on a phone, which is where the
-                  owner actually updates the card. */}
-              <div className="mt-3 flex items-center justify-between gap-2 border-t border-pearl/10 pt-2.5">
+              {/*
+                Controls all share the second row, and it wraps.
+                The price editor used to sit up in the title row, which on
+                a 375px screen left the product name about 60px to live in
+                — the switch, thumbnail and price field between them ate
+                the width. Down here it's a control among controls, and
+                `flex-wrap` means a long row folds instead of overflowing.
+              */}
+              <div className="mt-3 flex flex-wrap items-center justify-between gap-2 border-t border-pearl/10 pt-2.5">
                 <div className="flex items-center gap-1.5">
                   <IconButton
                     aria-label={`${product.name} yukarı taşı`}
@@ -222,6 +225,8 @@ export default function ProductManager({
                 </div>
 
                 <div className="flex items-center gap-1.5">
+                  <PriceEditor product={product} />
+
                   <IconButton
                     aria-label={`${product.name} şefin önerisi`}
                     aria-pressed={Boolean(product.isFeatured)}

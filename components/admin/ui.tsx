@@ -109,10 +109,20 @@ export function Switch({
         checked ? 'bg-gold' : 'bg-graphite'
       }`}
     >
+      {/*
+        `left-0.5` is load-bearing, not decoration. Without an explicit
+        `left`, an absolutely positioned child resolves to its static
+        position — and buttons carry `text-align: center` from the UA
+        stylesheet, which Tailwind's preflight doesn't reset. The thumb
+        therefore started life centred rather than at the left edge, and
+        the `translate-x` for the "on" state pushed it clean out of the
+        track. Anchored left, the travel is plain arithmetic: 44px track −
+        20px thumb − 2px inset on each side = 20px, i.e. translate-x-5.
+      */}
       <span
         aria-hidden="true"
-        className={`absolute top-0.5 h-5 w-5 rounded-full bg-pearl shadow-sm transition-transform ${
-          checked ? 'translate-x-[22px]' : 'translate-x-0.5'
+        className={`absolute left-0.5 top-0.5 h-5 w-5 rounded-full bg-pearl shadow-sm transition-transform duration-200 ${
+          checked ? 'translate-x-5' : 'translate-x-0'
         }`}
       />
     </button>

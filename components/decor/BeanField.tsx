@@ -31,11 +31,11 @@ export default function BeanField({
   tone = 'ink',
 }: {
   className?: string;
-  tone?: 'ink' | 'gold' | 'pearl';
+  /** Ink on cream sections, pearl on espresso ones — see CoffeeBeans */
+  tone?: 'ink' | 'pearl';
 }) {
   const patternId = `beanfield-${useId()}`;
-  const color =
-    tone === 'gold' ? 'var(--gold)' : tone === 'pearl' ? 'var(--pearl)' : 'var(--ink)';
+  const color = tone === 'pearl' ? 'var(--pearl)' : 'var(--ink)';
 
   return (
     <svg aria-hidden="true" className={className} width="100%" height="100%">

@@ -19,7 +19,7 @@ export default function Location() {
       <DotWeave className="pointer-events-none absolute inset-0 opacity-[0.045]" />
       <BeanField tone="ink" className="pointer-events-none absolute inset-0 opacity-[0.11]" />
       <CoffeeBeans
-        tone="gold"
+        tone="ink"
         className="pointer-events-none absolute -right-4 top-16 h-16 w-28 rotate-[18deg] opacity-[0.16] sm:right-10"
       />
       <CoffeeBeans

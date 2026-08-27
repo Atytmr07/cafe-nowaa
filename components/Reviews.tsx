@@ -98,7 +98,7 @@ export default function Reviews() {
       />
       <BeanField tone="pearl" className="pointer-events-none absolute inset-0 opacity-[0.11]" />
       <CoffeeBeans
-        tone="gold"
+        tone="pearl"
         className="pointer-events-none absolute -right-4 bottom-8 h-16 w-28 rotate-[-16deg] opacity-[0.16] sm:right-10"
       />
       <CoffeeBeans

@@ -53,7 +53,7 @@ export default function About() {
         className="pointer-events-none absolute bottom-10 left-6 h-20 w-32 opacity-[0.16] sm:bottom-16 sm:left-10"
       />
       <CoffeeBeans
-        tone="gold"
+        tone="ink"
         className="pointer-events-none absolute right-10 top-24 h-16 w-28 rotate-[24deg] opacity-[0.14] sm:right-16"
       />
       {/* Dissolves the marquee's dark band into this cream one. Nothing needed

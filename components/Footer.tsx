@@ -27,7 +27,7 @@ export default function Footer() {
       <BeanField tone="pearl" className="pointer-events-none absolute inset-0 opacity-[0.09]" />
       {/* Sits below the fade's reach, or it would be washed out entirely */}
       <CoffeeBeans
-        tone="gold"
+        tone="pearl"
         className="pointer-events-none absolute right-6 top-36 h-14 w-24 rotate-[12deg] opacity-[0.14] sm:right-12 md:top-44"
       />
       <CoffeeBeans

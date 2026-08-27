@@ -95,7 +95,7 @@ export default function MenuTeaser({ menu }: { menu: MenuData }) {
       />
       <BeanField tone="ink" className="pointer-events-none absolute inset-0 opacity-[0.1]" />
       <CoffeeBeans
-        tone="gold"
+        tone="ink"
         className="pointer-events-none absolute -left-6 bottom-10 h-16 w-28 -rotate-[10deg] opacity-[0.14]"
       />
       <CoffeeBeans

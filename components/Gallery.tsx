@@ -40,7 +40,7 @@ export default function Gallery() {
         className="pointer-events-none absolute right-6 top-24 h-16 w-28 rotate-[-18deg] opacity-[0.13] sm:right-14"
       />
       <CoffeeBeans
-        tone="gold"
+        tone="ink"
         className="pointer-events-none absolute left-8 bottom-24 h-14 w-24 rotate-[14deg] opacity-[0.1] sm:left-16"
       />
       <div className="relative mx-auto max-w-7xl px-5 sm:px-8">

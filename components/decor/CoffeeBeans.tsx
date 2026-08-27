@@ -3,6 +3,13 @@
  * kitchen rather than literal illustration. Pure line art, no fill, so it
  * reads as an engraving on the paper rather than a sticker sitting on top
  * of it. Server component: no state, no reason to ship it as client JS.
+ *
+ * Two tones only, matching BeanField: ink on cream sections, pearl on
+ * espresso ones. A `gold` option used to exist and every section mixed one
+ * gold cluster in with its ink/pearl ones — which put the same motif on
+ * screen in two unrelated hues at once and read as a mistake rather than an
+ * accent. Depth comes from opacity now (field ~0.10, accent clusters
+ * 0.14–0.16), not from a second colour.
  */
 const BEAN =
   'M20 2C10 2 3 16 3 32C3 48 10 58 20 58C30 58 37 48 37 32C37 16 30 2 20 2Z M20 6C14 16 14 44 20 54';
@@ -12,10 +19,9 @@ export default function CoffeeBeans({
   tone = 'ink',
 }: {
   className?: string;
-  tone?: 'ink' | 'gold' | 'pearl';
+  tone?: 'ink' | 'pearl';
 }) {
-  const color =
-    tone === 'gold' ? 'var(--gold)' : tone === 'pearl' ? 'var(--pearl)' : 'var(--ink)';
+  const color = tone === 'pearl' ? 'var(--pearl)' : 'var(--ink)';
 
   return (
     <svg aria-hidden="true" viewBox="0 0 170 100" className={className} fill="none">

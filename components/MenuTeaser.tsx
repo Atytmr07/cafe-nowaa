@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import { ArrowUpRight, Flame, Star, ZoomIn } from 'lucide-react';
 import Magnetic from './Magnetic';
@@ -11,19 +11,9 @@ import CountUp from './CountUp';
 import CoffeeBeans from './decor/CoffeeBeans';
 import BeanField from './decor/BeanField';
 import Lightbox, { type LightboxItem } from './Lightbox';
-import {
-  byOrder,
-  formatPrice,
-  type MenuCategory,
-  type MenuData,
-  type MenuProduct,
-} from '@/lib/menu-types';
+import { formatPrice } from '@/lib/menu-types';
+import type { TeaserData, TeaserItem } from '@/lib/menu-teaser';
 import { trackEvent } from '@/lib/firebase';
-
-/** Kahvaltı and Yeni Nesil Kahvaltı both read as "breakfast" to a visitor —
- *  used so the teaser doesn't accidentally quote breakfast twice over. */
-const isBreakfast = (category: MenuCategory) =>
-  category.label.toLocaleLowerCase('tr').includes('kahvalt');
 
 /**
  * Homepage preview — an editorial spread rather than a wall of photos:
@@ -31,61 +21,15 @@ const isBreakfast = (category: MenuCategory) =>
  * card on the right, and the category index beneath. Deliberately
  * incomplete; the whole card lives at /menu.
  *
- * The menu arrives as a prop from the server rather than being fetched
- * here. This section shows five dishes; subscribing to Firestore for it
- * cost 170 document reads and the whole SDK on every homepage view.
+ * Takes a pre-reduced `teaser` rather than the whole MenuData. This is a
+ * client component, so its props are serialised into the page payload —
+ * passing all 156 products to render ten of them put roughly 150 products
+ * of dead weight into the homepage HTML. The selection rules now live in
+ * lib/menu-teaser.ts and run on the server.
  */
-export default function MenuTeaser({ menu }: { menu: MenuData }) {
+export default function MenuTeaser({ teaser }: { teaser: TeaserData }) {
   const [zoomed, setZoomed] = useState<LightboxItem | null>(null);
-
-  const categories = useMemo(
-    () => [...menu.categories].sort(byOrder),
-    [menu.categories]
-  );
-
-  /**
-   * The signature plate: the first featured, photographed dish that ISN'T
-   * a breakfast item — Kahvaltı already anchors the first excerpt column,
-   * so the hero plate is where pizza/burger/ana yemek get to make the case.
-   * Falls back to any featured photo, then any photo at all.
-   */
-  const hero = useMemo(() => {
-    const withPhoto = menu.products.filter((p) => p.isFeatured && p.imageUrl);
-    const nonBreakfast = withPhoto.find((p) => {
-      const category = menu.categories.find((c) => c.id === p.categoryId);
-      return !category || !isBreakfast(category);
-    });
-    return nonBreakfast ?? withPhoto[0] ?? menu.products.find((p) => p.imageUrl);
-  }, [menu.products, menu.categories]);
-
-  /**
-   * Two columns quoting real rows. The first is whichever category leads
-   * the card; the second is deliberately the first NON-breakfast category
-   * with enough priced items, so the excerpt reads as "the whole kitchen"
-   * rather than "just kahvaltı" — a genuine bug in an earlier pass, since
-   * Kahvaltı and Yeni Nesil Kahvaltı sit first and second on the card.
-   */
-  const excerpts = useMemo(() => {
-    const usable = categories
-      .map((category) => ({
-        category,
-        items: menu.products
-          .filter((p) => p.categoryId === category.id && p.price !== null)
-          .sort(byOrder)
-          .slice(0, 4),
-      }))
-      .filter((column) => column.items.length >= 3);
-
-    if (usable.length <= 2) return usable;
-
-    const first = usable[0];
-    const second =
-      usable.find((c) => c.category.id !== first.category.id && !isBreakfast(c.category)) ??
-      usable[1];
-    return [first, second];
-  }, [categories, menu.products]);
-
-  const priced = menu.products.filter((p) => p.price !== null);
+  const { categories, hero, excerpts, pricedCount } = teaser;
 
   return (
     <section className="relative overflow-hidden bg-ivory py-24 md:py-32">
@@ -96,11 +40,7 @@ export default function MenuTeaser({ menu }: { menu: MenuData }) {
       <BeanField tone="ink" className="pointer-events-none absolute inset-0 opacity-[0.1]" />
       <CoffeeBeans
         tone="ink"
-        className="pointer-events-none absolute -left-6 bottom-10 h-16 w-28 -rotate-[10deg] opacity-[0.14]"
-      />
-      <CoffeeBeans
-        tone="ink"
-        className="pointer-events-none absolute right-8 bottom-16 h-14 w-24 rotate-[16deg] opacity-[0.1] sm:right-16"
+        className="pointer-events-none absolute right-8 bottom-16 h-14 w-24 rotate-[16deg] opacity-[0.12] sm:right-16"
       />
       {/* No wave into Gallery: ivory and pearl are too close in value for
           the curve to read against — see About.tsx for the same call */}
@@ -297,7 +237,7 @@ export default function MenuTeaser({ menu }: { menu: MenuData }) {
 
                 <p className="mt-6 font-display text-lg italic text-gold-deep">
                   <CountUp to={categories.length} /> kategori ·{' '}
-                  <CountUp to={priced.length} suffix="+" /> lezzet
+                  <CountUp to={pricedCount} suffix="+" /> lezzet
                 </p>
               </div>
             </Reveal>
@@ -327,7 +267,7 @@ export default function MenuTeaser({ menu }: { menu: MenuData }) {
 }
 
 /** A single quoted line of the card: name, leader, price. */
-function ExcerptRow({ product }: { product: MenuProduct }) {
+function ExcerptRow({ product }: { product: TeaserItem }) {
   return (
     <>
       <span className="flex items-baseline gap-3">
@@ -339,7 +279,7 @@ function ExcerptRow({ product }: { product: MenuProduct }) {
           className="mb-1 h-px min-w-4 flex-1 border-b border-dotted border-ink/25"
         />
         <span className="flex-none text-[13px] font-semibold tabular-nums text-gold-deep">
-          {formatPrice(product.price as number)}
+          {formatPrice(product.price)}
         </span>
       </span>
       {product.description && (

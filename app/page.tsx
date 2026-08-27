@@ -13,6 +13,7 @@ import FloatingActions from '@/components/FloatingActions';
 import { BUSINESS } from '@/config/business';
 import { SITE_URL } from '@/config/site';
 import { getMenu, REVALIDATE_SECONDS } from '@/lib/menu-server';
+import { buildTeaser } from '@/lib/menu-teaser';
 
 // The teaser's dishes come from Firestore, read server-side once per
 // window rather than once per visitor. See lib/menu-server.ts.
@@ -103,7 +104,9 @@ const jsonLd = {
 };
 
 export default async function HomePage() {
-  const menu = await getMenu();
+  // Reduced here, not in the component: MenuTeaser is a client component,
+  // so anything handed to it ships in the page payload.
+  const teaser = buildTeaser(await getMenu());
 
   return (
     <>
@@ -117,7 +120,7 @@ export default async function HomePage() {
         <Hero />
         <Marquee />
         <About />
-        <MenuTeaser menu={menu} />
+        <MenuTeaser teaser={teaser} />
         <Gallery />
         <Reviews />
         <Location />

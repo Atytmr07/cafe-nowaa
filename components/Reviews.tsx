@@ -6,8 +6,6 @@ import { useReducedMotion } from 'framer-motion';
 import Reveal from './Reveal';
 import MaskedText from './MaskedText';
 import GrainOverlay from './GrainOverlay';
-import CoffeeBeans from './decor/CoffeeBeans';
-import BeanField from './decor/BeanField';
 import SectionEdge from './decor/SectionEdge';
 import { BUSINESS } from '@/config/business';
 import { REVIEWS } from '@/data/reviews';
@@ -156,11 +154,6 @@ export default function Reviews() {
       <div
         aria-hidden="true"
         className="pointer-events-none absolute -top-40 left-1/2 h-80 w-[44rem] -translate-x-1/2 rounded-full bg-gold/[0.06] blur-3xl"
-      />
-      <BeanField tone="pearl" className="pointer-events-none absolute inset-0 opacity-[0.1]" />
-      <CoffeeBeans
-        tone="pearl"
-        className="pointer-events-none absolute -right-4 bottom-8 h-14 w-24 rotate-[-16deg] opacity-[0.12] sm:right-10"
       />
       <SectionEdge from="pearl" />
 

@@ -13,10 +13,9 @@ import MaskedText from './MaskedText';
 import Photo from './Photo';
 import ColumnDivider from './ColumnDivider';
 import Lightbox, { type LightboxItem } from './Lightbox';
-import CoffeeBeans from './decor/CoffeeBeans';
-import BeanField from './decor/BeanField';
 import DotWeave from './decor/DotWeave';
 import OrganicBlob from './decor/OrganicBlob';
+import CoffeeBeans from './decor/CoffeeBeans';
 import { GALLERY_IMAGES, type GalleryImage } from '@/data/gallery';
 
 const LIGHTBOX_ITEMS: LightboxItem[] = GALLERY_IMAGES.map((image) => ({
@@ -30,14 +29,15 @@ export default function Gallery() {
   return (
     <section id="galeri" className="relative overflow-hidden bg-pearl py-24 md:py-32">
       <DotWeave className="pointer-events-none absolute inset-0 opacity-[0.045]" />
-      <BeanField tone="ink" className="pointer-events-none absolute inset-0 opacity-[0.1]" />
       <OrganicBlob
         tone="gold"
         className="pointer-events-none absolute -left-28 bottom-0 h-80 w-80 opacity-[0.08] blur-3xl animate-drift"
       />
+      {/* Second cluster. Opposite side to About's, in the empty margin
+          beside the centred heading. */}
       <CoffeeBeans
         tone="ink"
-        className="pointer-events-none absolute right-6 top-24 h-14 w-24 rotate-[-18deg] opacity-[0.12] sm:right-14"
+        className="pointer-events-none absolute right-5 top-28 h-12 w-[4.5rem] rotate-[16deg] opacity-[0.16] sm:right-10"
       />
       <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
         <ColumnDivider tone="light" className="mb-16" />

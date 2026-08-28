@@ -8,8 +8,6 @@ import Reveal from './Reveal';
 import MaskedText from './MaskedText';
 import Photo from './Photo';
 import CountUp from './CountUp';
-import CoffeeBeans from './decor/CoffeeBeans';
-import BeanField from './decor/BeanField';
 import Lightbox, { type LightboxItem } from './Lightbox';
 import { formatPrice } from '@/lib/menu-types';
 import type { TeaserData, TeaserItem } from '@/lib/menu-teaser';
@@ -36,11 +34,6 @@ export default function MenuTeaser({ teaser }: { teaser: TeaserData }) {
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-x-0 top-0 h-80 bg-[radial-gradient(ellipse_45%_100%_at_50%_0%,rgba(217,164,65,0.14),transparent_72%)]"
-      />
-      <BeanField tone="ink" className="pointer-events-none absolute inset-0 opacity-[0.1]" />
-      <CoffeeBeans
-        tone="ink"
-        className="pointer-events-none absolute right-8 bottom-16 h-14 w-24 rotate-[16deg] opacity-[0.12] sm:right-16"
       />
       {/* No wave into Gallery: ivory and pearl are too close in value for
           the curve to read against — see About.tsx for the same call */}

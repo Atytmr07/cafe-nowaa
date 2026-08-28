@@ -3,9 +3,8 @@ import { Instagram, MapPin, Phone, ShoppingBag } from 'lucide-react';
 import NVLogo from './NVLogo';
 import FooterWordmark from './FooterWordmark';
 import OpenStatus from './OpenStatus';
-import CoffeeBeans from './decor/CoffeeBeans';
-import BeanField from './decor/BeanField';
 import SectionEdge from './decor/SectionEdge';
+import CoffeeBeans from './decor/CoffeeBeans';
 import WhatsAppIcon from './icons/WhatsAppIcon';
 import { BUSINESS } from '@/config/business';
 
@@ -24,11 +23,11 @@ export default function Footer() {
       className="relative overflow-hidden bg-obsidian pt-24 md:pt-32"
     >
       <FooterWordmark />
-      <BeanField tone="pearl" className="pointer-events-none absolute inset-0 opacity-[0.1]" />
-      {/* Sits below the arch's reach, or it would be washed out entirely */}
+      {/* Last of the three. `top-36` keeps it below the arch's reach — any
+          higher and the cream shape paints straight over it. */}
       <CoffeeBeans
         tone="pearl"
-        className="pointer-events-none absolute right-6 top-36 h-14 w-24 rotate-[12deg] opacity-[0.12] sm:right-12 md:top-44"
+        className="pointer-events-none absolute right-5 top-36 h-12 w-[4.5rem] rotate-[12deg] opacity-[0.14] sm:right-10 md:top-44"
       />
       <SectionEdge from="pearl" variant="arch" />
 

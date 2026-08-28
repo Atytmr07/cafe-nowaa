@@ -6,8 +6,6 @@ import Magnetic from './Magnetic';
 import Reveal from './Reveal';
 import MaskedText from './MaskedText';
 import ColumnDivider from './ColumnDivider';
-import CoffeeBeans from './decor/CoffeeBeans';
-import BeanField from './decor/BeanField';
 import SectionEdge from './decor/SectionEdge';
 import DotWeave from './decor/DotWeave';
 import { BUSINESS } from '@/config/business';
@@ -17,11 +15,6 @@ export default function Location() {
   return (
     <section id="konum" className="relative overflow-hidden bg-pearl py-24 md:py-32">
       <DotWeave className="pointer-events-none absolute inset-0 opacity-[0.045]" />
-      <BeanField tone="ink" className="pointer-events-none absolute inset-0 opacity-[0.1]" />
-      <CoffeeBeans
-        tone="ink"
-        className="pointer-events-none absolute bottom-14 left-8 h-14 w-24 -rotate-[12deg] opacity-[0.12] sm:left-16"
-      />
       <SectionEdge from="obsidian" />
       <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
         <ColumnDivider tone="light" className="mb-16" />

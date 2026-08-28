@@ -45,24 +45,6 @@ const TONES = {
 } as const;
 
 /**
- * Whichever bean tone reads against `fill` — the same light-on-dark /
- * dark-on-light rule BeanField itself uses. Keeps the scattered-bean motif
- * (BeanField, painted across each section's whole background) from
- * appearing to stop dead at the wave: the wave is a solid shape sitting on
- * top of that field by design, so without this the top ~80px of every
- * section it touches was the one patch with no motif in it at all.
- */
-const BEAN_TONE: Record<keyof typeof TONES, string> = {
-  onyx: 'var(--pearl)',
-  obsidian: 'var(--pearl)',
-  pearl: 'var(--ink)',
-  ivory: 'var(--ink)',
-};
-
-const BEAN =
-  'M20 2C10 2 3 16 3 32C3 48 10 58 20 58C30 58 37 48 37 32C37 16 30 2 20 2Z M20 6C14 16 14 44 20 54';
-
-/**
  * Every segment leaves and enters its endpoints horizontally (control points
  * pulled straight out to the sides), which makes the joins C1-continuous —
  * that's what stops a hand-written bezier wave from showing kinks at the
@@ -132,13 +114,7 @@ export default function SectionEdge({
   className?: string;
 }) {
   const { fill, shadow } = TONES[from];
-  const beanTone = BEAN_TONE[from];
   const { front, back, narrowFront, narrowBack } = SHAPES[variant];
-
-  // Stable rather than useId: this stays a server component (no client JS
-  // for a shape that never changes after paint), and every `from`+`variant`
-  // pair currently appears at most once per page.
-  const uid = `${from}-${variant}`;
 
   // Two elements swapped by media query rather than one path chosen in JS:
   // the crest count has to change at the same breakpoint the layout does,
@@ -153,37 +129,8 @@ export default function SectionEdge({
         preserveAspectRatio="none"
         className={`${box} md:hidden`}
       >
-        <defs>
-          <clipPath id={`${uid}-n-clip`}>
-            <path d={narrowFront} />
-          </clipPath>
-          <pattern
-            id={`${uid}-n-beans`}
-            width="140"
-            height="120"
-            patternUnits="userSpaceOnUse"
-            patternTransform="rotate(7)"
-          >
-            <g stroke={beanTone} strokeWidth="1.2" strokeLinecap="round" fill="none">
-              <path d={BEAN} transform="translate(4,-6) rotate(-18 20 32) scale(0.34)" />
-              <path d={BEAN} transform="translate(74,22) rotate(22 20 32) scale(0.26)" />
-              <path d={BEAN} transform="translate(28,72) rotate(-30 20 32) scale(0.3)" />
-            </g>
-          </pattern>
-        </defs>
         <path d={narrowBack} fill={shadow} />
         <path d={narrowFront} fill={fill} />
-        {/* The scattered-bean field (BeanField) covers the rest of the
-            section but sits under this shape — without this, the wave's
-            own solid fill was the one patch of every section with no
-            motif in it at all. */}
-        <rect
-          width="1440"
-          height="120"
-          clipPath={`url(#${uid}-n-clip)`}
-          fill={`url(#${uid}-n-beans)`}
-          opacity="0.4"
-        />
       </svg>
       <svg
         aria-hidden="true"
@@ -191,34 +138,8 @@ export default function SectionEdge({
         preserveAspectRatio="none"
         className={`${box} hidden md:block`}
       >
-        <defs>
-          <clipPath id={`${uid}-w-clip`}>
-            <path d={front} />
-          </clipPath>
-          <pattern
-            id={`${uid}-w-beans`}
-            width="180"
-            height="120"
-            patternUnits="userSpaceOnUse"
-            patternTransform="rotate(7)"
-          >
-            <g stroke={beanTone} strokeWidth="1.2" strokeLinecap="round" fill="none">
-              <path d={BEAN} transform="translate(4,-6) rotate(-18 20 32) scale(0.32)" />
-              <path d={BEAN} transform="translate(96,26) rotate(24 20 32) scale(0.24)" />
-              <path d={BEAN} transform="translate(146,-10) rotate(-8 20 32) scale(0.36)" />
-              <path d={BEAN} transform="translate(40,78) rotate(-32 20 32) scale(0.26)" />
-            </g>
-          </pattern>
-        </defs>
         <path d={back} fill={shadow} />
         <path d={front} fill={fill} />
-        <rect
-          width="1440"
-          height="120"
-          clipPath={`url(#${uid}-w-clip)`}
-          fill={`url(#${uid}-w-beans)`}
-          opacity="0.4"
-        />
       </svg>
     </>
   );

@@ -8,6 +8,7 @@ import MaskedText from './MaskedText';
 import ColumnDivider from './ColumnDivider';
 import SectionEdge from './decor/SectionEdge';
 import DotWeave from './decor/DotWeave';
+import CoffeeBeans from './decor/CoffeeBeans';
 import { BUSINESS } from '@/config/business';
 import { trackEvent } from '@/lib/firebase';
 
@@ -15,6 +16,10 @@ export default function Location() {
   return (
     <section id="konum" className="relative overflow-hidden bg-pearl py-24 md:py-32">
       <DotWeave className="pointer-events-none absolute inset-0 opacity-[0.045]" />
+      <CoffeeBeans
+        tone="ink"
+        className="pointer-events-none absolute bottom-8 left-4 h-16 w-24 -rotate-[14deg] opacity-[0.22] sm:left-8 sm:h-20 sm:w-[7.5rem]"
+      />
       <SectionEdge from="obsidian" />
       <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
         <ColumnDivider tone="light" className="mb-16" />

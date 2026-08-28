@@ -23,11 +23,11 @@ export default function Footer() {
       className="relative overflow-hidden bg-obsidian pt-24 md:pt-32"
     >
       <FooterWordmark />
-      {/* Last of the three. `top-36` keeps it below the arch's reach — any
-          higher and the cream shape paints straight over it. */}
+      {/* `top-36` keeps it below the arch's reach — any higher and the
+          cream shape paints straight over it. */}
       <CoffeeBeans
         tone="pearl"
-        className="pointer-events-none absolute right-5 top-36 h-12 w-[4.5rem] rotate-[12deg] opacity-[0.14] sm:right-10 md:top-44"
+        className="pointer-events-none absolute right-4 top-36 h-16 w-24 rotate-[12deg] opacity-[0.2] sm:right-8 sm:h-20 sm:w-[7.5rem] md:top-44"
       />
       <SectionEdge from="pearl" variant="arch" />
 

@@ -40,12 +40,12 @@ export default function About() {
     >
       {/* Quiet texture, breaking up what was a flat cream fill */}
       <DotWeave className="pointer-events-none absolute inset-0 opacity-[0.045]" />
-      {/* First of three bean clusters on the page — see CoffeeBeans. Sits
-          in the margin below the photo column, clear of both the image and
-          the text. */}
+      {/* One bean cluster per section, alternating sides down the page —
+          see CoffeeBeans. Sits in the margin below the photo column, clear
+          of both the image and the text. */}
       <CoffeeBeans
         tone="ink"
-        className="pointer-events-none absolute bottom-8 left-5 h-12 w-[4.5rem] -rotate-[10deg] opacity-[0.16] sm:left-9"
+        className="pointer-events-none absolute bottom-8 left-4 h-16 w-24 -rotate-[10deg] opacity-[0.22] sm:left-8 sm:h-20 sm:w-[7.5rem]"
       />
       <OrganicBlob
         tone="gold"

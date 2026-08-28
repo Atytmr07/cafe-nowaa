@@ -33,11 +33,10 @@ export default function Gallery() {
         tone="gold"
         className="pointer-events-none absolute -left-28 bottom-0 h-80 w-80 opacity-[0.08] blur-3xl animate-drift"
       />
-      {/* Second cluster. Opposite side to About's, in the empty margin
-          beside the centred heading. */}
+      {/* In the empty margin beside the centred heading. */}
       <CoffeeBeans
         tone="ink"
-        className="pointer-events-none absolute right-5 top-28 h-12 w-[4.5rem] rotate-[16deg] opacity-[0.16] sm:right-10"
+        className="pointer-events-none absolute left-4 top-28 h-16 w-24 -rotate-[16deg] opacity-[0.22] sm:left-8 sm:h-20 sm:w-[7.5rem]"
       />
       <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
         <ColumnDivider tone="light" className="mb-16" />

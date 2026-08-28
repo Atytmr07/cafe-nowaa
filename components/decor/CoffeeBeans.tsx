@@ -4,14 +4,15 @@
  * reads as an engraving on the paper rather than a sticker sitting on top
  * of it. Server component: no state, no reason to ship it as client JS.
  *
- * This is now the site's ONLY bean motif, and it is used sparingly — three
- * placements across the whole page. An earlier pass had three systems
+ * This is the site's ONLY bean motif. An earlier pass had three systems
  * running at once (this, an all-over tiled BeanField, and a third copy
  * clipped inside the section waves), which stacked into visual noise; the
- * other two are gone.
+ * other two are gone and are not coming back — extra presence is bought by
+ * making these bigger and bolder, never by adding another layer behind
+ * them.
  *
- * Three beans, not seven. A cluster is a glance-sized detail, and the
- * extra four only registered as clutter at the size these actually render.
+ * Four beans in a 3:2 box, sized so callers can use matching Tailwind
+ * pairs (h-16 w-24, h-20 w-[7.5rem]) and get no letterboxing.
  *
  * Two tones: ink on cream sections, pearl on espresso ones.
  */
@@ -28,11 +29,16 @@ export default function CoffeeBeans({
   const color = tone === 'pearl' ? 'var(--pearl)' : 'var(--ink)';
 
   return (
-    <svg aria-hidden="true" viewBox="0 0 120 80" className={className} fill="none">
-      <g stroke={color} strokeWidth="1.3" strokeLinecap="round">
-        <path d={BEAN} transform="translate(4,6) rotate(-14 20 32) scale(0.85)" />
-        <path d={BEAN} transform="translate(46,-2) rotate(24 20 32) scale(0.6)" />
-        <path d={BEAN} transform="translate(74,26) rotate(-30 20 32) scale(0.45)" />
+    <svg aria-hidden="true" viewBox="0 0 150 100" className={className} fill="none">
+      {/* Stroke scales with the box rather than staying hairline-thin:
+          these render two to three times larger than the first pass, and a
+          1.3 stroke that read as an engraving at 48px reads as a faint
+          scratch at 120px. */}
+      <g stroke={color} strokeWidth="1.6" strokeLinecap="round">
+        <path d={BEAN} transform="translate(6,10) rotate(-14 20 32) scale(0.95)" />
+        <path d={BEAN} transform="translate(54,0) rotate(24 20 32) scale(0.68)" />
+        <path d={BEAN} transform="translate(92,34) rotate(-30 20 32) scale(0.52)" />
+        <path d={BEAN} transform="translate(116,4) rotate(8 20 32) scale(0.4)" />
       </g>
     </svg>
   );

@@ -110,13 +110,35 @@ export default function Reviews() {
   // the arrows' disabled states. Measured from the DOM rather than tracked
   // as state, so it stays correct whether the movement came from the
   // auto-scroll, a swipe, or an arrow press.
+  //
+  // Both this and goTo depend on the track carrying `relative`: offsetLeft
+  // is measured from the nearest *positioned* ancestor, and with a static
+  // track that resolved to the section — so every card's offsetLeft came
+  // back inflated by the width of the score panel beside it, and the dots
+  // tracked the wrong card while the arrows scrolled to the wrong place.
   useEffect(() => {
     const track = trackRef.current;
     if (!track) return;
 
     const onScroll = () => {
-      const middle = track.scrollLeft + track.clientWidth / 2;
+      const max = track.scrollWidth - track.clientWidth;
       const cards = Array.from(track.children) as HTMLElement[];
+
+      // At the extremes, snap the reading to the end card. A card wider
+      // than half the track can never actually reach the centre line, so
+      // pure nearest-to-middle leaves the last one permanently
+      // unreachable — the "next" arrow would stay lit with nothing left
+      // to go to.
+      if (max > 1 && track.scrollLeft >= max - 1) {
+        setActive(cards.length - 1);
+        return;
+      }
+      if (track.scrollLeft <= 1) {
+        setActive(0);
+        return;
+      }
+
+      const middle = track.scrollLeft + track.clientWidth / 2;
       let nearest = 0;
       let best = Infinity;
       cards.forEach((card, i) => {
@@ -228,7 +250,12 @@ export default function Reviews() {
             <Reveal>
               <ul
                 ref={trackRef}
-                className="scrollbar-hide -mx-5 flex snap-x snap-mandatory gap-5 overflow-x-auto px-5 pb-4 sm:-mx-8 sm:px-8 lg:mx-0 lg:px-0"
+                // `relative` is load-bearing — see the scroll effect above.
+                // Proximity rather than mandatory snapping: mandatory
+                // re-snaps after every programmatic scroll, so it fought
+                // the rAF drift and made it stutter between cards instead
+                // of gliding. Proximity still assists a swipe.
+                className="scrollbar-hide relative -mx-5 flex snap-x snap-proximity gap-5 overflow-x-auto px-5 pb-4 sm:-mx-8 sm:px-8 lg:mx-0 lg:px-0"
                 aria-label="Misafir yorumları"
                 onPointerEnter={() => (pausedRef.current = true)}
                 onPointerLeave={() => (pausedRef.current = false)}

@@ -80,7 +80,7 @@ export default function MenuTeaser({ teaser }: { teaser: TeaserData }) {
                 type="button"
                 onClick={() =>
                   setZoomed({
-                    src: '/tatli.jpeg',
+                    src: '/photos/tatli.jpeg',
                     alt: 'Neon Cafe Nowaa tabelasının altında sıcak servis edilen tatlı',
                     caption: 'Mutfağımızdan',
                   })
@@ -90,7 +90,7 @@ export default function MenuTeaser({ teaser }: { teaser: TeaserData }) {
               >
                 <div className="relative aspect-[4/5]">
                   <Photo
-                    src="/tatli.jpeg"
+                    src="/photos/tatli.jpeg"
                     alt="Neon Cafe Nowaa tabelasının altında sıcak servis edilen tatlı"
                     sizes="(min-width: 1024px) 40vw, 100vw"
                     imgClassName="transition-transform duration-[1200ms] ease-out group-hover:scale-[1.06]"

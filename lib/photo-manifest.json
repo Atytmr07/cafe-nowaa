@@ -1,0 +1,110 @@
+{
+  "/photos/cafe-nowaa-ayna-koridor.jpeg": {
+    "base": "/photos/opt/cafe-nowaa-ayna-koridor",
+    "widths": [
+      480,
+      960
+    ]
+  },
+  "/photos/cafe-nowaa-giris-merdiven.jpeg": {
+    "base": "/photos/opt/cafe-nowaa-giris-merdiven",
+    "widths": [
+      480,
+      960,
+      1440
+    ]
+  },
+  "/photos/cafe-nowaa-kahve-bari.jpeg": {
+    "base": "/photos/opt/cafe-nowaa-kahve-bari",
+    "widths": [
+      480,
+      960,
+      1440
+    ]
+  },
+  "/photos/cafe-nowaa-koridor-vitrin.jpeg": {
+    "base": "/photos/opt/cafe-nowaa-koridor-vitrin",
+    "widths": [
+      480,
+      960,
+      1440
+    ]
+  },
+  "/photos/cafe-nowaa-oturma-koseleri.jpeg": {
+    "base": "/photos/opt/cafe-nowaa-oturma-koseleri",
+    "widths": [
+      480,
+      960,
+      1440
+    ]
+  },
+  "/photos/cafe-nowaa-salon-genis.jpeg": {
+    "base": "/photos/opt/cafe-nowaa-salon-genis",
+    "widths": [
+      480,
+      960,
+      1440
+    ]
+  },
+  "/photos/cafe-nowaa-salon-koltuklari.jpeg": {
+    "base": "/photos/opt/cafe-nowaa-salon-koltuklari",
+    "widths": [
+      480,
+      960,
+      1440
+    ]
+  },
+  "/photos/cafe-nowaa-teras-1.jpeg": {
+    "base": "/photos/opt/cafe-nowaa-teras-1",
+    "widths": [
+      480,
+      960,
+      1440
+    ]
+  },
+  "/photos/cafe-nowaa-teras-ay-detay.jpeg": {
+    "base": "/photos/opt/cafe-nowaa-teras-ay-detay",
+    "widths": [
+      480,
+      960,
+      1440
+    ]
+  },
+  "/photos/cafe-nowaa-ust-salon.jpeg": {
+    "base": "/photos/opt/cafe-nowaa-ust-salon",
+    "widths": [
+      480,
+      960,
+      1440
+    ]
+  },
+  "/photos/cafe-nowaa-vip-oda.jpeg": {
+    "base": "/photos/opt/cafe-nowaa-vip-oda",
+    "widths": [
+      480,
+      960,
+      1440
+    ]
+  },
+  "/photos/cafe-nowaa-vitrin-gece.jpeg": {
+    "base": "/photos/opt/cafe-nowaa-vitrin-gece",
+    "widths": [
+      480,
+      960
+    ]
+  },
+  "/photos/giris.jpeg": {
+    "base": "/photos/opt/giris",
+    "widths": [
+      480,
+      960
+    ]
+  },
+  "/photos/tatli.jpeg": {
+    "base": "/photos/opt/tatli",
+    "widths": [
+      480,
+      960
+    ]
+  }
+}

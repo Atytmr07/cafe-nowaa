@@ -15,7 +15,7 @@ export type GalleryImage = {
 export const GALLERY_IMAGES: GalleryImage[] = [
   {
     id: 'g0',
-    src: '/tatli.jpeg',
+    src: '/photos/tatli.jpeg',
     alt: 'Neon Cafe Nowaa tabelasının altında, döküm tavada sıcak servis edilen tatlı',
     aspect: 'aspect-[3/4]',
   },

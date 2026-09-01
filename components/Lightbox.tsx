@@ -4,6 +4,7 @@ import { useCallback, useEffect } from 'react';
 import Image from 'next/image';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { ChevronLeft, ChevronRight, X } from 'lucide-react';
+import { resolvePhoto } from '@/lib/photos';
 
 export type LightboxItem = {
   src: string;
@@ -151,7 +152,10 @@ export default function Lightbox({
           >
             <div className="relative aspect-[4/3] w-full overflow-hidden">
               <Image
-                src={item.src}
+                // Venue photos arrive as canonical `/photos/*.jpeg` keys
+                // with no file behind them; resolve to the largest pre-built
+                // WebP. Dish photos are real remote URLs and pass through.
+                src={resolvePhoto(item.src)?.src ?? item.src}
                 alt={item.alt}
                 fill
                 sizes="(min-width: 768px) 768px, 100vw"

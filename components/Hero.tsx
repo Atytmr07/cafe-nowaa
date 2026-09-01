@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Image from 'next/image';
+import StaticPhoto from './StaticPhoto';
 import Link from 'next/link';
 import {
   motion,
@@ -56,16 +56,15 @@ export default function Hero() {
         carries `priority` because it is the LCP element.
       */}
       <div aria-hidden="true" className="absolute inset-0 overflow-hidden">
-        <Image
+        <StaticPhoto
           src="/photos/cafe-nowaa-vitrin-gece.jpeg"
           alt=""
-          fill
           priority
           sizes="100vw"
           // Crop to the lit doorway: centred, the shot's own CAFE NOWAA sign
           // sat behind the NV mark and the street signpost stayed legible
           // enough to compete with the headline.
-          className={`object-cover object-[58%_68%] ${
+          imgClassName={`object-[58%_68%] ${
             prefersReducedMotion ? '' : 'animate-ken-burns'
           }`}
         />

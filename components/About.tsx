@@ -70,7 +70,7 @@ export default function About() {
                 style={{ y: prefersReducedMotion ? 0 : parallaxY }}
               >
                 <Photo
-                  src="/giris.jpeg"
+                  src="/photos/giris.jpeg"
                   alt="Cafe Nowaa'nın aydınlatılmış girişi ve sütunlu cephesi, akşamüstü"
                   sizes="(min-width: 1024px) 45vw, 100vw"
                   imgClassName={prefersReducedMotion ? '' : 'animate-ken-burns'}

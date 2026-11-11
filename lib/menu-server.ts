@@ -1,4 +1,4 @@
-import { firebaseConfig } from './firebase';
+import { readCollection } from './firestore-rest';
 import { SEED_MENU } from '@/data/seed';
 import {
   byOrder,
@@ -23,10 +23,7 @@ import {
  * traffic: ~170 reads every REVALIDATE_SECONDS no matter how many people
  * visit, and the Firebase SDK never loads on a public page at all.
  *
- * This goes through the REST API rather than the client SDK on purpose —
- * the SDK opens a persistent WebChannel and caches in ways that make no
- * sense in a serverless render, while a plain `fetch` slots straight into
- * Next's data cache and gets deduped across both pages for free.
+ * The REST plumbing lives in lib/firestore-rest.ts, shared with the gallery.
  *
  * Server components only. There is no `server-only` guard because the
  * package isn't a dependency here; importing this from a client component
@@ -54,71 +51,7 @@ import {
  */
 export const REVALIDATE_SECONDS = 21600;
 
-const BASE = `https://firestore.googleapis.com/v1/projects/${firebaseConfig.projectId}/databases/(default)/documents`;
-
-/** One field as Firestore's REST API wraps it — a tagged union by key. */
-type RestValue = {
-  stringValue?: string;
-  integerValue?: string;
-  doubleValue?: number;
-  booleanValue?: boolean;
-  nullValue?: null;
-  arrayValue?: { values?: RestValue[] };
-};
-
-type RestDocument = {
-  /** Full resource path; the document id is the last segment */
-  name: string;
-  fields?: Record<string, RestValue>;
-};
-
-function decode(value: RestValue): unknown {
-  if ('stringValue' in value) return value.stringValue;
-  if ('booleanValue' in value) return value.booleanValue;
-  if ('integerValue' in value) return Number(value.integerValue);
-  if ('doubleValue' in value) return value.doubleValue;
-  if ('arrayValue' in value) return (value.arrayValue?.values ?? []).map(decode);
-  // nullValue, and anything Firestore adds later that we don't model
-  return null;
-}
-
-function toObject(doc: RestDocument): Record<string, unknown> {
-  const fields = doc.fields ?? {};
-  const out: Record<string, unknown> = { id: doc.name.split('/').pop() };
-  for (const [key, value] of Object.entries(fields)) out[key] = decode(value);
-  return out;
-}
-
-/**
- * Every document in a collection. Paginates rather than assuming one page —
- * the menu is under Firestore's default page size today, but a collection
- * silently truncating as the kitchen adds dishes is a bad way to find out.
- */
-async function readCollection(name: string): Promise<Record<string, unknown>[]> {
-  const documents: RestDocument[] = [];
-  let pageToken: string | undefined;
-
-  do {
-    const url = new URL(`${BASE}/${name}`);
-    url.searchParams.set('pageSize', '300');
-    url.searchParams.set('key', firebaseConfig.apiKey);
-    if (pageToken) url.searchParams.set('pageToken', pageToken);
-
-    const response = await fetch(url, {
-      next: { revalidate: REVALIDATE_SECONDS, tags: ['menu'] },
-    });
-    if (!response.ok) throw new Error(`Firestore ${name}: ${response.status}`);
-
-    const page = (await response.json()) as {
-      documents?: RestDocument[];
-      nextPageToken?: string;
-    };
-    documents.push(...(page.documents ?? []));
-    pageToken = page.nextPageToken;
-  } while (pageToken);
-
-  return documents.map(toObject);
-}
+const MENU_CACHE = { revalidate: REVALIDATE_SECONDS, tags: ['menu'] };
 
 /**
  * Live menu when Firestore has one, the printed card when it doesn't.
@@ -131,8 +64,8 @@ async function readCollection(name: string): Promise<Record<string, unknown>[]> 
 export async function getMenu(): Promise<MenuData> {
   try {
     const [categories, products] = await Promise.all([
-      readCollection('categories'),
-      readCollection('products'),
+      readCollection('categories', MENU_CACHE),
+      readCollection('products', MENU_CACHE),
     ]);
 
     // An empty `categories` means the admin has never published; the seed

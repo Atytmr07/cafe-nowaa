@@ -1,6 +1,6 @@
 rules_version = '2';
 
-// Dish photography is public; uploads are staff-only and capped so a
+// Dish and gallery media are public; uploads are staff-only and capped so a
 // stolen session cannot fill the bucket with arbitrary files.
 service firebase.storage {
   match /b/{bucket}/o {
@@ -10,6 +10,19 @@ service firebase.storage {
       allow write: if request.auth != null
                    && request.resource.size < 8 * 1024 * 1024
                    && request.resource.contentType.matches('image/.*');
+    }
+
+    // Homepage gallery. Caps mirror lib/gallery-repo.ts: photos are
+    // shrunk in the browser before upload, videos go up as shot.
+    match /gallery/{fileName} {
+      allow read: if true;
+      allow delete: if request.auth != null;
+      allow create, update: if request.auth != null && (
+        (request.resource.contentType.matches('image/.*')
+          && request.resource.size < 10 * 1024 * 1024)
+        || (request.resource.contentType.matches('video/(mp4|quicktime|webm)')
+          && request.resource.size < 50 * 1024 * 1024)
+      );
     }
 
     match /{allPaths=**} {

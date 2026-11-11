@@ -1,30 +1,85 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import {
   motion,
   useReducedMotion,
   useScroll,
   useTransform,
 } from 'framer-motion';
-import { ZoomIn } from 'lucide-react';
+import { Play, ZoomIn } from 'lucide-react';
 import Reveal from './Reveal';
 import MaskedText from './MaskedText';
 import Photo from './Photo';
+import GalleryVideo from './GalleryVideo';
 import ColumnDivider from './ColumnDivider';
 import Lightbox, { type LightboxItem } from './Lightbox';
 import DotWeave from './decor/DotWeave';
 import OrganicBlob from './decor/OrganicBlob';
 import CoffeeBeans from './decor/CoffeeBeans';
-import { GALLERY_IMAGES, type GalleryImage } from '@/data/gallery';
+import { GALLERY_IMAGES } from '@/data/gallery';
+import {
+  DEFAULT_CAPTION,
+  SHAPE_ASPECT,
+  type GalleryItem,
+} from '@/lib/gallery-types';
 
-const LIGHTBOX_ITEMS: LightboxItem[] = GALLERY_IMAGES.map((image) => ({
+/** One tile, whether it came from the code or from the admin panel. */
+type Tile = {
+  id: string;
+  kind: 'image' | 'video';
+  src: string;
+  poster?: string;
+  alt: string;
+  /** Tailwind aspect class */
+  aspect: string;
+};
+
+/**
+ * Upper bound on tiles in the grid. The café's posts go first, so as they
+ * accumulate they push the built-in photos out rather than the section
+ * growing forever; older posts can be hidden or reordered in the admin.
+ */
+const MAX_TILES = 18;
+
+const BUILT_IN_TILES: Tile[] = GALLERY_IMAGES.map((image) => ({
+  id: image.id,
+  kind: image.kind ?? 'image',
   src: image.src,
+  poster: image.poster,
   alt: image.alt,
+  aspect: image.aspect,
 }));
 
-export default function Gallery() {
+export default function Gallery({ uploads = [] }: { uploads?: GalleryItem[] }) {
   const [zoomedIndex, setZoomedIndex] = useState<number | null>(null);
+
+  const tiles = useMemo<Tile[]>(
+    () =>
+      [
+        ...uploads.map<Tile>((item) => ({
+          id: item.id,
+          kind: item.kind,
+          src: item.url,
+          poster: item.posterUrl,
+          alt: item.caption || DEFAULT_CAPTION,
+          aspect: SHAPE_ASPECT[item.shape] ?? SHAPE_ASPECT.portrait,
+        })),
+        ...BUILT_IN_TILES,
+      ].slice(0, MAX_TILES),
+    [uploads]
+  );
+
+  const lightboxItems = useMemo<LightboxItem[]>(
+    () =>
+      tiles.map((tile) => ({
+        src: tile.src,
+        alt: tile.alt,
+        kind: tile.kind,
+        poster: tile.poster,
+      })),
+    [tiles]
+  );
 
   return (
     <section id="galeri" className="relative overflow-hidden bg-pearl py-24 md:py-32">
@@ -62,10 +117,10 @@ export default function Gallery() {
         {/* Editorial masonry — CSS columns keep varied ratios flowing */}
         <Reveal className="mt-16">
           <div className="columns-2 gap-4 md:columns-3 md:gap-6 [&>*]:mb-4 md:[&>*]:mb-6">
-            {GALLERY_IMAGES.map((image, i) => (
+            {tiles.map((tile, i) => (
               <GalleryTile
-                key={image.id}
-                image={image}
+                key={tile.id}
+                tile={tile}
                 index={i}
                 onZoom={setZoomedIndex}
               />
@@ -75,8 +130,8 @@ export default function Gallery() {
       </div>
 
       <Lightbox
-        item={zoomedIndex != null ? LIGHTBOX_ITEMS[zoomedIndex] : null}
-        items={LIGHTBOX_ITEMS}
+        item={zoomedIndex != null ? lightboxItems[zoomedIndex] : null}
+        items={lightboxItems}
         index={zoomedIndex}
         onNavigate={setZoomedIndex}
         onClose={() => setZoomedIndex(null)}
@@ -96,11 +151,11 @@ export default function Gallery() {
  *    the visitor scrolls rather than arriving and stopping
  */
 function GalleryTile({
-  image,
+  tile,
   index,
   onZoom,
 }: {
-  image: GalleryImage;
+  tile: Tile;
   index: number;
   onZoom: (index: number) => void;
 }) {
@@ -127,22 +182,43 @@ function GalleryTile({
         <button
           type="button"
           onClick={() => onZoom(index)}
-          aria-label={`${image.alt} — büyüt`}
+          aria-label={`${tile.alt} — ${tile.kind === 'video' ? 'videoyu oynat' : 'büyüt'}`}
           className="group relative block w-full overflow-hidden shadow-soft"
         >
-          <div className={`relative ${image.aspect}`}>
-            <Photo
-              src={image.src}
-              alt={image.alt}
-              sizes="(min-width: 768px) 33vw, 50vw"
-              imgClassName={
-                prefersReducedMotion
-                  ? ''
-                  : index % 2 === 0
-                    ? 'animate-ken-burns'
-                    : 'animate-ken-burns-alt'
-              }
-            />
+          <div className={`relative ${tile.aspect}`}>
+            {tile.kind === 'video' ? (
+              <>
+                <GalleryVideo
+                  src={tile.src}
+                  poster={tile.poster}
+                  autoPlay={!prefersReducedMotion}
+                />
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-0 bg-gradient-to-t from-obsidian/35 via-transparent to-transparent"
+                />
+                {/* Says "this one moves, and has sound" without a hover */}
+                <span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute bottom-3 left-3 flex h-8 w-8 items-center justify-center rounded-full border border-pearl/40 bg-obsidian/45 text-pearl backdrop-blur-sm"
+                >
+                  <Play className="h-3 w-3 translate-x-px" fill="currentColor" strokeWidth={0} />
+                </span>
+              </>
+            ) : (
+              <Photo
+                src={tile.src}
+                alt={tile.alt}
+                sizes="(min-width: 768px) 33vw, 50vw"
+                imgClassName={
+                  prefersReducedMotion
+                    ? ''
+                    : index % 2 === 0
+                      ? 'animate-ken-burns'
+                      : 'animate-ken-burns-alt'
+                }
+              />
+            )}
             <span
               aria-hidden="true"
               className="pointer-events-none absolute inset-3 border border-pearl/0 transition-colors duration-500 group-hover:border-gold/60"
@@ -152,7 +228,11 @@ function GalleryTile({
               className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100"
             >
               <span className="flex h-11 w-11 items-center justify-center rounded-full border border-pearl/40 bg-obsidian/40 text-pearl backdrop-blur-sm">
-                <ZoomIn className="h-4 w-4" strokeWidth={1.5} />
+                {tile.kind === 'video' ? (
+                  <Play className="h-4 w-4 translate-x-px" strokeWidth={1.5} />
+                ) : (
+                  <ZoomIn className="h-4 w-4" strokeWidth={1.5} />
+                )}
               </span>
             </span>
           </div>

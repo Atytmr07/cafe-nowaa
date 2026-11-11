@@ -10,9 +10,10 @@ import { SEED_MENU } from '@/data/seed';
 import type { MenuData } from '@/lib/menu-types';
 import CategoryManager from './CategoryManager';
 import ProductManager from './ProductManager';
+import GalleryManager from './GalleryManager';
 import { Button } from './ui';
 
-type Tab = 'urunler' | 'kategoriler';
+type Tab = 'urunler' | 'kategoriler' | 'galeri';
 
 export default function AdminShell({
   user,
@@ -66,7 +67,7 @@ export default function AdminShell({
           <NVLogo className="h-8 w-8 flex-none text-gold" />
           <div className="min-w-0 flex-1">
             <p className="font-display text-base leading-tight text-pearl">
-              Menü Yönetimi
+              Site Yönetimi
             </p>
             <p className="truncate text-[11px] text-steel">{user.email}</p>
           </div>
@@ -86,11 +87,12 @@ export default function AdminShell({
           </Button>
         </div>
 
-        <div className="mx-auto flex max-w-5xl gap-1.5 px-4 pb-3 sm:px-5">
+        <div className="mx-auto flex max-w-5xl gap-1.5 overflow-x-auto px-4 pb-3 sm:px-5">
           {(
             [
               ['urunler', 'Ürünler'],
               ['kategoriler', 'Kategoriler'],
+              ['galeri', 'Galeri'],
             ] as const
           ).map(([value, label]) => (
             <button
@@ -98,7 +100,7 @@ export default function AdminShell({
               type="button"
               onClick={() => setTab(value)}
               aria-current={tab === value ? 'true' : undefined}
-              className={`min-h-10 rounded-full px-5 text-[11px] font-semibold uppercase tracking-[0.16em] transition-colors ${
+              className={`min-h-10 flex-none rounded-full px-4 text-[11px] sm:px-5 font-semibold uppercase tracking-[0.16em] transition-colors ${
                 tab === value
                   ? 'bg-gold text-ink'
                   : 'text-silver hover:text-pearl'
@@ -120,9 +122,13 @@ export default function AdminShell({
           </p>
         )}
 
-        {!loaded && <p className="text-sm text-steel">Yükleniyor…</p>}
+        {/* The gallery has its own collection — it works whether or not
+            the menu has been published to Firestore yet. */}
+        {tab === 'galeri' && <GalleryManager />}
 
-        {loaded && !menu && (
+        {tab !== 'galeri' && !loaded && <p className="text-sm text-steel">Yükleniyor…</p>}
+
+        {tab !== 'galeri' && loaded && !menu && (
           <section className="rounded-2xl border border-pearl/15 bg-onyx/60 p-8 text-center">
             <CloudUpload
               className="mx-auto h-8 w-8 text-silver"
@@ -148,7 +154,7 @@ export default function AdminShell({
           </section>
         )}
 
-        {loaded && menu && (
+        {tab !== 'galeri' && loaded && menu && (
           <>
             {tab === 'urunler' ? (
               <ProductManager

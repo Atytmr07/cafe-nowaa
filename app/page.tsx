@@ -14,9 +14,11 @@ import { BUSINESS } from '@/config/business';
 import { SITE_URL } from '@/config/site';
 import { getMenu, REVALIDATE_SECONDS } from '@/lib/menu-server';
 import { buildTeaser } from '@/lib/menu-teaser';
+import { getGallery } from '@/lib/gallery-server';
 
-// The teaser's dishes come from Firestore, read server-side once per
-// window rather than once per visitor. See lib/menu-server.ts.
+// The teaser's dishes and the café's gallery posts come from Firestore,
+// read server-side once per window rather than once per visitor. See
+// lib/menu-server.ts and lib/gallery-server.ts.
 export const revalidate = REVALIDATE_SECONDS;
 
 export const metadata: Metadata = {
@@ -106,7 +108,8 @@ const jsonLd = {
 export default async function HomePage() {
   // Reduced here, not in the component: MenuTeaser is a client component,
   // so anything handed to it ships in the page payload.
-  const teaser = buildTeaser(await getMenu());
+  const [menu, gallery] = await Promise.all([getMenu(), getGallery()]);
+  const teaser = buildTeaser(menu);
 
   return (
     <>
@@ -121,7 +124,7 @@ export default async function HomePage() {
         <Marquee />
         <About />
         <MenuTeaser teaser={teaser} />
-        <Gallery />
+        <Gallery uploads={gallery} />
         <Reviews />
         <Location />
       </main>

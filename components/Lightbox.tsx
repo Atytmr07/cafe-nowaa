@@ -11,6 +11,10 @@ export type LightboxItem = {
   alt: string;
   caption?: string;
   meta?: string;
+  /** Videos play with sound and controls here; defaults to a photo */
+  kind?: 'image' | 'video';
+  /** Still shown until a video has loaded */
+  poster?: string;
 };
 
 /**
@@ -41,6 +45,7 @@ export default function Lightbox({
   const open = Boolean(item);
   const canNavigate = Boolean(items && items.length > 1 && onNavigate);
   const count = items?.length ?? 0;
+  const isVideo = item?.kind === 'video';
 
   const go = useCallback(
     (delta: 1 | -1) => {
@@ -92,7 +97,7 @@ export default function Lightbox({
           <button
             type="button"
             onClick={onClose}
-            aria-label="Görseli kapat"
+            aria-label={isVideo ? 'Videoyu kapat' : 'Görseli kapat'}
             className="absolute right-4 top-4 z-10 flex h-12 w-12 items-center justify-center rounded-full border border-pearl/20 text-pearl transition-colors hover:border-gold/60 sm:right-6 sm:top-6"
           >
             <X className="h-5 w-5" strokeWidth={1.4} aria-hidden="true" />
@@ -129,7 +134,9 @@ export default function Lightbox({
             key={item.src}
             // Clicks inside the frame must not fall through to the backdrop
             onClick={(event) => event.stopPropagation()}
-            drag={canNavigate && !prefersReducedMotion ? 'x' : false}
+            // No swipe on a video: dragging its scrubber would flip to the
+            // next item. The arrow buttons and keys still work.
+            drag={canNavigate && !prefersReducedMotion && !isVideo ? 'x' : false}
             dragConstraints={{ left: 0, right: 0 }}
             dragElastic={0.6}
             onDragEnd={(_, dragInfo) => {
@@ -150,6 +157,17 @@ export default function Lightbox({
             transition={{ type: 'spring', stiffness: 300, damping: 30 }}
             className="flex max-h-full w-full max-w-3xl flex-col"
           >
+            {isVideo ? (
+              <video
+                key={item.src}
+                src={item.src}
+                poster={item.poster}
+                controls
+                autoPlay
+                playsInline
+                className="max-h-[78svh] w-full bg-obsidian object-contain"
+              />
+            ) : (
             <div className="relative aspect-[4/3] w-full overflow-hidden">
               <Image
                 // Venue photos arrive as canonical `/photos/*.jpeg` keys
@@ -164,6 +182,7 @@ export default function Lightbox({
                 draggable={false}
               />
             </div>
+            )}
 
             {(item.caption || item.meta) && (
               <figcaption className="mt-5 text-center">

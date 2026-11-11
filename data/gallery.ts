@@ -2,6 +2,9 @@
  * GALLERY — real venue photography, supplied by the client.
  * Files live in public/photos/; renamed from the original WhatsApp export
  * names to descriptive, URL-safe kebab-case.
+ *
+ * The café's own posts from the admin panel (lib/gallery-types.ts) are
+ * placed ahead of these on the page.
  */
 
 export type GalleryImage = {
@@ -10,9 +13,23 @@ export type GalleryImage = {
   alt: string;
   /** Tailwind aspect class — drives the editorial masonry rhythm */
   aspect: string;
+  /**
+   * 'video' for clips in public/videos/ (encoded by scripts/encode-video.mjs);
+   * `src` is then the .mp4 itself and `poster` its still frame.
+   */
+  kind?: 'image' | 'video';
+  poster?: string;
 };
 
 export const GALLERY_IMAGES: GalleryImage[] = [
+  {
+    id: 'v-teras-mac',
+    kind: 'video',
+    src: '/videos/cafe-nowaa-teras-mac-gecesi.mp4',
+    poster: '/videos/cafe-nowaa-teras-mac-gecesi-poster.jpg',
+    alt: 'Maç gecesi: dev ekranlar karşısında dolu teras',
+    aspect: 'aspect-[3/4]',
+  },
   {
     id: 'g0',
     src: '/photos/tatli.jpeg',

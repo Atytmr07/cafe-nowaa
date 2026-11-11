@@ -11,7 +11,6 @@ import { Play, ZoomIn } from 'lucide-react';
 import Reveal from './Reveal';
 import MaskedText from './MaskedText';
 import Photo from './Photo';
-import GalleryVideo from './GalleryVideo';
 import ColumnDivider from './ColumnDivider';
 import Lightbox, { type LightboxItem } from './Lightbox';
 import DotWeave from './decor/DotWeave';
@@ -188,21 +187,43 @@ function GalleryTile({
           <div className={`relative ${tile.aspect}`}>
             {tile.kind === 'video' ? (
               <>
-                <GalleryVideo
-                  src={tile.src}
-                  poster={tile.poster}
-                  autoPlay={!prefersReducedMotion}
-                />
+                {/*
+                  Only the still loads here — the clip itself downloads
+                  when someone presses play in the lightbox, so a visitor
+                  who scrolls past costs ~40 kB, not megabytes.
+                */}
+                {tile.poster ? (
+                  // eslint-disable-next-line @next/next/no-img-element -- a
+                  // small pre-sized JPEG; nothing for next/image to gain.
+                  <img
+                    src={tile.poster}
+                    alt={tile.alt}
+                    loading="lazy"
+                    decoding="async"
+                    className="luxe-photo absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                  />
+                ) : (
+                  <video
+                    src={tile.src}
+                    muted
+                    playsInline
+                    preload="metadata"
+                    aria-hidden="true"
+                    className="luxe-photo absolute inset-0 h-full w-full object-cover"
+                  />
+                )}
                 <div
                   aria-hidden="true"
-                  className="pointer-events-none absolute inset-0 bg-gradient-to-t from-obsidian/35 via-transparent to-transparent"
+                  className="pointer-events-none absolute inset-0 bg-obsidian/20 transition-colors duration-300 group-hover:bg-obsidian/30"
                 />
-                {/* Says "this one moves, and has sound" without a hover */}
+                {/* Always shown, not on hover — phones have no hover */}
                 <span
                   aria-hidden="true"
-                  className="pointer-events-none absolute bottom-3 left-3 flex h-8 w-8 items-center justify-center rounded-full border border-pearl/40 bg-obsidian/45 text-pearl backdrop-blur-sm"
+                  className="pointer-events-none absolute inset-0 flex items-center justify-center"
                 >
-                  <Play className="h-3 w-3 translate-x-px" fill="currentColor" strokeWidth={0} />
+                  <span className="flex h-16 w-16 items-center justify-center rounded-full border border-pearl/50 bg-obsidian/45 text-pearl shadow-soft backdrop-blur-sm transition-all duration-300 group-hover:scale-110 group-hover:border-gold/70 group-hover:text-gold-bright">
+                    <Play className="h-6 w-6 translate-x-0.5" fill="currentColor" strokeWidth={0} />
+                  </span>
                 </span>
               </>
             ) : (
@@ -223,18 +244,16 @@ function GalleryTile({
               aria-hidden="true"
               className="pointer-events-none absolute inset-3 border border-pearl/0 transition-colors duration-500 group-hover:border-gold/60"
             />
-            <span
-              aria-hidden="true"
-              className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-            >
-              <span className="flex h-11 w-11 items-center justify-center rounded-full border border-pearl/40 bg-obsidian/40 text-pearl backdrop-blur-sm">
-                {tile.kind === 'video' ? (
-                  <Play className="h-4 w-4 translate-x-px" strokeWidth={1.5} />
-                ) : (
+            {tile.kind !== 'video' && (
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+              >
+                <span className="flex h-11 w-11 items-center justify-center rounded-full border border-pearl/40 bg-obsidian/40 text-pearl backdrop-blur-sm">
                   <ZoomIn className="h-4 w-4" strokeWidth={1.5} />
-                )}
+                </span>
               </span>
-            </span>
+            )}
           </div>
         </button>
       </motion.div>

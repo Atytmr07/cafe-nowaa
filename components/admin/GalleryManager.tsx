@@ -167,7 +167,7 @@ export default function GalleryManager() {
           <p className="text-[11px] leading-relaxed text-steel">
             Fotoğraflar otomatik küçültülür. Videolar en fazla{' '}
             {MAX_VIDEO_SECONDS} saniye ve {MAX_VIDEO_BYTES / 1024 / 1024} MB
-            olabilir; sitede sessiz döngüde oynar, tıklanınca sesli açılır.
+            olabilir; sitede başlatma tuşuyla görünür, basınca sesli açılır.
             4K yerine 1080p çekim dosyayı küçük tutar.
           </p>
         </div>
